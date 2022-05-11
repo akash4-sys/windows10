@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
 import { Showtime, Showdate } from './utils/Showtime'
 
 function Taskbar() {
-    
+
     useEffect(() => {
         Showtime();
         Showdate();
         Battery();
-    }, [])
+    }, []);
 
     return (
         <Container>
             <LeftSection>
-                <WindowsButton><i className="fa-brands fa-windows"></i></WindowsButton>
+                <WindowsButton>
+                    <i className="fa-brands fa-windows"></i>
+                    <Tooltip>Start</Tooltip>
+                </WindowsButton>
                 <SearchBar> <div className="gcse-search" ></div> </SearchBar>
-                <TaskbarButton><i className="fa-solid fa-bars"></i></TaskbarButton>
+                <TaskbarButton>
+                    <i className="fa-solid fa-bars"></i>
+                    <Tooltip style={{fontSize:"12.5px"}}>Task View</Tooltip>
+                </TaskbarButton>
                 <Breaker><div></div><span></span></Breaker>
                 <TaskbarButton>
                     <img src="./Images/fileexplorer.png" alt="file_explorer" />
@@ -33,17 +39,34 @@ function Taskbar() {
                 </TaskbarButton>
             </LeftSection>
             <RightSection>
-                <UtilityIcons><i className="fa-solid fa-chevron-up"></i></UtilityIcons>
-                <UtilityIcons><i className="fa-solid fa-volume-high"></i></UtilityIcons>
-                <UtilityIcons id="batteryicon"></UtilityIcons>
-                <UtilityIcons><i className="fa-solid fa-wifi"></i></UtilityIcons>
-                <UtilityIcons id="eng">ENG</UtilityIcons>
+                <UtilityIcons>
+                    <i className="fa-solid fa-chevron-up"></i>
+                    <Tooltip >Show hidden icons</Tooltip>
+                </UtilityIcons>
+                <UtilityIcons>
+                    <i className="fa-solid fa-volume-high"></i>
+                    <Tooltip >Speaker/Headphone: 80%</Tooltip>
+                </UtilityIcons>
+                <UtilityIcons id="batteryicon">
+                    <Tooltip id="batterytip"></Tooltip> 
+                    <i className='fas fa-battery-empty'></i>
+                </UtilityIcons>
+                <UtilityIcons>
+                    <i className="fa-solid fa-wifi"></i>
+                    <Tooltip >Internet Access</Tooltip>
+                </UtilityIcons>
+                <UtilityIcons id="eng">
+                    ENG
+                    <Tooltip >Keyboard</Tooltip>
+                </UtilityIcons>
                 <DateAndTime>
                     <div id="ClockDisplay"></div>
                     <div id="DateDisplay"></div>
+                    <Tooltip  id="Datetooltip"></Tooltip>
                 </DateAndTime>
                 <TaskbarButton>
                     <img src="./Images/notification.png" alt="notification" style={{width:'22px', paddingTop:'4px'}}/>
+                    <Tooltip className="Notificationtooltip">No new notifications</Tooltip>
                 </TaskbarButton>
             </RightSection>
         </Container>
@@ -80,16 +103,29 @@ const RightSection = styled.div`
     }
 `
 
+const Visible = keyframes`
+    to{
+        opacity:1;
+    }
+`
+
 const WindowsButton = styled.button`
     font-size: 1.3rem;
     padding: 0px 15px;
     background-color: grey;
     border: none;
     transition: all 250ms;
+    position: relative;
     
+    span{
+        font-size: 12.5px;
+    }
     &:hover{
         color:#357EC7;
         background-color: #aeaeae;
+        span{
+            animation: ${Visible} 10ms linear 500ms forwards;
+        }
     }
 `
 
@@ -97,6 +133,7 @@ const TaskbarButton = styled.div`
     padding: 6px 11px;
     transition: all 250ms;
     color:white;
+    position: relative;
 
     img{
         width: 29px;
@@ -104,6 +141,9 @@ const TaskbarButton = styled.div`
 
     &:hover{
         background-color:#aeaeae;
+        span{
+            animation: ${Visible} 10ms linear 500ms forwards;
+        }
     }
 
     i{
@@ -111,13 +151,22 @@ const TaskbarButton = styled.div`
         padding-left: 6px;
         padding-right: 6px;
     }
+
+    .Notificationtooltip{
+        left:unset;
+        right:0%;
+    }
 `
 
 const UtilityIcons = styled(TaskbarButton)`
     padding-left: 2px;
     padding-right: 2px;
-    
-    i{
+    position: relative;
+      
+    &:hover{
+        span{
+            animation: ${Visible} 10ms linear 500ms forwards;
+        }
     }
 `
 
@@ -133,14 +182,38 @@ const Breaker = styled.div`
     }
 `
 
+const Tooltip = styled.span`
+    opacity:0;
+    width: max-content;
+    background-color:#FBFBF8;
+    color:black;
+    text-align: center;
+    padding: 2px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -20px;
+`
+
 const DateAndTime = styled.div`
     color: white;
     text-align: center;
     padding: 3px 8px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: all 250ms;
+    position: relative;
+
+    span{
+        width:fit-content;
+        left: 0%;
+        margin-left: -1px;
+    }
 
     &:hover{
         background-color:#aeaeae;
+        span{
+            animation: ${Visible} 10ms linear 500ms forwards;
+        }
     }
 `
