@@ -114,8 +114,9 @@ const Navbar = styled.nav`
     align-items: center;
     justify-content:space-between;
     position:absolute;
-    opacity:0.98;
+    opacity:0.965;
     color:var(--textcolor);
+    background-color:var(--startbg);
 `
 
 const Top = styled.div`

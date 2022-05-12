@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import SideNavbar from './SideNavbar'
+import SideNavbar from './SideNavbar';
+import AppList from './AppList';
+import AppsGrid from './AppsGrid';
 
 export default function StartMenu(props) {
     
@@ -8,6 +10,10 @@ export default function StartMenu(props) {
         return (
             <Container id="startmenu">
                <SideNavbar/>
+               <FlexBox>
+                    <AppList/>
+                    <AppsGrid/>
+               </FlexBox>
             </Container>
         )
     }
@@ -32,4 +38,10 @@ const Container = styled.div`
     opacity:0.98;
     animation:${menuAppearAnimation} 30ms ease-in;
     transition:height 10ms;
+`
+
+const FlexBox = styled.div`
+    display:flex;
+    margin-left:3.05rem;
+    height:100%;
 `
