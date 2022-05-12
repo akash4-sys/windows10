@@ -28,7 +28,7 @@ const SearchBar = styled.div`
         bottom: 1.36rem;
         left: 3.1rem;
         border: none;
-        background-color:#a3a1a1;
+        background-color:var(--startbg);
         box-shadow:none;
         width:50%;
     }
@@ -48,7 +48,7 @@ const SearchBar = styled.div`
         opacity:0;
     }
     .gsc-webResult.gsc-result, .gsc-results .gsc-imageResult{
-        background-color:#a3a1a1;
+        background-color:var(--startbg);
         border:none;
     }
     .gsc-result-info {
@@ -58,8 +58,12 @@ const SearchBar = styled.div`
         color: white;
     }
     .gsc-results .gsc-cursor-box .gsc-cursor-page {
-        background-color: #a3a1a1;
-        color: black;
+        background-color: var(--startbg);
+        color: var(--textcolor);
+    }
+
+    .gsc-search-button-v2 svg {
+        fill: var(--textcolor);
     }
 `
 

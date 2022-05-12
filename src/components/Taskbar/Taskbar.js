@@ -1,10 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import StartMenu from './StartMenu/StartMenu';
 import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
-import { Showtime, Showdate } from './utils/Showtime'
+import { Showtime, Showdate } from './utils/Showtime';
+import OutsideClickAlert from './utils/OutsideClickAlert';
 
 function Taskbar() {
+
+    const [displayStartMenu, setDisplayStartMenu] = useState(false);
+    const wrapperRef = useRef(null);
+    OutsideClickAlert(wrapperRef, setDisplayStartMenu);
+    
+    function startMenu() {
+        if (displayStartMenu) {
+            setTimeout(() => { setDisplayStartMenu(false); }, 10);
+        } else {
+            setDisplayStartMenu(true);
+        }
+    }
 
     useEffect(() => {
         Showtime();
@@ -13,16 +27,17 @@ function Taskbar() {
     }, []);
 
     return (
-        <Container>
+        <Container ref={wrapperRef}>
             <LeftSection>
-                <WindowsButton>
+                <StartMenu displayStartMenu={displayStartMenu} />
+                <WindowsButton onClick={startMenu}>
                     <i className="fa-brands fa-windows"></i>
                     <Tooltip>Start</Tooltip>
                 </WindowsButton>
                 <SearchBar> <div className="gcse-search" ></div> </SearchBar>
                 <TaskbarButton>
                     <i className="fa-solid fa-bars"></i>
-                    <Tooltip style={{fontSize:"12.5px"}}>Task View</Tooltip>
+                    <Tooltip style={{ fontSize: "12.5px" }}>Task View</Tooltip>
                 </TaskbarButton>
                 <Breaker><div></div><span></span></Breaker>
                 <TaskbarButton>
@@ -48,7 +63,7 @@ function Taskbar() {
                     <Tooltip >Speaker/Headphone: 80%</Tooltip>
                 </UtilityIcons>
                 <UtilityIcons id="batteryicon">
-                    <Tooltip id="batterytip"></Tooltip> 
+                    <Tooltip id="batterytip"></Tooltip>
                     <i className='fas fa-battery-empty'></i>
                 </UtilityIcons>
                 <UtilityIcons>
@@ -62,10 +77,10 @@ function Taskbar() {
                 <DateAndTime>
                     <div id="ClockDisplay"></div>
                     <div id="DateDisplay"></div>
-                    <Tooltip  id="Datetooltip"></Tooltip>
+                    <Tooltip id="Datetooltip"></Tooltip>
                 </DateAndTime>
                 <TaskbarButton>
-                    <img src="./Images/notification.png" alt="notification" style={{width:'22px', paddingTop:'4px'}}/>
+                    <img src="./Images/notificationb.png" alt="notification" style={{ width: '22px', paddingTop: '4px' }} />
                     <Tooltip className="Notificationtooltip">No new notifications</Tooltip>
                 </TaskbarButton>
             </RightSection>
@@ -80,13 +95,14 @@ const Container = styled.div`
     height:2.5rem;
     position: absolute;
     bottom: 0.5px;
-    background-color: grey;
+    background-color: var(--primary-color);
     display:flex;
     justify-content: space-between;
 `
 
 const LeftSection = styled.div`
     display:flex;
+    position:relative;
 `
 
 const RightSection = styled.div`
@@ -122,7 +138,7 @@ const WindowsButton = styled.button`
     }
     &:hover{
         color:#357EC7;
-        background-color: #aeaeae;
+        background-color: var(--hover-color);
         span{
             animation: ${Visible} 10ms linear 500ms forwards;
         }
@@ -132,7 +148,7 @@ const WindowsButton = styled.button`
 const TaskbarButton = styled.div`
     padding: 6px 11px;
     transition: all 250ms;
-    color:white;
+    color:var(--textcolor);
     position: relative;
 
     img{
@@ -140,7 +156,7 @@ const TaskbarButton = styled.div`
     }
 
     &:hover{
-        background-color:#aeaeae;
+        background-color:var(--hover-color);
         span{
             animation: ${Visible} 10ms linear 500ms forwards;
         }
@@ -177,7 +193,7 @@ const Breaker = styled.div`
     display: flex;
     gap: 2px;
     div, span{
-        border: 0.1px solid white;
+        border: 0.1px solid black;
         height: -webkit-fill-available;
     }
 `
@@ -197,7 +213,7 @@ const Tooltip = styled.span`
 `
 
 const DateAndTime = styled.div`
-    color: white;
+    color: var(--textcolor);
     text-align: center;
     padding: 3px 8px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -211,7 +227,7 @@ const DateAndTime = styled.div`
     }
 
     &:hover{
-        background-color:#aeaeae;
+        background-color:var(--hover-color);
         span{
             animation: ${Visible} 10ms linear 500ms forwards;
         }

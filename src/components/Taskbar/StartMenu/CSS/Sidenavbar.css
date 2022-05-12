@@ -1,0 +1,55 @@
+@keyframes FullNavbar {
+    to{
+        width:17rem;
+        box-shadow: rgb(0 0 0 / 19%) 0px 10px 20px, rgb(0 0 0 / 23%) 3px -1px 20px 0px;
+    }
+}
+
+@keyframes NavbarText {
+    to{
+        visibility:visible;
+    }
+}
+
+.navbar:hover{
+    animation: FullNavbar 100ms ease-in 500ms forwards;
+}
+
+.navbar:hover span{
+    display:block;
+    animation: NavbarText 10ms ease-in 501ms forwards;
+}
+
+.navbar:hover img{
+    padding-left:14.3px;
+}
+
+.navbar:hover .tools{
+    justify-content:unset;
+}
+
+.navbar:hover .user_start_icon{
+    padding-left:12.5px;
+}
+
+.fixedNavbar{
+    width:17rem !important;
+    box-shadow: rgb(0 0 0 / 19%) 0px 10px 20px, rgb(0 0 0 / 23%) 3px -1px 20px 0px;
+}
+
+.fixedNavbar span{
+    display:block !important;
+    visibility:visible !important;
+}
+
+.fixedNavbar img{
+    padding-left:16.5px !important;
+}
+
+.fixedNavbar .tools{
+    justify-content:unset !important;
+}
+
+.fixedNavbar .user_start_icon{
+    padding-left:12.5px !important;
+}
