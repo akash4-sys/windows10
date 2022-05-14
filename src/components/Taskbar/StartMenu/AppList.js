@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Apps from '../utils/AppData';
+import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
+import Apps from '../../Data/AppData';
 
 function AppList() {
     return (
@@ -8,7 +9,7 @@ function AppList() {
             <List>
                 {
                     Apps.map((app, i) => (
-                        <App key={i}>
+                        <App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                             { app[0] && <img src={app[0]}  alt="app"/> }
                             <div>{app[1]}</div>
                         </App>
@@ -57,6 +58,7 @@ const App = styled.li`
     gap:6px;
     transition:all 100ms;
     padding-left:10px;
+	border: 1px solid transparent;
 
     img{
         height:30px;

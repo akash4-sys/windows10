@@ -1,161 +1,84 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
+import { Grid1 } from '../../Data/StartMenuApps';
 
 function AppsGrid() {
 
+	let gridAppBGC = "rgba(255,255,255,0.3)";
 	const [gridNames, setGridNames] = useState({
-		Grid1:"Productivity",
-		Grid2:"Explore",
-		Grid3:"Support",
-		Grid4:"Games",
+		Grid1: "Productivity",
+		Grid2: "Explore",
+		Grid3: "Support",
+		Grid4: "Games",
 	});
 
 	function handleRename(e) {
-		setGridNames({...gridNames, [e.target.name]: e.target.value});
+		setGridNames({ ...gridNames, [e.target.name]: e.target.value });
 	}
 
 	function HeaderClickHandler(e) {
-		e.target.querySelector('input').focus();
-		// e.target.querySelector('img').src="";
+		e.currentTarget.querySelector('input').focus();
+		e.currentTarget.querySelector('img').src="Images/gripLinesW.png";
+	}
+
+	function handleKey(e) {
+		if (e.key === 'Enter') { e.target.blur(); }
 	}
 
 	return (
 		<Box>
 			<Container>
-				<Header onClick={HeaderClickHandler} >
-					<input type="text" value={gridNames.Grid1} onChange={handleRename} name="Grid1"/>
+				<Header onClick={HeaderClickHandler} draggable="true">
+					<input type="text" value={gridNames.Grid1} onChange={handleRename} name="Grid1" onKeyPress={handleKey} />
 					<i className="fa-solid fa-xmark"></i>
 					<GripLines>
 						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
 					</GripLines>
 				</Header>
 				<GridContainer>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/chrome.png" alt="chrome" />
-							<AppName>Chrome</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/vscode.png" alt="VScode" />
-							<AppName>VScode </AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/fileexplorer.png" alt="explorer" />
-							<AppName>File Explorer</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
+					{
+						Grid1.map((app, i) => (
+							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
+								<img src={app[1]} alt={app[0]} />
+								<AppName>{app[0]}</AppName>
+							</App>
+						))
+					}
 				</GridContainer>
 				<Header onClick={HeaderClickHandler} >
-					<input type="text" value={gridNames.Grid2} onChange={handleRename} name="Grid2"/>
+					<input type="text" value={gridNames.Grid2} onChange={handleRename} name="Grid2" />
 					<i className="fa-solid fa-xmark"></i>
 					<GripLines>
 						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
 					</GripLines>
 				</Header>
 				<GridContainer>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/chrome.png" alt="chrome" />
-							<AppName>Chrome</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/vscode.png" alt="VScode" />
-							<AppName>VScode </AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/fileexplorer.png" alt="explorer" />
-							<AppName>File Explorer</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
+					{
+						Grid1.map((app, i) => (
+							<App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
+								<img src={app[1]} alt={app[0]} />
+								<AppName>{app[0]}</AppName>
+							</App>
+						))
+					}
 				</GridContainer>
 				<Header onClick={HeaderClickHandler} >
-					<input type="text" value={gridNames.Grid3} onChange={handleRename} name="Grid3"/>
+					<input type="text" value={gridNames.Grid3} onChange={handleRename} name="Grid3" />
 					<i className="fa-solid fa-xmark"></i>
 					<GripLines>
 						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
 					</GripLines>
 				</Header>
 				<GridContainer>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/chrome.png" alt="chrome" />
-							<AppName>Chrome</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/vscode.png" alt="VScode" />
-							<AppName>VScode </AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/fileexplorer.png" alt="explorer" />
-							<AppName>File Explorer</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
-					<App>
-						<div id="border">
-							<img src="Images/mail.png" alt="mail" />
-							<AppName>Mail</AppName>
-						</div>
-					</App>
+					{
+						Grid1.map((app, i) => (
+							<App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
+								<img src={app[1]} alt={app[0]} />
+								<AppName>{app[0]}</AppName>
+							</App>
+						))
+					}
 				</GridContainer>
 			</Container>
 		</Box>
@@ -165,11 +88,10 @@ function AppsGrid() {
 export default AppsGrid;
 
 const Box = styled.div`
-	height:99%;
+	height:100%;
 	width:53.9%;
 	overflow-y:auto;
 	overflow-x:hidden;
-	margin-top:1%;
 	font-size:13px;
 
 	&::-webkit-scrollbar{
@@ -199,14 +121,18 @@ const Header = styled.div`
 	display:flex;
 	align-items:center;
 	justify-content:space-between;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 15px;
+	margin-bottom: 8px;
 	transition:all 50ms;
 
 	input{
 		background-color: transparent;
 		border: 0px;
 		width:70%;
+	}
+
+	input:hover{
+		cursor:default;
 	}
 
 	i{
@@ -260,7 +186,7 @@ const GridContainer = styled.div`
 `
 
 const App = styled.div`
-	background-color: #818181;
+	background-color: rgba(255,255,255,0.3);
 	height:100px;
 	width:100px;
 	transition: all 50ms;
@@ -268,25 +194,11 @@ const App = styled.div`
 	align-items: center;
 	justify-content: center;
 	position:relative;
+	border: 1px solid transparent;
 
 	img{
 		height:42px;
 		width:42px;
-	}
-
-	#border{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 96px;
-		width: 96px;
-	}
-
-	&:hover{
-		filter:brightness(1.05);
-		#border{
-    		border: 2px solid var(--hover-color);
-		}
 	}
 `
 

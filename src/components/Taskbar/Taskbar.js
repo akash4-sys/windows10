@@ -30,7 +30,7 @@ function Taskbar() {
         <Container ref={wrapperRef}>
             <LeftSection>
                 <StartMenu displayStartMenu={displayStartMenu} />
-                <WindowsButton onClick={startMenu}>
+                <WindowsButton onClick={startMenu} id="windowsButton">
                     <i className="fa-brands fa-windows"></i>
                     <Tooltip>Start</Tooltip>
                 </WindowsButton>
@@ -142,6 +142,9 @@ const WindowsButton = styled.button`
         span{
             animation: ${Visible} 10ms linear 500ms forwards;
         }
+    }
+    &:focus-visible{
+        outline: none;
     }
 `
 

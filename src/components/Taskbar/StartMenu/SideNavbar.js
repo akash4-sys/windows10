@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
 import './CSS/Sidenavbar.css'
 
 function SideNavbar() {
@@ -56,28 +57,28 @@ function SideNavbar() {
     return (
         <>
             <Navbar id="navbar" className="navbar">
-                <Top className="tools">
+                <Top className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                     <img src="Images/navmenub.png" alt="nav" />
                     <span>START</span>
                 </Top>
                 <Bottom>
-                    <div className="tools">
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/userb.png" alt="user" style={{ height: "24px", width: "24px" }} className="user_start_icon" />
                         <span>Peter</span>
                     </div>
-                    <div className="tools">
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/documentb.png" alt="document" />
                         <span>Document</span>
                     </div>
-                    <div className="tools">
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/picturesb.png" alt="pictures" />
                         <span>Pictures</span>
                     </div>
-                    <div className="tools">
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/settingsb.png" alt="settings" />
                         <span>Settings</span>
                     </div>
-                    <div className="tools" id="powerbtn" ref={powerBtnRef} onClick={PowerButtonhandler}>
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} id="powerbtn" ref={powerBtnRef} onClick={PowerButtonhandler}>
                         <img src="Images/shutdownb.png" alt="shutdown" />
                         <span>Power</span>
                     </div>
@@ -86,15 +87,15 @@ function SideNavbar() {
             {
                 displayOptions &&
                 <Power id="powerlist" ref={wrapperRef}>
-                    <li>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/sleepb.png" alt="sleep"/>
                         <div>Sleep</div>
                     </li>
-                    <li>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/shutdownb.png" alt="shutdown" />
                         <div>Shut down</div>
                     </li>
-                    <li>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/restartb.png" alt="restart" />
                         <div>Restart</div>
                     </li>
@@ -127,6 +128,7 @@ const Top = styled.div`
     height: 50px;
     justify-content: center;
     transition: all 250ms;
+	border: 0.1px solid transparent;
 
     img{
         height:20px;
@@ -156,6 +158,7 @@ const Bottom = styled.div`
         gap: 1.75rem;
         height: 50px;
         justify-content: center;
+	    border: 0.1px solid transparent;
 
         &:hover{
             background-color:var(--hover-color);
@@ -203,6 +206,7 @@ const Power = styled.ul`
         height: 38px;
         padding-left: 15px;
         font-size: 12px;
+	    border: 0.1px solid transparent;
         animation: ${settingOptions} 100ms ease-in;
 
         img{

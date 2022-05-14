@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import handleKey from './utils/KeyHandler';
 
 function Desktop() {
     return (
-        <DesktopPage>
+        <DesktopPage tabIndex="0" onKeyDown={handleKey}>
             <Container>
 
             </Container>
