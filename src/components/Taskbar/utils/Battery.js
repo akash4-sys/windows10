@@ -12,7 +12,7 @@ export default function Battery() {
         tip.innerHTML = per + "%" + " " + "remaining";
 
         if (e.charging) {
-            battery.insertAdjacentHTML("beforeend", "<img id='bicon' src='./Images/charging.png' alt='charging' style='width:20px; padding-top:4px'/>");
+            battery.insertAdjacentHTML("beforeend", "<img id='bicon' src='./Images/chargingb.png' alt='charging' style='width:20px; padding-top:4px'/>");
             tip.innerHTML = per + "%" + " " + "available (plugged in)";
         }
         else if (e.level < 0.15) {
