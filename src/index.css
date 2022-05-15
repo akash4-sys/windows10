@@ -2,12 +2,12 @@
   	--primary-color: grey;
   	--hover-color: #aeaeae;
   	--startbg: #8d8d8d;
-  	/* --startbg:#898989; */
-  	/* --startbg:#6d6d6d; */
-  	/* --startbg:#a6a6a6; */
   	--seclayerColor: dimgray;
   	--textcolor: black;
 	--windowsBlue:#2486e9;
+	--windowsSelect: #2486e970;
+	--windowsHover: #759ec820;
+	--windowsClick:#4e6780;
 }
 
 body {

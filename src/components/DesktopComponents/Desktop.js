@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import handleKey from './utils/KeyHandler';
+import AppsLayer from './AppsLayer';
 
 function Desktop() {
     return (
         <DesktopPage tabIndex="0" onKeyDown={handleKey}>
-            <Container>
-
-            </Container>
+            <BackGroundImageContainer>
+                <AppsLayer/>
+            </BackGroundImageContainer>
         </DesktopPage>
     )
 }
@@ -19,7 +20,7 @@ const DesktopPage = styled.section`
     height:100vh;
 `
 
-const Container = styled.div`
+const BackGroundImageContainer = styled.div`
     background-image: url('Images/windows.jpg');
     background-size: cover;
     height: 100%;
