@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Grid1 } from '../Data/StartMenuApps';
+import OutsideClickAlert from './utils/OutsideClickHandler';
 
 function AppsLayer() {
 
@@ -8,6 +9,11 @@ function AppsLayer() {
     const [updateGridMap, setUpdateGridMap] = useState([0, 0]);
     const dragItem = useRef();
     const dragTargetIndex = useRef(null);
+    const inputRef = useRef();
+    const clickCount = useRef(0);
+
+    const appRef = useRef(null);
+    OutsideClickAlert(appRef, inputRef, clickCount);
 
     useEffect(() => {
         setGridMap(updateGridMap);
@@ -33,7 +39,7 @@ function AppsLayer() {
     const handleDragEnter = (e, targetIndex) => {
         if (targetIndex !== dragItem.current && !gridMap[targetIndex][0]) {
             dragTargetIndex.current = targetIndex;
-        }else{  
+        } else {
             dragTargetIndex.current = null;
         }
     }
@@ -50,6 +56,58 @@ function AppsLayer() {
         dragItem.current = null;
     }
 
+    const changeInputDisplay = (appRef, inputRef) => {
+        appRef.current.style.backgroundColor = "";
+        appRef.current.style.border = "";
+        inputRef.current.readOnly = false;
+        inputRef.current.focus();
+        inputRef.current.select();
+        inputRef.current.style.backgroundColor = "white";
+        inputRef.current.style.color = "black";
+    } 
+    
+    const renameApp = (e, boxIndex) => {
+        let newMap = [...gridMap];
+        gridMap[boxIndex][0] = e.target.value;
+        if (e.target.value) {
+            setUpdateGridMap(newMap);
+        }
+    }
+
+    const handleKey = (e, boxIndex) => {
+        if (e.key === 'Enter') { 
+            e.target.blur();  
+            renameApp(e, boxIndex);
+            inputRef.current.readOnly = true;
+            inputRef.current.blur();
+            inputRef.current.style.backgroundColor = "transparent";
+            inputRef.current.style.color = "";
+        }
+    }
+    
+    const handleAppClick = (e) => {
+        e.currentTarget.style.backgroundColor = "var(--windowsClick)";
+        e.currentTarget.style.border = "0.1px solid #ffffff57";
+        appRef.current = e.currentTarget;
+        inputRef.current = e.currentTarget.querySelector('input');
+        
+        setTimeout(() => {
+            clickCount.current += 1;
+            if (clickCount.current === 2 && e.target === inputRef.current) {
+                setTimeout(() => {  changeInputDisplay(appRef, inputRef);   }, 100);
+                clickCount.current = 0;
+
+            }else if (clickCount.current === 2){
+                clickCount.current = 0;
+            }
+        }, 500)
+
+        setTimeout(() => { 
+            clickCount.current = 0;
+        }, 1200)
+
+    }
+
     return (
         <Container id="grid">
             {
@@ -60,14 +118,18 @@ function AppsLayer() {
                         {(box[0] && box[1]) ?
 
                             <Draggable draggable
+                                className="appHover"
                                 key={boxIndex + 1000}
                                 onDragStart={(e) => handleDragStart(e, boxIndex)}
                                 onDragEnd={handleDragEnd}
-                                className="appHover"
+                                onClick={handleAppClick}
                             >
-
                                 <img src={box[1]} alt={box[0]} draggable="false" />
-                                <div>{box[0]}</div>
+                                <input type="text" value={box[0]} readOnly maxLength="15" 
+                                    onChange={(e) => renameApp(e, boxIndex)}
+                                    onKeyPress={(e) => handleKey(e, boxIndex)}
+                                    size={box[0].length} 
+                                />
                             </Draggable>
                             : null
                         }
@@ -97,10 +159,6 @@ const Container = styled.div`
         background-color:var(--windowsHover);
         border: 0.1px solid #ffffff57;
     }
-    
-    .appHover:active{
-        background-color:var(--windowsClick);
-    }
 `
 
 const App = styled.div`
@@ -115,4 +173,25 @@ const App = styled.div`
 const Draggable = styled(App)`
     height: 60%;
     width: 70%;
+
+    input{
+        max-width: 110%;
+        border-radius: 0px;
+        padding: 0px;
+        border: none;
+        margin: 0px;
+        height: max-content;
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        display:flex;
+    }
+
+    input:hover{
+        cursor:default;
+    }
+
+    input:focus-visible{
+		outline: none;
+	}
 `
