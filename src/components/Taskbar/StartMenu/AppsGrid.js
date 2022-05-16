@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
-import { Grid1 } from '../../Data/StartMenuApps';
+import { Grid1, Grid2 } from '../../Data/StartMenuApps';
 
 function AppsGrid() {
 
@@ -46,7 +46,7 @@ function AppsGrid() {
 						))
 					}
 				</GridContainer>
-				<Header onClick={HeaderClickHandler} >
+				<Header onClick={HeaderClickHandler} draggable="true">
 					<input type="text" value={gridNames.Grid2} onChange={handleRename} name="Grid2" />
 					<i className="fa-solid fa-xmark"></i>
 					<GripLines>
@@ -55,15 +55,15 @@ function AppsGrid() {
 				</Header>
 				<GridContainer>
 					{
-						Grid1.map((app, i) => (
-							<App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
+						Grid2.map((app, i) => (
+							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
 								<img src={app[1]} alt={app[0]} />
 								<AppName>{app[0]}</AppName>
 							</App>
 						))
 					}
 				</GridContainer>
-				<Header onClick={HeaderClickHandler} >
+				<Header onClick={HeaderClickHandler} draggable="true">
 					<input type="text" value={gridNames.Grid3} onChange={handleRename} name="Grid3" />
 					<i className="fa-solid fa-xmark"></i>
 					<GripLines>
@@ -73,7 +73,7 @@ function AppsGrid() {
 				<GridContainer>
 					{
 						Grid1.map((app, i) => (
-							<App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
+							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
 								<img src={app[1]} alt={app[0]} />
 								<AppName>{app[0]}</AppName>
 							</App>

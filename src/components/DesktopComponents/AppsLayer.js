@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Grid1 } from '../Data/StartMenuApps';
+import { Grid } from '../Data/DesktopApps';
 import OutsideClickAlert from './utils/OutsideClickHandler';
 
 function AppsLayer() {
@@ -24,7 +24,7 @@ function AppsLayer() {
         let rows = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
         let columns = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
         let arr = new Array(rows * columns).fill([0, 0]);
-        Grid1.map((a, i) => (
+        Grid.map((a, i) => (
             arr[i] = a
         ))
         setGridMap(arr);
@@ -149,7 +149,7 @@ const Container = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
     grid-auto-flow: column;
-    font-size:12.5px;
+    font-size:var(--windowsFontSize);
 
     .dragging {
         background-color: var(--windowsSelect) !important;
@@ -168,6 +168,11 @@ const App = styled.div`
     flex-direction: column;
     height: auto;
     color:white;
+
+    img{
+        height:42px;
+		width:42px;
+    }
 `
 
 const Draggable = styled(App)`

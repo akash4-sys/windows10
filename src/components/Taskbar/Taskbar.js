@@ -107,7 +107,7 @@ const LeftSection = styled.div`
 
 const RightSection = styled.div`
     display:flex;
-    font-size: 12.5px;
+    font-size: var(--windowsFontSize);
 
     #eng{
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -134,7 +134,7 @@ const WindowsButton = styled.button`
     position: relative;
     
     span{
-        font-size: 12.5px;
+        font-size: var(--windowsFontSize);
     }
     &:hover{
         color:#357EC7;

@@ -1,29 +1,32 @@
 :root {
-  	--primary-color: grey;
-  	--hover-color: #aeaeae;
-  	--startbg: #8d8d8d;
-  	--seclayerColor: dimgray;
-  	--textcolor: black;
-	--windowsBlue:#2486e9;
-	--windowsSelect: #2486e970;
-	--windowsHover: #759ec820;
-	--windowsClick:#4e6780;
+  --primary-color: grey;
+  --hover-color: #aeaeae;
+  --startbg: #8d8d8d;
+  --seclayerColor: dimgray;
+  --textcolor: black;
+  --windowsBlue: #2486e9;
+  --windowsSelect: #2486e970;
+  --windowsHover: #759ec820;
+  --windowsClick: #4e6780;
+  --clickMenu: #e7e7e7;
+  --windowsFontSize: 12.5px;
 }
 
 body {
-  	margin: 0;
-  	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  	-webkit-font-smoothing: antialiased;
-  	-moz-osx-font-smoothing: grayscale;
-  	overflow: hidden;
-  	-webkit-touch-callout: none;
-  	-webkit-user-select: none;
-  	-khtml-user-select: none;
-  	-moz-user-select: none;
-  	-ms-user-select: none;
-  	user-select: none;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 code {
-  	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }

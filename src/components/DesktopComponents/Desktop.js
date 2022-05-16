@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import handleKey from './utils/KeyHandler';
+import RightClickMenu from './utils/RightClickMenu';
 import AppsLayer from './AppsLayer';
 
 function Desktop() {
@@ -8,6 +9,7 @@ function Desktop() {
         <DesktopPage tabIndex="0" onKeyDown={handleKey}>
             <BackGroundImageContainer>
                 <AppsLayer/>
+                <RightClickMenu/>
             </BackGroundImageContainer>
         </DesktopPage>
     )
