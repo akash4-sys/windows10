@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Grid } from '../Data/DesktopApps';
 import OutsideClickAlert from './utils/OutsideClickHandler';
+import RightClickMenu from './utils/RightClickMenu';
+import { appClickHelper, directOpener } from './utils/AppClickHelper';
+import { defaultMenu } from '../Data/RightClickMenuData';
 
 function AppsLayer() {
 
@@ -12,12 +15,15 @@ function AppsLayer() {
     const inputRef = useRef();
     const clickCount = useRef(0);
 
+    const [ Wrapper, setWrapper ] = useState(null);
+    const [ cntMenu, setCntMenu ] = useState(defaultMenu);
+
     const appRef = useRef(null);
-    OutsideClickAlert(appRef, inputRef, clickCount);
+    OutsideClickAlert(appRef, inputRef, clickCount, setWrapper, setCntMenu, defaultMenu);
 
     useEffect(() => {
         setGridMap(updateGridMap);
-    }, [updateGridMap])
+    }, [updateGridMap]);
 
     useEffect(() => {
         const gridComputedStyle = window.getComputedStyle(document.getElementById("grid"));
@@ -28,6 +34,7 @@ function AppsLayer() {
             arr[i] = a
         ))
         setGridMap(arr);
+        setWrapper(document.getElementById('grid'));
     }, []);
 
     const handleDragStart = (e, boxIndex) => {
@@ -84,13 +91,16 @@ function AppsLayer() {
             inputRef.current.style.color = "";
         }
     }
-    
-    const handleAppClick = (e) => {
+
+    function changeDisplay(e) {
         e.currentTarget.style.backgroundColor = "var(--windowsClick)";
         e.currentTarget.style.border = "0.1px solid #ffffff57";
         appRef.current = e.currentTarget;
         inputRef.current = e.currentTarget.querySelector('input');
-        
+    }
+    
+    const handleAppClick = (e) => {
+        changeDisplay(e);
         setTimeout(() => {
             clickCount.current += 1;
             if (clickCount.current === 2 && e.target === inputRef.current) {
@@ -98,6 +108,7 @@ function AppsLayer() {
                 clickCount.current = 0;
 
             }else if (clickCount.current === 2){
+                directOpener(inputRef.current.name);
                 clickCount.current = 0;
             }
         }, 500)
@@ -106,6 +117,11 @@ function AppsLayer() {
             clickCount.current = 0;
         }, 1200)
 
+    }
+
+    function rightClickHandler(e) {
+        changeDisplay(e);
+        appClickHelper(setWrapper, setCntMenu, appRef.current, inputRef.current.name);
     }
 
     return (
@@ -123,18 +139,23 @@ function AppsLayer() {
                                 onDragStart={(e) => handleDragStart(e, boxIndex)}
                                 onDragEnd={handleDragEnd}
                                 onClick={handleAppClick}
+                                onContextMenu={rightClickHandler}
                             >
                                 <img src={box[1]} alt={box[0]} draggable="false" />
                                 <input type="text" value={box[0]} readOnly maxLength="15" 
                                     onChange={(e) => renameApp(e, boxIndex)}
                                     onKeyPress={(e) => handleKey(e, boxIndex)}
                                     size={box[0].length} 
+                                    name={box[0]}
                                 />
                             </Draggable>
                             : null
                         }
                     </App>
                 ))
+            }
+            {
+                (Wrapper) ? <RightClickMenu Wrapper={Wrapper} CntMenu={cntMenu} setCntMenu={setCntMenu}/> : null
             }
         </Container>
     )

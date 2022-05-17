@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { defaultMenu } from '../../Data/RightClickMenuData';
 
-function RightClickMenu() {
+function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
 
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
     const [show, setShow] = useState(false);
@@ -11,6 +11,7 @@ function RightClickMenu() {
         e.preventDefault();
         setAnchorPoint({ x: e.pageX, y: e.pageY });
         setShow(false);
+        setCntMenu(defaultMenu);
         setTimeout(() => { setShow(true); }, 250);
     }, [setAnchorPoint]);
 
@@ -20,21 +21,22 @@ function RightClickMenu() {
 
     useEffect(() => {
         document.addEventListener("click", handleClick);
-        document.addEventListener("contextmenu", handleContextMenu);
+        Wrapper.addEventListener("contextmenu", handleContextMenu);
 
         return () => {
             document.removeEventListener("click", handleClick);
-            document.removeEventListener("contextmenu", handleContextMenu);
+            Wrapper.removeEventListener("contextmenu", handleContextMenu);
         }
-    })
+    });
 
     if (show) {
         return (
             <Menu style={{ top: anchorPoint.y, left: anchorPoint.x }} >
                 {
-                    defaultMenu.map((option, i) => (
+                    CntMenu.map((option, i) => (
+
                         ( option.length !== 1 ) ?
-                            <Options key={i} className={option[0]} onClick={option[5]}>
+                            <Options key={i} className={option[0]} onClick={() => (option[5] ? option[5]() : null)}>
                                 <LeftSection>
                                     {
                                         (option[1]) ? <img src={option[1]} alt="a" /> : <Empty />
