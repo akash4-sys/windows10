@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { defaultMenu } from '../../Data/RightClickMenuData';
+import { defaultMenu } from '../../../Data/RightClickMenuData';
 
 function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
 

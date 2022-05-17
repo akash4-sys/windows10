@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
-export default function OutsideClickAlert(ref, inputRef, clickCount, setWrapper, setCntMenu, defaultMenu) {
+export default function OutsideClickAlert(ref, inputRef, clickCount, setWrapper) {
     useEffect(() => {
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
                 ref.current.style.backgroundColor = "";
                 ref.current.style.border = "";
-                clickCount.current = 0;
+                // clickCount.current = 0;
                 setWrapper(document.getElementById('grid'));
             }
             
@@ -24,5 +24,5 @@ export default function OutsideClickAlert(ref, inputRef, clickCount, setWrapper,
             document.removeEventListener("mousedown", handleClickOutside);
         };
 
-    }, [ref, inputRef, clickCount]);
+    }, [ref, inputRef]);
 };

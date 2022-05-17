@@ -27,7 +27,7 @@ function Taskbar() {
     }, []);
 
     return (
-        <Container ref={wrapperRef}>
+        <Container ref={wrapperRef} id="taskbar">
             <LeftSection>
                 <StartMenu displayStartMenu={displayStartMenu} />
                 <WindowsButton onClick={startMenu} id="windowsButton">

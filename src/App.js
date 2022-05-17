@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Desktop from './components/DesktopComponents/Desktop';
 import Taskbar from './components/Taskbar/Taskbar';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
 	return (
@@ -10,6 +11,7 @@ function App() {
 				<Taskbar />
 				<Routes>
 					<Route path="/" element={<Desktop />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Router>
 		</Screen>

@@ -1,4 +1,4 @@
-import { folderIconMenu } from '../../Data/RightClickMenuData';
+import { folderIconMenu } from '../../../Data/RightClickMenuData';
 import { OpenThisPC, OpenChrome, ThisPCProperties, ChromeProperties } from './CxtMenuFunctions';
 
 function appClickHelper(setWrapper, setCntMenu, item, name) {

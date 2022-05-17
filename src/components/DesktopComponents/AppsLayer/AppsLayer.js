@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Grid } from '../Data/DesktopApps';
+import { Grid } from '../../Data/DesktopApps';
 import OutsideClickAlert from './utils/OutsideClickHandler';
 import RightClickMenu from './utils/RightClickMenu';
 import { appClickHelper, directOpener } from './utils/AppClickHelper';
-import { defaultMenu } from '../Data/RightClickMenuData';
+import { defaultMenu } from '../../Data/RightClickMenuData';
+import SelectionLayer from './SelectionLayer';
+import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
 
 function AppsLayer() {
 
@@ -15,8 +17,14 @@ function AppsLayer() {
     const inputRef = useRef();
     const clickCount = useRef(0);
 
-    const [ Wrapper, setWrapper ] = useState(null);
-    const [ cntMenu, setCntMenu ] = useState(defaultMenu);
+    // cxt menu
+    const [Wrapper, setWrapper] = useState(null);
+    const [cntMenu, setCntMenu] = useState(defaultMenu);
+
+    //select layer
+    const [showSelect, setShowSelect] = useState(false);
+    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+    const [Size, setSize] = useState({ height: 0, width: 0 });
 
     const appRef = useRef(null);
     OutsideClickAlert(appRef, inputRef, clickCount, setWrapper, setCntMenu, defaultMenu);
@@ -71,8 +79,8 @@ function AppsLayer() {
         inputRef.current.select();
         inputRef.current.style.backgroundColor = "white";
         inputRef.current.style.color = "black";
-    } 
-    
+    }
+
     const renameApp = (e, boxIndex) => {
         let newMap = [...gridMap];
         gridMap[boxIndex][0] = e.target.value;
@@ -82,8 +90,8 @@ function AppsLayer() {
     }
 
     const handleKey = (e, boxIndex) => {
-        if (e.key === 'Enter') { 
-            e.target.blur();  
+        if (e.key === 'Enter') {
+            e.target.blur();
             renameApp(e, boxIndex);
             inputRef.current.readOnly = true;
             inputRef.current.blur();
@@ -98,25 +106,14 @@ function AppsLayer() {
         appRef.current = e.currentTarget;
         inputRef.current = e.currentTarget.querySelector('input');
     }
-    
-    const handleAppClick = (e) => {
+
+    const handleAppDoubleClick = (e) => {
         changeDisplay(e);
-        setTimeout(() => {
-            clickCount.current += 1;
-            if (clickCount.current === 2 && e.target === inputRef.current) {
-                setTimeout(() => {  changeInputDisplay(appRef, inputRef);   }, 100);
-                clickCount.current = 0;
-
-            }else if (clickCount.current === 2){
-                directOpener(inputRef.current.name);
-                clickCount.current = 0;
-            }
-        }, 500)
-
-        setTimeout(() => { 
-            clickCount.current = 0;
-        }, 1200)
-
+        if (e.target === inputRef.current) {
+            setTimeout(() => { changeInputDisplay(appRef, inputRef); }, 100);
+        } else {
+            directOpener(inputRef.current.name);
+        }
     }
 
     function rightClickHandler(e) {
@@ -125,7 +122,10 @@ function AppsLayer() {
     }
 
     return (
-        <Container id="grid">
+        <Container id="grid"
+            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint, setSize)}
+            onMouseUp={(e) => handleMouseUp(e, setShowSelect, setAnchorPoint, setSize)}
+        >
             {
                 gridMap.map((box, boxIndex) => (
                     <App key={boxIndex}
@@ -138,14 +138,15 @@ function AppsLayer() {
                                 key={boxIndex + 1000}
                                 onDragStart={(e) => handleDragStart(e, boxIndex)}
                                 onDragEnd={handleDragEnd}
-                                onClick={handleAppClick}
+                                onClick={(e) => changeDisplay(e)}
+                                onDoubleClick={handleAppDoubleClick}
                                 onContextMenu={rightClickHandler}
                             >
                                 <img src={box[1]} alt={box[0]} draggable="false" />
-                                <input type="text" value={box[0]} readOnly maxLength="15" 
+                                <input type="text" value={box[0]} readOnly maxLength="15"
                                     onChange={(e) => renameApp(e, boxIndex)}
                                     onKeyPress={(e) => handleKey(e, boxIndex)}
-                                    size={box[0].length} 
+                                    size={box[0].length}
                                     name={box[0]}
                                 />
                             </Draggable>
@@ -155,8 +156,9 @@ function AppsLayer() {
                 ))
             }
             {
-                (Wrapper) ? <RightClickMenu Wrapper={Wrapper} CntMenu={cntMenu} setCntMenu={setCntMenu}/> : null
+                (Wrapper) ? <RightClickMenu Wrapper={Wrapper} CntMenu={cntMenu} setCntMenu={setCntMenu} /> : null
             }
+            <SelectionLayer show={showSelect} anchorPoint={anchorPoint} Size={Size} setSize={setSize} />
         </Container>
     )
 }

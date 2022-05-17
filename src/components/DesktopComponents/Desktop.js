@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import handleKey from './utils/KeyHandler';
-import AppsLayer from './AppsLayer';
+import AppsLayer from './AppsLayer/AppsLayer';
 
 function Desktop() {
     return (
         <DesktopPage tabIndex="0" onKeyDown={handleKey}>
             <BackGroundImageContainer>
-                <AppsLayer/>
+                <AppsLayer />
             </BackGroundImageContainer>
         </DesktopPage>
     )
