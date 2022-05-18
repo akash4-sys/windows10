@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { defaultMenu } from '../../../Data/RightClickMenuData';
+import { AppWindowContext } from '../../../ContextApi/Context';
 
 function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
 
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
     const [show, setShow] = useState(false);
+
+    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
 
     const handleContextMenu = useCallback((e) => {
         e.preventDefault();
@@ -29,6 +32,13 @@ function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
         }
     });
 
+    function OptionClick(name){
+        ( name && typeof name === "string") ?
+            setAppWindow({ ...AppWindow, [name]: { show: true, count: AppWindow[name].count + 1 }  })
+        :
+        name();
+    }
+
     if (show) {
         return (
             <Menu style={{ top: anchorPoint.y, left: anchorPoint.x }} >
@@ -36,7 +46,7 @@ function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
                     CntMenu.map((option, i) => (
 
                         ( option.length !== 1 ) ?
-                            <Options key={i} className={option[0]} onClick={() => (option[5] ? option[5]() : null)}>
+                            <Options key={i} className={option[0]} onClick={() => OptionClick(option[5]) }>
                                 <LeftSection>
                                     {
                                         (option[1]) ? <img src={option[1]} alt="a" /> : <Empty />

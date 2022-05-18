@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Grid } from '../../Data/DesktopApps';
 import OutsideClickAlert from './utils/OutsideClickHandler';
 import RightClickMenu from './utils/RightClickMenu';
-import { appClickHelper, directOpener } from './utils/AppClickHelper';
+import { appClickHelper } from './utils/AppClickHelper';
 import { defaultMenu } from '../../Data/RightClickMenuData';
 import SelectionLayer from './SelectionLayer';
 import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
+import { AppWindowContext } from '../../ContextApi/Context';
 
 function AppsLayer() {
 
@@ -15,7 +16,6 @@ function AppsLayer() {
     const dragItem = useRef();
     const dragTargetIndex = useRef(null);
     const inputRef = useRef();
-    const clickCount = useRef(0);
 
     // cxt menu
     const [Wrapper, setWrapper] = useState(null);
@@ -27,7 +27,9 @@ function AppsLayer() {
     const [Size, setSize] = useState({ height: 0, width: 0 });
 
     const appRef = useRef(null);
-    OutsideClickAlert(appRef, inputRef, clickCount, setWrapper, setCntMenu, defaultMenu);
+    OutsideClickAlert(appRef, inputRef, setWrapper);
+
+    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
 
     useEffect(() => {
         setGridMap(updateGridMap);
@@ -71,9 +73,13 @@ function AppsLayer() {
         dragItem.current = null;
     }
 
-    const changeInputDisplay = (appRef, inputRef) => {
+    const normalAppDisplay = () => {
         appRef.current.style.backgroundColor = "";
         appRef.current.style.border = "";
+    }
+
+    const changeInputDisplay = (inputRef) => {
+        normalAppDisplay();
         inputRef.current.readOnly = false;
         inputRef.current.focus();
         inputRef.current.select();
@@ -110,9 +116,12 @@ function AppsLayer() {
     const handleAppDoubleClick = (e) => {
         changeDisplay(e);
         if (e.target === inputRef.current) {
-            setTimeout(() => { changeInputDisplay(appRef, inputRef); }, 100);
-        } else {
-            directOpener(inputRef.current.name);
+            setTimeout(() => { changeInputDisplay(inputRef); }, 100);
+        } 
+        else {
+            const name = inputRef.current.name.replace(/\s+/g, '');
+            setAppWindow( { ...AppWindow, [name] :{ show: true, count: AppWindow[name].count + 1} } );
+            setTimeout(() => { normalAppDisplay() }, 10);
         }
     }
 
@@ -123,8 +132,8 @@ function AppsLayer() {
 
     return (
         <Container id="grid"
-            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint, setSize)}
-            onMouseUp={(e) => handleMouseUp(e, setShowSelect, setAnchorPoint, setSize)}
+            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint )}
+            onMouseUp={(e) => handleMouseUp(e, setShowSelect,  setSize)}
         >
             {
                 gridMap.map((box, boxIndex) => (
