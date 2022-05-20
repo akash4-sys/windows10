@@ -98,6 +98,7 @@ const Container = styled.div`
     background-color: var(--primary-color);
     display:flex;
     justify-content: space-between;
+    z-index:1000;
 `
 
 const LeftSection = styled.div`

@@ -8,10 +8,10 @@ import ThisPCWindow from '../Window/ThisPCWindow/ThisPCWindow';
 function Desktop() {
 
     const [ AppWindow, setAppWindow ] = useState({ 
-        "ThisPC":{ show: false, count:0 },
-        "ThisPCProperties":{ show: false, count:0},
+        "ThisPC":{ show:false, count:0 },
+        "ThisPCProperties":{ show:false, count:0 },
         "Chrome":{ show:false, count:0 },
-        "ChromeProperties":{ show: false, count:0 }
+        "ChromeProperties":{ show:false, count:0 }
     })
 
     return (

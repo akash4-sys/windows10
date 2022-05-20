@@ -38,6 +38,7 @@ const Container = styled.div`
     opacity:0.98;
     animation:${menuAppearAnimation} 30ms ease-in;
     transition:height 10ms;
+    z-index: 1000;
 `
 
 const FlexBox = styled.div`
