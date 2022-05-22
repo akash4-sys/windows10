@@ -11,6 +11,9 @@
   --clickMenu: #e7e7e7;
   --windowsFontSize: 12.5px;
   --topWindowIndex:1;
+  --lightGray:#e7e5e5;
+  --WindowtoolBarFontSize:11px;
+  --WindowtoolBarBGC:#f3f3f3;
 }
 
 body {

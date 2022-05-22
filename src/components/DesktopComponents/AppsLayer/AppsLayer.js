@@ -119,7 +119,7 @@ function AppsLayer() {
             setTimeout(() => { changeInputDisplay(inputRef); }, 100);
         } 
         else {
-            const name = inputRef.current.name.replace(/\s+/g, '');
+            const name = inputRef.current.name;
             setAppWindow( { ...AppWindow, [name] :{ show: true, count: AppWindow[name].count + 1} } );
             setTimeout(() => { normalAppDisplay() }, 10);
         }

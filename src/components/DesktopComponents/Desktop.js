@@ -4,14 +4,18 @@ import handleKey from './utils/KeyHandler';
 import AppsLayer from './AppsLayer/AppsLayer';
 import { AppWindowContext } from '../ContextApi/Context';
 import ThisPCWindow from '../Window/ThisPCWindow/ThisPCWindow';
+import ChromeWindow from '../Window/ChromeWindow/ChromeWindow';
+import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow';
 
 function Desktop() {
 
     const [ AppWindow, setAppWindow ] = useState({ 
-        "ThisPC":{ show:false, count:0 },
+        "This PC":{ show:false, count:0 },
         "ThisPCProperties":{ show:false, count:0 },
         "Chrome":{ show:false, count:0 },
-        "ChromeProperties":{ show:false, count:0 }
+        "ChromeProperties":{ show:false, count:0 },
+        "File Explorer": { show:false, count:0 },
+        "FileExplorerProperties":{ show:false, count:0 },
     })
 
     return (
@@ -21,6 +25,8 @@ function Desktop() {
 
                     <AppsLayer />
                     <ThisPCWindow />
+                    <ChromeWindow />
+                    <FileExplorerWindow />
 
                 </AppWindowContext.Provider>
             </BackGroundImageContainer>

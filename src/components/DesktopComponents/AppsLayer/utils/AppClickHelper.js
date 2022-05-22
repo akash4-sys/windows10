@@ -6,7 +6,7 @@ function appClickHelper(setWrapper, setCntMenu, item, name) {
     
     switch (name) {
         case 'This PC':
-            folderIconMenu[0][5] = "ThisPC";
+            folderIconMenu[0][5] = "This PC";
             folderIconMenu[folderIconMenu.length-1][5] = "ThisPCProperties";
             break;
         case 'Chrome':

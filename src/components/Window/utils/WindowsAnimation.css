@@ -1,0 +1,10 @@
+@keyframes minimizer {
+    to{
+        opacity:0;
+        transform: scale(0) translateY(200vh);
+    }
+}
+
+.minimizeAnimation{
+    animation: minimizer 200ms ease-in forwards !important;
+}
