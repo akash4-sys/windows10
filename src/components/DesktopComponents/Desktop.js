@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import handleKey from './utils/KeyHandler';
 import AppsLayer from './AppsLayer/AppsLayer';
 import { AppWindowContext } from '../ContextApi/Context';
@@ -22,6 +22,9 @@ function Desktop() {
         <DesktopPage tabIndex="0" onKeyDown={handleKey}>
             <BackGroundImageContainer>
                 <AppWindowContext.Provider value={[ AppWindow, setAppWindow ]}>
+
+                    <WindowCollision id="windowCollisionBox"/>
+                    <CursorAnimationCircle id="CursorAnimationCircle"/>
 
                     <AppsLayer />
                     <ThisPCWindow />
@@ -47,4 +50,19 @@ const BackGroundImageContainer = styled.div`
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
+`
+
+const WindowCollision = styled.div`
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    background-color: transparent;
+    border:1px solid dimgray;
+    z-index:calc( var(--topWindowIndex) - 1 );
+`
+
+const CursorAnimationCircle = styled.div`
+    border: 3px solid var(--windowsBlue);
+    display:none;
+    position: absolute;
+    z-index:calc( var(--topWindowIndex) + 1 );
 `

@@ -1,11 +1,43 @@
 import React, { useRef, forwardRef } from 'react';
 import styled from 'styled-components';
+import '../utils/WindowsAnimation.css'
 
 const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
 
     const { windowsRef, positionArray } = refContainer.current;
     const posRef = useRef({ X: 0, Y: 0 });
-    const maxSize = useRef(false);
+    const maxSize = useRef({ left:false, right:false, top: false });
+
+    function reSizer(Class) {
+        let windowCollisionBox = document.getElementById("windowCollisionBox");
+        let removeclass = windowCollisionBox.className.split(" ")[2];
+        windowCollisionBox.classList.remove(removeclass);
+        windowCollisionBox.classList.add(Class);
+    }
+
+    function cursorEffect(e, Class, left, top){
+        let cursor = document.getElementById("CursorAnimationCircle");
+        let removeclass = cursor.className.split(" ")[2];
+        cursor.classList.remove(removeclass);
+        cursor.classList.add(Class);
+        cursor.style.left = (e.pageX - left) + "px";
+        cursor.style.top = (e.pageY - top) + "px";
+        setTimeout(() => { cursor.classList.remove(Class) }, 1000)
+    }
+
+    function removeCollisionBox() {
+        let windowCollisionBox = document.getElementById("windowCollisionBox");
+        let removeclass = windowCollisionBox.className.split(" ")[2];
+        windowCollisionBox.classList.remove(removeclass);
+        maxSize.current = { left:false, right:false, top:false };
+    }
+
+    function reSizeWindow(parentWindow, width, height){
+        parentWindow.style.width = width;
+        parentWindow.style.height = height;
+        parentWindow.style.top = "0px";
+        removeCollisionBox();
+    }
 
     function handleMouseDown(e) {
         let parentWindow = document.getElementById(windowsRef.current);
@@ -18,12 +50,21 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
             posRef.current.X = 0;
             posRef.current.Y = 0;
 
-            if (maxSize.current) {
-                parentWindow.style.width = "100vw";
-                parentWindow.style.height = "100vh";
+            if(maxSize.current.left){
                 parentWindow.style.left = "0px";
-                parentWindow.style.top = "0px";
+                parentWindow.style.right = "unset";
+                reSizeWindow(parentWindow, "50vw", "100vh");
             }
+            else if(maxSize.current.right){
+                parentWindow.style.left = "unset";
+                parentWindow.style.right = "0px";
+                reSizeWindow(parentWindow, "50vw", "100vh");
+            }
+            else if(maxSize.current.top){
+                parentWindow.style.left = "0px";
+                reSizeWindow(parentWindow, "100vw", "100vh");
+            }
+
         });
     };
 
@@ -40,19 +81,38 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
         let i = parseInt(windowsRef.current.slice(-1));
         positionArray.current[i] = [left, top];
 
-        if (e.pageX < 5 || e.pageY < 5) {
-            maxSize.current = true;
-            return;
+        if (e.pageX < 5) {
+            reSizer("preWindowLeft");
+            cursorEffect(e, "cursorLeft", 0, 40);
+            maxSize.current.left = true;
         }
+        else if(e.pageX >= (window.innerWidth - 10)){
+            reSizer("preWindowRight");
+            cursorEffect(e, "cursorRight", 30, 40);
+            maxSize.current.right = true;
+        }
+        else if (e.pageY < 5 ) {
+            reSizer("preWindowTop");
+            cursorEffect(e, "cursorTop", 40, 0);
+            maxSize.current.top = true;
+        }
+        else if(e.pageY >= (window.innerHeight - 60)){
+            reSizer("preWindowBottom");
+            cursorEffect(e, "cursorBottom", 40, 30);
+            maxSize.current.top = true;
+        }else {
+            removeCollisionBox();
+        }
+
     };
 
     function handleToolBarView(e) {
         let parentWindow = document.getElementById(windowsRef.current).querySelector(".WindowToolBar");
-        if(parentWindow.style.display === "none"){ 
+        if (parentWindow.style.display === "none") {
             parentWindow.style.display = "flex";
             e.currentTarget.querySelector("img").src = "Images/uparrow.png";
         } else {
-            parentWindow.style.display = "none"; 
+            parentWindow.style.display = "none";
             e.currentTarget.querySelector("img").src = "Images/downarrow.png";
         }
     }
