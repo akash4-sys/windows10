@@ -4,8 +4,10 @@ import { nanoid } from 'nanoid';
 import { AppWindowContext } from './../ContextApi/Context';
 import ActionBar from './WindowComponents/ActionBar';
 import handleWindowClick from './utils/handleWindowClick';
+import WindowToolBar from './WindowComponents/Toolbars/WindowToolBar';
+import ThispcToolbar from './ThisPCWindow/components/ThispcToolbar';
  
-function Window({ windowsName, WindowNameBar, showFaqBar, WindowToolBar }) {
+function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, showThisPCtoolbar }) {
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
     const windowsRef = useRef();
     let numberOfWindow = AppWindow[windowsName].count;
@@ -38,10 +40,11 @@ function Window({ windowsName, WindowNameBar, showFaqBar, WindowToolBar }) {
 
                             <ActionBarContainer>
                                 { WindowNameBar }
-                                <ActionBar ref={refContainer} showFaqBar={showFaqBar}/>
+                                <ActionBar ref={refContainer} showFaqBar={showFaqBar} />
                             </ActionBarContainer>
 
-                            { WindowToolBar }
+                            { showWindowToolBar && <WindowToolBar /> }
+                            { showThisPCtoolbar && <ThispcToolbar /> }
 
                             <h1>{windowsName + i}</h1>
 
@@ -70,7 +73,7 @@ const Container = styled.div`
 `
 
 const ActionBarContainer = styled.div`
-    height:3.5rem;
+    height:3rem;
     width:100%;    
     display: flex;
     align-items: center;

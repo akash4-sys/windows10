@@ -46,6 +46,17 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
         }
     };
 
+    function handleToolBarView(e) {
+        let parentWindow = document.getElementById(windowsRef.current).querySelector(".WindowToolBar");
+        if(parentWindow.style.display === "none"){ 
+            parentWindow.style.display = "flex";
+            e.currentTarget.querySelector("img").src = "Images/uparrow.png";
+        } else {
+            parentWindow.style.display = "none"; 
+            e.currentTarget.querySelector("img").src = "Images/downarrow.png";
+        }
+    }
+
     return (
         <>
             <MoveSection onMouseDown={handleMouseDown} />
@@ -65,7 +76,7 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
                 {
                     showFaqBar &&
                     <LowerHalf>
-                        <div><img src="Images/uparrow.png" alt="up" /></div>
+                        <div onClick={handleToolBarView}><img src="Images/uparrow.png" alt="up" /></div>
                         <div><img src="Images/faq.ico" className="faq" alt="faq" /></div>
                     </LowerHalf>
                 }

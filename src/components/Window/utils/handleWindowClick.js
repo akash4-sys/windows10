@@ -38,7 +38,6 @@ export default function handleWindowClick(e, windowsRef, positionArray, setAppWi
         window.classList.remove('minimizeAnimation');
         
         if(window.style.height === "100vh" && window.style.width === "100vw"){
-            console.log(window.style.height)
             maximize.querySelector("img").src= "Images/maximize.png";
             window.style.width = "70vw";
             window.style.height = "70vh";

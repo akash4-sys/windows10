@@ -104,6 +104,8 @@ const Down = styled.div`
     }
 
     div:nth-child(2){
-        background-color:var(--clickMenu);
+        background-color:var(--WindowtoolBarBGC);
+        border-top: 0.7px solid var(--linecolor);
+        border-right: 0.7px solid var(--linecolor);
     }
 `
