@@ -1,6 +1,6 @@
 import '../utils/WindowsAnimation.css'
 
-export default function handleWindowClick(e, windowsRef, positionArray, setAppWindow, AppWindow, windowsName) {
+export default function handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName) {
 
     let window = e.currentTarget;
     windowsRef.current = e.currentTarget.id;
@@ -19,6 +19,7 @@ export default function handleWindowClick(e, windowsRef, positionArray, setAppWi
     if(window.querySelector(".closeButton").contains(e.target)){
         let i = parseInt(windowsRef.current.slice(-1));
         positionArray.current.splice(i, 1);
+        windowSizeArray.current.splice(i, 1);
         setAppWindow( { ...AppWindow, [windowsName] : { show: true, count: AppWindow[windowsName].count - 1 }  })
         if(!AppWindow[windowsName].count){
             setAppWindow( { ...AppWindow, [windowsName] : { show: false }  })

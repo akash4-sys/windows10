@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { AppWindowContext } from './../ContextApi/Context';
 import ActionBar from './WindowComponents/ActionBar';
 import handleWindowClick from './utils/handleWindowClick';
+import { handleWindowResizing, handleWindowMousemove } from './utils/handleWindowResizing';
 import WindowToolBar from './WindowComponents/Toolbars/WindowToolBar';
 import ThispcToolbar from './ThisPCWindow/components/ThispcToolbar';
  
@@ -14,12 +15,14 @@ function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, sho
 
     //left, top
     const positionArray = useRef([ ["200px", "100px"] ]);
-    const refContainer = useRef({ windowsRef, positionArray });
+    const windowSizeArray = useRef([]);
+    const refContainer = useRef({ windowsRef, positionArray, windowSizeArray });
     
     function generateId(i) {
         let id = nanoid() + "_index" + i;
         windowsRef.current = id;
         positionArray.current.push(["200px", "100px"]);
+        windowSizeArray.current.push(["calc(70% - 2.5rem)", "70%"]);
         return id;
     }
 
@@ -29,14 +32,17 @@ function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, sho
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
-                            onClick={(e) => handleWindowClick(e, windowsRef, positionArray, setAppWindow, AppWindow, windowsName)} 
+                            onClick={(e) => handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName)} 
                             style={{ 
                                 zIndex:0,
                                 left: positionArray.current[i][0],
                                 top: positionArray.current[i][1],
-                                height:"calc(70% - 2.5rem)",
-                                width:"70%"
-                            }}>
+                                height: windowSizeArray.current[i][0],
+                                width: windowSizeArray.current[i][1]
+                            }}
+                            onMouseDown={(e) => handleWindowResizing(e, windowSizeArray)}
+                            onMouseMove={handleWindowMousemove}
+                        >
 
                             <ActionBarContainer>
                                 { WindowNameBar }
@@ -46,7 +52,7 @@ function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, sho
                             { showWindowToolBar && <WindowToolBar /> }
                             { showThisPCtoolbar && <ThispcToolbar /> }
 
-                            <h1>{windowsName + i}</h1>
+                            <h1 onClick={(e) => e.target.style.color = "red"}>{windowsName + i}</h1>
 
                         </Container>
                     ))
@@ -69,7 +75,8 @@ const Container = styled.div`
     transform: scale(1);
     animation:${AppearAnimation} 30ms ease-in;
     color:black;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    overflow:auto;
 `
 
 const ActionBarContainer = styled.div`

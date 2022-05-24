@@ -4,7 +4,7 @@ import '../utils/WindowsAnimation.css'
 
 const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
 
-    const { windowsRef, positionArray } = refContainer.current;
+    const { windowsRef, positionArray, windowSizeArray } = refContainer.current;
     const posRef = useRef({ X: 0, Y: 0 });
     const maxSize = useRef({ left:false, right:false, top: false });
 
@@ -36,7 +36,33 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
         parentWindow.style.width = width;
         parentWindow.style.height = height;
         parentWindow.style.top = "0px";
+        let i = parseInt(windowsRef.current.slice(-1));
+        windowSizeArray.current[i] = [height, width];
         removeCollisionBox();
+    }
+
+    function handleMouseUp() {
+        let parentWindow = document.getElementById(windowsRef.current);
+        parentWindow.removeEventListener('mousemove', update)
+        posRef.current.X = 0;
+        posRef.current.Y = 0;
+
+        if(maxSize.current.left){
+            parentWindow.style.left = "0px";
+            parentWindow.style.right = "unset";
+            reSizeWindow(parentWindow, "50vw", "100vh");
+        }
+        else if(maxSize.current.right){
+            parentWindow.style.left = "unset";
+            parentWindow.style.right = "0px";
+            reSizeWindow(parentWindow, "50vw", "100vh");
+        }
+        else if(maxSize.current.top){
+            parentWindow.style.left = "0px";
+            reSizeWindow(parentWindow, "100vw", "100vh");
+        }
+
+        window.removeEventListener('mouseup', handleMouseUp);
     }
 
     function handleMouseDown(e) {
@@ -45,27 +71,7 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
         posRef.current.X = e.clientX;
         posRef.current.Y = e.clientY;
         parentWindow.addEventListener('mousemove', update);
-        window.addEventListener('mouseup', () => {
-            parentWindow.removeEventListener('mousemove', update)
-            posRef.current.X = 0;
-            posRef.current.Y = 0;
-
-            if(maxSize.current.left){
-                parentWindow.style.left = "0px";
-                parentWindow.style.right = "unset";
-                reSizeWindow(parentWindow, "50vw", "100vh");
-            }
-            else if(maxSize.current.right){
-                parentWindow.style.left = "unset";
-                parentWindow.style.right = "0px";
-                reSizeWindow(parentWindow, "50vw", "100vh");
-            }
-            else if(maxSize.current.top){
-                parentWindow.style.left = "0px";
-                reSizeWindow(parentWindow, "100vw", "100vh");
-            }
-
-        });
+        window.addEventListener('mouseup', handleMouseUp);
     };
 
     function update(e) {
