@@ -87,7 +87,7 @@ function SideNavbar() {
             {
                 displayOptions &&
                 <Power id="powerlist" ref={wrapperRef}>
-                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} onClick={() => document.fullscreenElement ? document.exitFullscreen(): null }>
                         <img src="Images/sleepb.png" alt="sleep"/>
                         <div>Sleep</div>
                     </li>

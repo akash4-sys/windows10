@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import handleKey from './utils/KeyHandler';
 import AppsLayer from './AppsLayer/AppsLayer';
 import { AppWindowContext } from '../ContextApi/Context';
@@ -8,6 +8,15 @@ import ChromeWindow from '../Window/ChromeWindow/ChromeWindow';
 import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow';
 
 function Desktop() {
+
+    function fullScreen() {
+        document.getElementById('root').requestFullscreen();
+        document.getElementById('root').removeEventListener('click',fullScreen); 
+    }
+
+    useEffect(() => {
+        document.getElementById('root').addEventListener('click', fullScreen);
+    }, [])
 
     const [ AppWindow, setAppWindow ] = useState({ 
         "This PC":{ show:false, count:0 },

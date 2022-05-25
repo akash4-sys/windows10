@@ -89,6 +89,7 @@ const AppSection = styled.div`
     justify-content: center;
     padding: 0px 6px;
     gap: 5px;
+    width: max-content;
 `
 
 const App = styled.div`
@@ -116,6 +117,7 @@ const ListApps = styled.div`
     display: flex;
     gap: 5px;
     margin: 7px 0px;
+    width: max-content;
 
     &:hover{
         background-color: var(--windowsHover);
@@ -130,8 +132,5 @@ const ListApps = styled.div`
 
 const SectionName = styled.div`
     height:18%;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
     text-align: center;
 `

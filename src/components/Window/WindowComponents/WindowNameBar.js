@@ -35,7 +35,7 @@ export default WindowNameBar;
 
 const LeftSection = styled.div`
     height:inherit;
-    font-size: 13px;
+    font-size:var(--windowsFontSize);
 `
 
 const Up = styled.div`

@@ -3,12 +3,13 @@ import styled, { keyframes } from 'styled-components';
 import { nanoid } from 'nanoid';
 import { AppWindowContext } from './../ContextApi/Context';
 import ActionBar from './WindowComponents/ActionBar';
+import WindowSearchBar from './WindowComponents/WindowSearchBar';
 import handleWindowClick from './utils/handleWindowClick';
 import { handleWindowResizing, handleWindowMousemove } from './utils/handleWindowResizing';
 import WindowToolBar from './WindowComponents/Toolbars/WindowToolBar';
 import ThispcToolbar from './ThisPCWindow/components/ThispcToolbar';
  
-function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, showThisPCtoolbar }) {
+function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, showThisPCtoolbar, windowSearchBar }) {
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
     const windowsRef = useRef();
     let numberOfWindow = AppWindow[windowsName].count;
@@ -51,6 +52,8 @@ function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, sho
 
                             { showWindowToolBar && <WindowToolBar /> }
                             { showThisPCtoolbar && <ThispcToolbar /> }
+
+                            { windowSearchBar.show && <WindowSearchBar windowIcon={windowSearchBar.icon} windowName={windowsName}/> }
 
                             <h1 onClick={(e) => e.target.style.color = "red"}>{windowsName + i}</h1>
 
