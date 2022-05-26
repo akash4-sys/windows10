@@ -1,19 +1,24 @@
 import React from 'react';
 import Window from '../Window';
-import WindowNameBar from '../WindowComponents/WindowNameBar';
+import MainContent from '../ThisPCWindow/components/MainContent';
 
 function ChromeWindow() {
 
     let windowBarOptions = ["Computer", "Refresh"];
-    let windowIcon="Images/chrome.png";
+    let windowIcon = "Images/chrome.png";
 
     return (
         <Window
             windowsName={"Chrome"}
-            WindowNameBar={<WindowNameBar windowsName="Chrome" windowIcon={windowIcon} windowBarOptions={windowBarOptions}/>}
+            windowIcon={windowIcon}
             showFaqBar={false}
-            showWindowToolBar={false}
-            windowSearchBar={{ show: false, icon: windowIcon }}
+            windowNameBar={{ show: false, windowBarOptions }}
+            thispcToolbar={{ show: false, height: "0px" }}
+            windowToolbar={{ show: false, height: "-0.4rem" }}
+            windowSearchBar={{ show: false, height: "0px" }}
+            quickAccessConfig={{ show: false, width: "0px" }}
+            MainContent={<MainContent Width="0px" />}
+            footerConfig={{ show: false, height: "0px" }}
         >
         </Window>
     )

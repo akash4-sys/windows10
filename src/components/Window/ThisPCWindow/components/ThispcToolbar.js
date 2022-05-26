@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function ThispcToolbar() {
+function ThispcToolbar({Height}) {
     return (
-        <Container className="WindowToolBar">
+        <Container className="WindowToolBar" style={{height:Height}}>
             <SubSection>
                 <AppSection>
                     <App>
@@ -69,7 +69,6 @@ export default ThispcToolbar;
 
 const Container = styled.div`
     width:100%;
-    height:6rem;
     background-color:var(--WindowtoolBarBGC);
     display:flex;
     border-top: 1px solid var(--linecolor);

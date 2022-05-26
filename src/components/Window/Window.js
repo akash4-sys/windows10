@@ -1,15 +1,18 @@
 import React, { useContext, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { nanoid } from 'nanoid';
-import { AppWindowContext } from './../ContextApi/Context';
-import ActionBar from './WindowComponents/ActionBar';
-import WindowSearchBar from './WindowComponents/WindowSearchBar';
-import handleWindowClick from './utils/handleWindowClick';
-import { handleWindowResizing, handleWindowMousemove } from './utils/handleWindowResizing';
-import WindowToolBar from './WindowComponents/Toolbars/WindowToolBar';
-import ThispcToolbar from './ThisPCWindow/components/ThispcToolbar';
+import {
+
+    styled, keyframes, nanoid, AppWindowContext, ActionBar, 
+    WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
+    WindowNameBar, ThispcToolbar, handleWindowMousemove, QuickAccessBar
+
+} from './index.js';
+
  
-function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, showThisPCtoolbar, windowSearchBar }) {
+function Window({ 
+    windowsName, windowIcon, windowNameBar, showFaqBar, windowToolbar, thispcToolbar, 
+    windowSearchBar, MainContent, quickAccessConfig , footerConfig
+}) {
+
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
     const windowsRef = useRef();
     let numberOfWindow = AppWindow[windowsName].count;
@@ -46,16 +49,31 @@ function Window({ windowsName, WindowNameBar, showFaqBar, showWindowToolBar, sho
                         >
 
                             <ActionBarContainer>
-                                { WindowNameBar }
+                                {
+                                    windowNameBar.show  && 
+                                    <WindowNameBar windowsName={windowsName} windowIcon={windowIcon} windowBarOptions={windowNameBar.windowBarOptions} />
+                                }
                                 <ActionBar ref={refContainer} showFaqBar={showFaqBar} />
                             </ActionBarContainer>
 
-                            { showWindowToolBar && <WindowToolBar /> }
-                            { showThisPCtoolbar && <ThispcToolbar /> }
+                            { windowToolbar.show && <WindowToolBar Height={windowToolbar.height} /> }
+                            { thispcToolbar.show && <ThispcToolbar Height={thispcToolbar.height}/> }
 
-                            { windowSearchBar.show && <WindowSearchBar windowIcon={windowSearchBar.icon} windowName={windowsName}/> }
+                            {   
+                                windowSearchBar.show && 
+                                <WindowSearchBar windowIcon={windowIcon} windowName={windowsName} Height={windowSearchBar.height}/> 
+                            }
 
-                            <h1 onClick={(e) => e.target.style.color = "red"}>{windowsName + i}</h1>
+                            <ContentContainer style={{ height:`calc(100% - ${windowSearchBar.height} - ${windowToolbar.height} - 3.4rem)`}}>
+                                <UpperContent style={{ height: `calc(100% - ${footerConfig.height})`}}>
+                                    { quickAccessConfig.show && <QuickAccessBar Width={ quickAccessConfig.width } /> }
+                                    { MainContent }
+                                </UpperContent>
+                                {
+                                    footerConfig.show && 
+                                    <LowerContent style={{ height: footerConfig.height}}></LowerContent> 
+                                }
+                            </ContentContainer>
 
                         </Container>
                     ))
@@ -80,6 +98,8 @@ const Container = styled.div`
     color:black;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     overflow:auto;
+    max-height: calc(100vh - 2.5rem);
+    font-size:var(--windowsFontSize);
 `
 
 const ActionBarContainer = styled.div`
@@ -88,4 +108,19 @@ const ActionBarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content:space-between;
+`
+
+const ContentContainer = styled.div`
+    overflow: hidden;
+`
+
+const UpperContent = styled.div`
+    // height:calc(100% - 1.5rem);
+    width: 100%;
+    display:flex;
+`
+
+const LowerContent = styled(UpperContent)`
+    // height:1.5rem;
+    width: 100%;
 `

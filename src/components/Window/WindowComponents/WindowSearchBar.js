@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-function WindowSearchBar({ windowIcon, windowName }) {
+function WindowSearchBar({ windowIcon, windowName, Height }) {
 
     const [ inputConfig, setInputConfig ] = useState({show: false, value:"" });
     const [ addressBarInput, setAddressBarInput ] = useState(windowName);
@@ -24,7 +24,7 @@ function WindowSearchBar({ windowIcon, windowName }) {
     }
 
     return (
-        <Container>
+        <Container style={{height:Height}}>
             <ArrowButtons>
                 <i className="fa-solid fa-arrow-left-long"></i>
                 <i className="fa-solid fa-arrow-right-long"></i>
@@ -63,7 +63,6 @@ function WindowSearchBar({ windowIcon, windowName }) {
 export default WindowSearchBar;
 
 const Container = styled.div`
-    height: 1.9rem;
     width: calc(100% - 12px);
     margin: 2px 2px 2px 10px;
     display: flex;
