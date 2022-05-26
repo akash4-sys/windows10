@@ -115,12 +115,10 @@ const ContentContainer = styled.div`
 `
 
 const UpperContent = styled.div`
-    // height:calc(100% - 1.5rem);
     width: 100%;
     display:flex;
 `
 
 const LowerContent = styled(UpperContent)`
-    // height:1.5rem;
     width: 100%;
 `

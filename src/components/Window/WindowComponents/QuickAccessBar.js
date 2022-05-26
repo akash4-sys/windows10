@@ -17,7 +17,7 @@ function QuickAccessBar({ Width }) {
 
     function handleClick(e) {
         if( ItemRef.current && ItemRef.current !== e.currentTarget ){
-            ItemRef.current.style.backgroundColor = "transparent";
+            ItemRef.current.style.backgroundColor = "";
         }
         ItemRef.current = e.currentTarget;
         e.currentTarget.style.backgroundColor = "var(--folderClick)";
