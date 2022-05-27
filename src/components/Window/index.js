@@ -9,8 +9,8 @@ export { AppWindowContext } from './../ContextApi/Context';
 export { default as ActionBar } from './WindowComponents/ActionBar';
 export { default as WindowSearchBar } from './WindowComponents/WindowSearchBar';
 export { default as WindowToolBar } from './WindowComponents/Toolbars/WindowToolBar';
-export { default as WindowNameBar } from './WindowComponents/WindowNameBar';
 export { default as QuickAccessBar } from './WindowComponents/QuickAccessBar';
+export { default as WindowFooter } from './WindowComponents/WindowFooter';
 
 // utils exports
 export { default as handleWindowClick } from './utils/handleWindowClick';

@@ -6,6 +6,7 @@ import { AppWindowContext } from '../ContextApi/Context';
 import ThisPCWindow from '../Window/ThisPCWindow/ThisPCWindow';
 import ChromeWindow from '../Window/ChromeWindow/ChromeWindow';
 import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow';
+import MyPortfolio from '../Window/MyPortfolioWindow/MyPortfolio';
 
 function Desktop() {
 
@@ -25,6 +26,7 @@ function Desktop() {
         "ChromeProperties":{ show:false, count:0 },
         "File Explorer": { show:false, count:0 },
         "FileExplorerProperties":{ show:false, count:0 },
+        "My Portfolio":{ show:false, count:0 },
     })
 
     return (
@@ -39,6 +41,7 @@ function Desktop() {
                     <ThisPCWindow />
                     <ChromeWindow />
                     <FileExplorerWindow />
+                    <MyPortfolio />
 
                 </AppWindowContext.Provider>
             </BackGroundImageContainer>

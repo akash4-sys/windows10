@@ -3,7 +3,8 @@ import {
 
     styled, keyframes, nanoid, AppWindowContext, ActionBar, 
     WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
-    WindowNameBar, ThispcToolbar, handleWindowMousemove, QuickAccessBar
+    ThispcToolbar, handleWindowMousemove, QuickAccessBar, 
+    WindowFooter
 
 } from './index.js';
 
@@ -49,10 +50,7 @@ function Window({
                         >
 
                             <ActionBarContainer>
-                                {
-                                    windowNameBar.show  && 
-                                    <WindowNameBar windowsName={windowsName} windowIcon={windowIcon} windowBarOptions={windowNameBar.windowBarOptions} />
-                                }
+                                { windowNameBar }
                                 <ActionBar ref={refContainer} showFaqBar={showFaqBar} />
                             </ActionBarContainer>
 
@@ -71,7 +69,9 @@ function Window({
                                 </UpperContent>
                                 {
                                     footerConfig.show && 
-                                    <LowerContent style={{ height: footerConfig.height}}></LowerContent> 
+                                    <LowerContent style={{ height: footerConfig.height}}>
+                                        { footerConfig.show &&  <WindowFooter /> }
+                                    </LowerContent> 
                                 }
                             </ContentContainer>
 

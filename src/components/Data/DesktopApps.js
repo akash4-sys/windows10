@@ -1,5 +1,6 @@
 const Grid =[
     ["This PC", "Images/thispc.ico"],
+    ["My Portfolio", "Images/myportfolio.png"],
     ["Pictures", "Images/imgfolder.ico"],
     ["Video", "Images/vidfolder.ico"],
     ["VScode", "Images/VScode.png"],

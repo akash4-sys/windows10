@@ -1,5 +1,6 @@
 import React from 'react';
 import Window from '../Window';
+import WindowNameBar from '../WindowComponents/WindowNameBar';
 import MainContent from './components/MainContent';
 
 function ThisPCWindow() {
@@ -13,7 +14,7 @@ function ThisPCWindow() {
                 windowsName={"This PC"}
                 windowIcon={windowIcon}
                 showFaqBar={true}
-                windowNameBar={{ show: true, windowBarOptions }}
+                windowNameBar={ <WindowNameBar windowsName="This PC" windowIcon={windowIcon} windowBarOptions={windowBarOptions} />}
                 thispcToolbar={{ show:true, height:"var(--windowToolbarHeight)" }}
                 windowToolbar={{ show:false, height:"var(--windowToolbarHeight)" }}
                 windowSearchBar={{ show: true, height:"var(--windowSearchbarHeight)" }}

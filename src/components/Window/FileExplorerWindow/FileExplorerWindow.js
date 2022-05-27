@@ -1,5 +1,6 @@
 import React from 'react';
 import Window from '../Window';
+import WindowNameBar from '../WindowComponents/WindowNameBar';
 
 function FileExplorerWindow() {
 
@@ -12,7 +13,7 @@ function FileExplorerWindow() {
                 windowsName={"File Explorer"}
                 windowIcon={windowIcon}
                 showFaqBar={true}
-                windowNameBar={{ show: true, windowBarOptions }}
+                windowNameBar={ <WindowNameBar windowsName="File Explorer" windowIcon={windowIcon} windowBarOptions={windowBarOptions} />}
                 thispcToolbar={{ show:false, height:"0" }}
                 windowToolbar={{ show:true, height:"var(--windowToolbarHeight)" }}
                 windowSearchBar={{ show: true, height:"var(--windowSearchbarHeight)" }}
