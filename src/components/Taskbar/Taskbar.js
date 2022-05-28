@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import StartMenu from './StartMenu/StartMenu';
 import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
 import { Showtime, Showdate } from './utils/Showtime';
 import OutsideClickAlert from './utils/OutsideClickAlert';
+import { TaskbarContext } from '../ContextApi/Context';
 
 function Taskbar() {
 
     const [displayStartMenu, setDisplayStartMenu] = useState(false);
     const wrapperRef = useRef(null);
     OutsideClickAlert(wrapperRef, setDisplayStartMenu);
-    
+
+    const [TaskbarApps, setTaskBarApps] = useContext(TaskbarContext);
+
     function startMenu() {
         if (displayStartMenu) {
             setTimeout(() => { setDisplayStartMenu(false); }, 10);
@@ -40,18 +43,19 @@ function Taskbar() {
                     <Tooltip style={{ fontSize: "12.5px" }}>Task View</Tooltip>
                 </TaskbarButton>
                 <Breaker><div></div><span></span></Breaker>
-                <TaskbarButton>
-                    <img src="./Images/fileexplorer.png" alt="file_explorer" />
-                </TaskbarButton>
-                <TaskbarButton>
-                    <img src="./Images/mail.png" alt="mail" />
-                </TaskbarButton>
-                <TaskbarButton>
-                    <img src="./Images/chrome.png" alt="chrome" />
-                </TaskbarButton>
-                <TaskbarButton>
-                    <img src="./Images/vscode.png" alt="vscode" />
-                </TaskbarButton>
+                {
+                    TaskbarApps.map((app, i) => (
+                        <TaskbarButton key={i} 
+                            style={ 
+                                app[2] ? 
+                                ( app[4] ? {background:"var(--taskbarAppSelected)"} : {background:"var(--taskbarAppOpened)"})
+                                : null
+                            }>
+
+                            <img src={app[1]} alt="app" />
+                        </TaskbarButton>
+                    ))
+                }
             </LeftSection>
             <RightSection>
                 <UtilityIcons>

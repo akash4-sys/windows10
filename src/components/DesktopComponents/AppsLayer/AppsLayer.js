@@ -8,6 +8,8 @@ import { defaultMenu } from '../../Data/RightClickMenuData';
 import SelectionLayer from './SelectionLayer';
 import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
 import { AppWindowContext } from '../../ContextApi/Context';
+import Apps from '../../Data/AppData';
+import { TaskbarContext } from '../../ContextApi/Context';
 
 function AppsLayer() {
 
@@ -30,6 +32,7 @@ function AppsLayer() {
     OutsideClickAlert(appRef, inputRef, setWrapper);
 
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
+    const [TaskbarApps, setTaskBarApps] = useContext(TaskbarContext);
 
     useEffect(() => {
         setGridMap(updateGridMap);
@@ -113,15 +116,38 @@ function AppsLayer() {
         inputRef.current = e.currentTarget.querySelector('input');
     }
 
+    const TaskbarHelper = (e, name) => {
+        let existsInTaskbar = TaskbarApps.filter(app => app[0] === name);
+        let copyTaskBar = TaskbarApps;
+        if(existsInTaskbar.length !== 0){
+            copyTaskBar.forEach(app => {
+                app[4] = false;
+                if(app[0] === name){ 
+                    app[2] = true;
+                    app[4] = true;
+                    return;
+                }
+            })
+            setTaskBarApps(TaskbarApps => [...TaskbarApps], copyTaskBar);
+            return;
+        }
+
+        let appImage;
+        Apps.forEach(app => { if(app[1] === name){ appImage = app[0] } })
+        copyTaskBar.push([ name, appImage, true, false, true ]);
+        setTaskBarApps(TaskbarApps => [...TaskbarApps], [name, appImage, true, false]);
+    }
+
     const handleAppDoubleClick = (e) => {
         changeDisplay(e);
         if (e.target === inputRef.current) {
             setTimeout(() => { changeInputDisplay(inputRef); }, 100);
-        } 
+        }
         else {
             const name = inputRef.current.name;
-            setAppWindow( { ...AppWindow, [name] :{ show: true, count: AppWindow[name].count + 1} } );
+            setAppWindow({ ...AppWindow, [name]: { show: true, count: AppWindow[name].count + 1 } });
             setTimeout(() => { normalAppDisplay() }, 10);
+            TaskbarHelper(e, name);
         }
     }
 
@@ -132,8 +158,8 @@ function AppsLayer() {
 
     return (
         <Container id="grid"
-            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint )}
-            onMouseUp={(e) => handleMouseUp(e, setShowSelect,  setSize)}
+            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint)}
+            onMouseUp={(e) => handleMouseUp(e, setShowSelect, setSize)}
         >
             {
                 gridMap.map((box, boxIndex) => (

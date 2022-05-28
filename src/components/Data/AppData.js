@@ -30,7 +30,7 @@ const Apps = [
     ["Images/vscode.png", "Visual Studio Code"],
     ["", "M"],
     ["Images/mail.png", "Mail"],
-    ["Images/vscode.png", "Visual Studio Code"],
+    ["Images/myportfolio.png", "My Portfolio"],
     ["Images/vscode.png", "Visual Studio Code"],
     ["Images/vscode.png", "Visual Studio Code"],
     ["Images/vscode.png", "Visual Studio Code"],

@@ -4,6 +4,7 @@ export { nanoid } from 'nanoid';
 
 // app exports
 export { AppWindowContext } from './../ContextApi/Context';
+export { TaskbarContext } from './../ContextApi/Context';
 
 // WindowComponents exports
 export { default as ActionBar } from './WindowComponents/ActionBar';

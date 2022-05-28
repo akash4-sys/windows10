@@ -4,7 +4,7 @@ import {
     styled, keyframes, nanoid, AppWindowContext, ActionBar, 
     WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
     ThispcToolbar, handleWindowMousemove, QuickAccessBar, 
-    WindowFooter
+    WindowFooter, TaskbarContext
 
 } from './index.js';
 
@@ -15,6 +15,7 @@ function Window({
 }) {
 
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
+    const [TaskbarApps, setTaskBarApps] = useContext(TaskbarContext);
     const windowsRef = useRef();
     let numberOfWindow = AppWindow[windowsName].count;
 
@@ -37,7 +38,10 @@ function Window({
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
-                            onClick={(e) => handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName)} 
+                            onClick={(e) => handleWindowClick(
+                                e, windowsRef, positionArray, windowSizeArray, 
+                                setAppWindow, AppWindow, windowsName, TaskbarApps, setTaskBarApps
+                            )}
                             style={{ 
                                 zIndex:0,
                                 left: positionArray.current[i][0],

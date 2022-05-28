@@ -22,6 +22,8 @@
   --quickAccessWidth:13rem;
   --folderClick:#89bcf070;
   --footerWidth:1.5rem;
+  --taskbarAppSelected:linear-gradient(0deg, rgba(137,188,240,1) 10%, rgba(116,159,203,0.4265056364342612) 10%, rgba(0,0,0,0) 100%);
+  --taskbarAppOpened:linear-gradient(0deg, rgba(137,188,240,1) 10%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 100%);
 }
 
 body {

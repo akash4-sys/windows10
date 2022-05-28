@@ -1,30 +1,33 @@
-import React,{ forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const MyPortfolioNameBar = forwardRef((props, WindowRef) => {
+const NameBar = forwardRef(({ windowsName, showExpand, windowIcon }, WindowRef) => {
 
     let portfolioRef = useRef();
 
     useEffect(() => {
-        portfolioRef.current = WindowRef.current; 
-    },[])
-    
-    function fullScreen(){
+        portfolioRef.current = WindowRef.current;
+    }, [])
+
+    function fullScreen() {
         portfolioRef.current.requestFullscreen();
     }
 
     return (
         <Container>
-            <img src="Images/myportfolio.gif" alt="akash"/>
-            <div>My Portfolio</div>
-            <Expand onClick={fullScreen}>
-                <i className="fas fa-expand"></i>
-            </Expand>
+            <img src={windowIcon} alt={windowsName} />
+            <div>{windowsName}</div>
+            {
+                showExpand &&
+                <Expand onClick={fullScreen}>
+                    <i className="fas fa-expand"></i>
+                </Expand>
+            }
         </Container>
     )
 })
 
-export default MyPortfolioNameBar;
+export default NameBar;
 
 const Container = styled.div`
     height:100%;

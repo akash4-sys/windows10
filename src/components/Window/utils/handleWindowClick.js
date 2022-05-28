@@ -1,6 +1,21 @@
-import '../utils/WindowsAnimation.css'
+import '../utils/WindowsAnimation.css';
 
-export default function handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName) {
+function handleTaskBarAppClose(TaskbarApps, setTaskBarApps, windowsName){
+    let copyTaskBar = TaskbarApps;
+    let index;
+    copyTaskBar.forEach((app, i) => {
+        if(app[0] === windowsName){
+            app[3] ? app[2] = false : index = i;
+            return;
+        }
+    });
+
+    if(index){ copyTaskBar.splice(index, 1); }
+    setTaskBarApps(TaskbarApps => [...TaskbarApps], copyTaskBar);
+}
+
+export default function handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, 
+    AppWindow, windowsName,TaskbarApps, setTaskBarApps) {
 
     let window = e.currentTarget;
     windowsRef.current = e.currentTarget.id;
@@ -22,8 +37,9 @@ export default function handleWindowClick(e, windowsRef, positionArray, windowSi
         windowSizeArray.current.splice(i, 1);
         setAppWindow( { ...AppWindow, [windowsName] : { show: true, count: AppWindow[windowsName].count - 1 }  })
         if(!AppWindow[windowsName].count){
-            setAppWindow( { ...AppWindow, [windowsName] : { show: false }  })
+            setAppWindow( { ...AppWindow, [windowsName] : { show: false }  });
         }
+        handleTaskBarAppClose(TaskbarApps, setTaskBarApps, windowsName)
         root.style.setProperty('--topWindowIndex', 1);
     }
 
