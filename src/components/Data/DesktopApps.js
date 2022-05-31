@@ -8,6 +8,7 @@ const Grid =[
     ["Mail", "Images/mail.png"],
     ["Documents", "Images/docfolder.ico"],
     ["Chrome", "Images/chrome.png"],
+    ["Notepad", "Images/notepad.ico"],
 ];
 
 export { Grid };

@@ -19,7 +19,11 @@ function appClickHelper(setWrapper, setCntMenu, item, name) {
             break;
         case 'My Portfolio':
             folderIconMenu[0][5] = "My Portfolio";
-            folderIconMenu[folderIconMenu.length-1][5] = "My Portfolio";
+            folderIconMenu[folderIconMenu.length-1][5] = "MyPortfolioProp";
+            break;
+        case 'Notepad':
+            folderIconMenu[0][5] = "Notepad";
+            folderIconMenu[folderIconMenu.length-1][5] = "NotepadProp";
             break;
         default:
             folderIconMenu[0][5] = "";

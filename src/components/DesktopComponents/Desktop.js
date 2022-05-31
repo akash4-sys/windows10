@@ -7,6 +7,7 @@ import ThisPCWindow from '../Window/ThisPCWindow/ThisPCWindow';
 import ChromeWindow from '../Window/ChromeWindow/ChromeWindow';
 import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow';
 import MyPortfolio from '../Window/MyPortfolioWindow/MyPortfolio';
+import Notepad from '../Window/NotepadWindow/Notepad';
 
 function Desktop() {
 
@@ -27,6 +28,7 @@ function Desktop() {
         "File Explorer": { show:false, count:0 },
         "FileExplorerProperties":{ show:false, count:0 },
         "My Portfolio":{ show:false, count:0 },
+        "Notepad":{ show:false, count:0 },
     })
 
     return (
@@ -42,6 +44,7 @@ function Desktop() {
                     <ChromeWindow />
                     <FileExplorerWindow />
                     <MyPortfolio />
+                    <Notepad />
 
                 </AppWindowContext.Provider>
             </BackGroundImageContainer>
