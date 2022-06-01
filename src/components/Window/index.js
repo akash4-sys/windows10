@@ -4,7 +4,7 @@ export { nanoid } from 'nanoid';
 
 // app exports
 export { AppWindowContext } from './../ContextApi/Context';
-export { TaskbarContext } from './../ContextApi/Context';
+export { removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
 
 // WindowComponents exports
 export { default as ActionBar } from './WindowComponents/ActionBar';
@@ -19,19 +19,3 @@ export { handleWindowResizing, handleWindowMousemove } from './utils/handleWindo
 
 // window export
 export { default as ThispcToolbar } from './ThisPCWindow/components/ThispcToolbar';
-
-
-
-
-
-// import styled, { keyframes } from 'styled-components';
-// import { nanoid } from 'nanoid';
-// import { AppWindowContext } from './../ContextApi/Context';
-// import ActionBar from './WindowComponents/ActionBar';
-// import WindowSearchBar from './WindowComponents/WindowSearchBar';
-// import handleWindowClick from './utils/handleWindowClick';
-// import { handleWindowResizing, handleWindowMousemove } from './utils/handleWindowResizing';
-// import WindowToolBar from './WindowComponents/Toolbars/WindowToolBar';
-// import WindowNameBar from './WindowComponents/WindowNameBar';
-// import ThispcToolbar from './ThisPCWindow/components/ThispcToolbar';
-// import QuickAccessBar from './WindowComponents/QuickAccessBar';

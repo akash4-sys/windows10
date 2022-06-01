@@ -14,8 +14,8 @@ function handleTaskBarAppClose(TaskbarApps, setTaskBarApps, windowsName){
     setTaskBarApps(TaskbarApps => [...TaskbarApps], copyTaskBar);
 }
 
-export default function handleWindowClick(e, windowsRef, positionArray, windowSizeArray, setAppWindow, 
-    AppWindow, windowsName,TaskbarApps, setTaskBarApps) {
+export default function handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName,
+    removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp }) {
 
     let window = e.currentTarget;
     windowsRef.current = e.currentTarget.id;
@@ -23,6 +23,7 @@ export default function handleWindowClick(e, windowsRef, positionArray, windowSi
     var r = getComputedStyle(root);
     var topWindowIndex = parseInt(r.getPropertyValue("--topWindowIndex"));
     let zindex = parseInt(e.currentTarget.style.zIndex);
+    dispatch(focusTaskbarApp(windowsName));
 
     if(zindex < topWindowIndex){
         e.currentTarget.style.zIndex = topWindowIndex;
@@ -39,7 +40,7 @@ export default function handleWindowClick(e, windowsRef, positionArray, windowSi
         if(!AppWindow[windowsName].count){
             setAppWindow( { ...AppWindow, [windowsName] : { show: false }  });
         }
-        handleTaskBarAppClose(TaskbarApps, setTaskBarApps, windowsName)
+        dispatch(removeAppfromTaskbar(windowsName))
         root.style.setProperty('--topWindowIndex', 1);
     }
 
@@ -48,6 +49,7 @@ export default function handleWindowClick(e, windowsRef, positionArray, windowSi
         setTimeout(() => {
             window.style.top = "100vh";
         }, 130);
+        dispatch(minimizedTaskbarApp(windowsName));
     }
 
     let maximize = window.querySelector(".maximize");

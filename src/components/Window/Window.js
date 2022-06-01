@@ -1,10 +1,11 @@
 import React, { useContext, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import {
 
     styled, keyframes, nanoid, AppWindowContext, ActionBar, 
     WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
-    ThispcToolbar, handleWindowMousemove, QuickAccessBar, 
-    WindowFooter, TaskbarContext
+    ThispcToolbar, handleWindowMousemove, QuickAccessBar, WindowFooter,
+    removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp
 
 } from './index.js';
 
@@ -14,8 +15,9 @@ function Window({
     windowSearchBar, MainContent, quickAccessConfig , footerConfig
 }) {
 
+    const dispatch = useDispatch()
+
     const [AppWindow, setAppWindow] = useContext(AppWindowContext);
-    const [TaskbarApps, setTaskBarApps] = useContext(TaskbarContext);
     const windowsRef = useRef();
     let numberOfWindow = AppWindow[windowsName].count;
 
@@ -38,10 +40,10 @@ function Window({
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
-                            onClick={(e) => handleWindowClick(
-                                e, windowsRef, positionArray, windowSizeArray, 
-                                setAppWindow, AppWindow, windowsName, TaskbarApps, setTaskBarApps
-                            )}
+                            onClick={(e) => handleWindowClick({
+                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName,
+                                removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp
+                            })}
                             style={{ 
                                 zIndex:0,
                                 left: positionArray.current[i][0],
@@ -98,7 +100,7 @@ const Container = styled.div`
     position: absolute;
     background-color:white;
     transform: scale(1);
-    animation:${AppearAnimation} 30ms ease-in;
+    animation:${AppearAnimation} 5ms ease-in;
     color:black;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     overflow:auto;

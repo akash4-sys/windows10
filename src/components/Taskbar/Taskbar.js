@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import StartMenu from './StartMenu/StartMenu';
 import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
 import { Showtime, Showdate } from './utils/Showtime';
 import OutsideClickAlert from './utils/OutsideClickAlert';
-import { TaskbarContext } from '../ContextApi/Context';
+import { maximizeTaskBarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
 
 function Taskbar() {
 
+    const dispatch = useDispatch();
     const [displayStartMenu, setDisplayStartMenu] = useState(false);
     const wrapperRef = useRef(null);
     OutsideClickAlert(wrapperRef, setDisplayStartMenu);
 
-    const [TaskbarApps, setTaskBarApps] = useContext(TaskbarContext);
+    const TaskbarApps = useSelector((state) => state.taskbar.taskbarApps)
 
     function startMenu() {
         if (displayStartMenu) {
@@ -45,14 +47,18 @@ function Taskbar() {
                 <Breaker><div></div><span></span></Breaker>
                 {
                     TaskbarApps.map((app, i) => (
-                        <TaskbarButton key={i} 
+                        <TaskbarButton key={i}
+                            onClick={() => dispatch(maximizeTaskBarApp(app.name))}
                             style={ 
-                                app[2] ? 
-                                ( app[4] ? {background:"var(--taskbarAppSelected)"} : {background:"var(--taskbarAppOpened)"})
+                                app.open ? 
+                                (   app.selected ?
+                                    ( app.windowCount > 1 ) ? {background:"var(--multitaskbarAppSelected)"} : {background:"var(--taskbarAppSelected)"}
+                                    : {background:"var(--taskbarAppOpened)"}
+                                )
                                 : null
                             }>
 
-                            <img src={app[1]} alt="app" />
+                            <img src={app.image} alt="app" />
                         </TaskbarButton>
                     ))
                 }
