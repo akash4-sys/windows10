@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Grid } from '../../Data/DesktopApps';
@@ -8,8 +8,8 @@ import { appClickHelper } from './utils/AppClickHelper';
 import { defaultMenu } from '../../Data/RightClickMenuData';
 import SelectionLayer from './SelectionLayer';
 import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
-import { AppWindowContext } from '../../ContextApi/Context';
 import { addAppsInTaskbar } from '../../../Features/TaskbarSlice/TaskbarSlice';
+import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
 
 function AppsLayer() {
 
@@ -32,8 +32,6 @@ function AppsLayer() {
 
     const appRef = useRef(null);
     OutsideClickAlert(appRef, inputRef, setWrapper);
-
-    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
 
     useEffect(() => {
         setGridMap(updateGridMap);
@@ -124,7 +122,7 @@ function AppsLayer() {
         }
         else {
             const name = inputRef.current.name;
-            setAppWindow({ ...AppWindow, [name]: { show: true, count: AppWindow[name].count + 1 } });
+            dispatch(setAppWindow({ windowName: name, windowCount: 1 }));
             setTimeout(() => { normalAppDisplay() }, 10);
             dispatch(addAppsInTaskbar(name));
         }

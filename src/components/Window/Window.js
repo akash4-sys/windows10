@@ -1,25 +1,22 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
 
-    styled, keyframes, nanoid, AppWindowContext, ActionBar, 
-    WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
-    ThispcToolbar, handleWindowMousemove, QuickAccessBar, WindowFooter,
-    removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp
+    styled, keyframes, nanoid, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, ThispcToolbar,
+    handleWindowMousemove, QuickAccessBar, WindowFooter,removeAppfromTaskbar, 
+    focusTaskbarApp, minimizedTaskbarApp, setAppWindow, minimizeAppWindowDirect
 
 } from './index.js';
 
  
 function Window({ 
     windowsName, windowIcon, windowNameBar, showFaqBar, windowToolbar, thispcToolbar, 
-    windowSearchBar, MainContent, quickAccessConfig , footerConfig
+    windowSearchBar, MainContent, quickAccessConfig , footerConfig, AppWindow
 }) {
 
     const dispatch = useDispatch()
-
-    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
     const windowsRef = useRef();
-    let numberOfWindow = AppWindow[windowsName].count;
+    let numberOfWindow = AppWindow.count;
 
     //left, top
     const positionArray = useRef([ ["200px", "100px"] ]);
@@ -34,15 +31,15 @@ function Window({
         return id;
     }
 
-    if (AppWindow[windowsName].show) {
+    if (AppWindow.show) {
         return (
             <>
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
                             onClick={(e) => handleWindowClick({
-                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, AppWindow, windowsName,
-                                removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp
+                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName,
+                                removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect
                             })}
                             style={{ 
                                 zIndex:0,
@@ -53,10 +50,12 @@ function Window({
                             }}
                             onMouseDown={(e) => handleWindowResizing(e, windowSizeArray)}
                             onMouseMove={handleWindowMousemove}
+                            className={ AppWindow.minimized[i] ? "minimizeAnimation" : null }
                         >
 
                             <ActionBarContainer>
                                 { windowNameBar }
+                                {i}
                                 <ActionBar ref={refContainer} showFaqBar={showFaqBar} />
                             </ActionBarContainer>
 
@@ -106,6 +105,8 @@ const Container = styled.div`
     overflow:auto;
     max-height: calc(100vh - 2.5rem);
     font-size:var(--windowsFontSize);
+    height:calc(70% - 2.5rem);
+    width:70%;
 `
 
 const ActionBarContainer = styled.div`

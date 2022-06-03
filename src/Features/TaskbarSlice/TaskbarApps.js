@@ -1,3 +1,5 @@
+import TaskbarImageData from '../../components/Data/WindowTaskbarImage';
+
 const TaskbarApps = [
     {
         name:"File Explorer",
@@ -5,7 +7,8 @@ const TaskbarApps = [
         default:true,
         open:false,
         selected:false, 
-        windowCount:0
+        windowCount:0,
+        alternateNames:TaskbarImageData["Images/fileexplorer.png"]
     },
     {
         name:"Mail",
@@ -13,7 +16,8 @@ const TaskbarApps = [
         default:true,
         open:false,
         selected:false,
-        windowCount:0
+        windowCount:0,
+        alternateNames:false
     },
     {
         name:"Chrome",
@@ -21,7 +25,8 @@ const TaskbarApps = [
         default:true,
         open:false,
         selected:false,
-        windowCount:0
+        windowCount:0,
+        alternateNames:false
     },
     {
         name:"vscode",
@@ -29,7 +34,8 @@ const TaskbarApps = [
         default:true,
         open:false,
         selected:false,
-        windowCount:0
+        windowCount:0,
+        alternateNames:false
     },
 ];
 

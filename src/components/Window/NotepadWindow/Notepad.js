@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Window from '../Window';
 import Namebar from './Namebar';
 import MainContent from './MainContent';
-import { AppWindowContext } from '../../ContextApi/Context';
 
 function Notepad() {
 
-    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
+    const Notepad = useSelector((state) => state.appwindow.Notepad);
+
     const mainContentRefs = useRef([]);
     const nameBarRefs = useRef([]);
     const autoSave = useRef([]);
@@ -15,7 +16,7 @@ function Notepad() {
 
     let windowIcon = "Images/notepad.ico";
     let windowsName = "Notepad";
-    let numberOfWindow = AppWindow[windowsName].count;
+    let numberOfWindow = Notepad.count;
 
     useEffect(() => {
         mainContentRefs.current = mainContentRefs.current.slice(numberOfWindow-1, mainContentRefs.current.length);
@@ -26,6 +27,7 @@ function Notepad() {
 
     return (
         <Window
+            AppWindow={Notepad}
             windowsName={windowsName}
             windowIcon={windowIcon}
             showFaqBar={false}

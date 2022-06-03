@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Window from '../Window';
 import WindowNameBar from '../WindowComponents/WindowNameBar';
 import MainContent from './components/MainContent';
 
 function ThisPCWindow() {
+
+    const ThisPC = useSelector((state) => state.appwindow.ThisPC);
 
     let windowBarOptions = ["Computer", "View"];
     let windowIcon="Images/thispc.ico";
@@ -11,6 +14,7 @@ function ThisPCWindow() {
     return (
         <>
             <Window 
+                AppWindow={ThisPC}
                 windowsName={"This PC"}
                 windowIcon={windowIcon}
                 showFaqBar={true}

@@ -1,9 +1,12 @@
 import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Window from '../Window';
 import NameBar from '../WindowComponents/ITagContent/NameBar';
 import MainContent from '../WindowComponents/ITagContent/MainContent';
 
 function MyPortfolio() {
+
+    const MyPortfolio = useSelector((state) => state.appwindow.MyPortfolio);
 
     const WindowRef = useRef();
     let windowIcon = "Images/myportfolio.png";
@@ -12,6 +15,7 @@ function MyPortfolio() {
 
     return (
         <Window
+            AppWindow={MyPortfolio}
             windowsName={windowsName}
             windowIcon={windowIcon}
             showFaqBar={false}

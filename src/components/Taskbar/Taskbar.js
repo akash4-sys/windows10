@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import StartMenu from './StartMenu/StartMenu';
@@ -6,7 +6,8 @@ import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
 import { Showtime, Showdate } from './utils/Showtime';
 import OutsideClickAlert from './utils/OutsideClickAlert';
-import { maximizeTaskBarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
+import { addAppsInTaskbar, clickTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
+import { setAppWindow, minimizeAppWindow } from '../../Features/AppWindowSlice/AppWindowSlice';
 
 function Taskbar() {
 
@@ -15,7 +16,7 @@ function Taskbar() {
     const wrapperRef = useRef(null);
     OutsideClickAlert(wrapperRef, setDisplayStartMenu);
 
-    const TaskbarApps = useSelector((state) => state.taskbar.taskbarApps)
+    const TaskbarApps = useSelector((state) => state.taskbar.taskbarApps);
 
     function startMenu() {
         if (displayStartMenu) {
@@ -30,6 +31,16 @@ function Taskbar() {
         Showdate();
         Battery();
     }, []);
+
+    function TaskbarButtonClick(windowName, windowCount) {
+        if(!windowCount){
+            dispatch(setAppWindow({ windowName, windowCount:1 }));
+            dispatch(addAppsInTaskbar(windowName));
+            return;
+        }
+        dispatch(minimizeAppWindow({windowName, TaskbarApps}));
+        dispatch(clickTaskbarApp(windowName));
+    }
 
     return (
         <Container ref={wrapperRef} id="taskbar">
@@ -48,7 +59,7 @@ function Taskbar() {
                 {
                     TaskbarApps.map((app, i) => (
                         <TaskbarButton key={i}
-                            onClick={() => dispatch(maximizeTaskBarApp(app.name))}
+                            onClick={() => TaskbarButtonClick(app.name, app.windowCount)}
                             style={ 
                                 app.open ? 
                                 (   app.selected ?
@@ -56,8 +67,8 @@ function Taskbar() {
                                     : {background:"var(--taskbarAppOpened)"}
                                 )
                                 : null
-                            }>
-
+                            }
+                        >
                             <img src={app.image} alt="app" />
                         </TaskbarButton>
                     ))
@@ -108,7 +119,7 @@ const Container = styled.div`
     background-color: var(--primary-color);
     display:flex;
     justify-content: space-between;
-    z-index:1000;
+    z-index:10000;
 `
 
 const LeftSection = styled.div`

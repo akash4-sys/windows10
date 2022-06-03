@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import { defaultMenu } from '../../../Data/RightClickMenuData';
-import { AppWindowContext } from '../../../ContextApi/Context';
+import { setAppWindow } from '../../../../Features/AppWindowSlice/AppWindowSlice';
+import { addAppsInTaskbar } from '../../../../Features/TaskbarSlice/TaskbarSlice';
+
 
 function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
 
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
     const [show, setShow] = useState(false);
 
-    const [AppWindow, setAppWindow] = useContext(AppWindowContext);
+    const dispatch = useDispatch();
 
     const handleContextMenu = useCallback((e) => {
         e.preventDefault();
@@ -33,10 +36,12 @@ function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
     });
 
     function OptionClick(name){
-        ( name && typeof name === "string") ?
-            setAppWindow({ ...AppWindow, [name]: { show: true, count: AppWindow[name].count + 1 }  })
-        :
-        name();
+        if( name && typeof name === "string"){
+            dispatch(setAppWindow({ windowName: name, windowCount : 1 }));
+            dispatch(addAppsInTaskbar(name));
+        } else {
+            name();
+        }
     }
 
     if (show) {

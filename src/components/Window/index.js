@@ -3,8 +3,8 @@ export { default as styled, keyframes} from 'styled-components';
 export { nanoid } from 'nanoid';
 
 // app exports
-export { AppWindowContext } from './../ContextApi/Context';
 export { removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
+export { setAppWindow, minimizeAppWindowDirect } from '../../Features/AppWindowSlice/AppWindowSlice';
 
 // WindowComponents exports
 export { default as ActionBar } from './WindowComponents/ActionBar';
