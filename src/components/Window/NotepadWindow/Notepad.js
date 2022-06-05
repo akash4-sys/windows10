@@ -14,8 +14,6 @@ function Notepad() {
     const iterator = useRef(0);
     const refsArray = useRef({ nameBarRefs, mainContentRefs, autoSave, iterator });
 
-    let windowIcon = "Images/notepad.ico";
-    let windowsName = "Notepad";
     let numberOfWindow = Notepad.count;
 
     useEffect(() => {
@@ -28,10 +26,8 @@ function Notepad() {
     return (
         <Window
             AppWindow={Notepad}
-            windowsName={windowsName}
-            windowIcon={windowIcon}
             showFaqBar={false}
-            windowNameBar={<Namebar windowsName={windowsName} windowIcon={windowIcon} ref={refsArray} />}
+            windowNameBar={<Namebar windowsName={Notepad.name} windowIcon={Notepad.image} ref={refsArray} />}
             thispcToolbar={{ show: false, height: "0px" }}
             windowToolbar={{ show: false, height: "-0.4rem" }}
             windowSearchBar={{ show: false, height: "0px" }}

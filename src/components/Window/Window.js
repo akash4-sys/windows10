@@ -1,22 +1,20 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import {
 
-    styled, keyframes, nanoid, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, ThispcToolbar,
-    handleWindowMousemove, QuickAccessBar, WindowFooter,removeAppfromTaskbar, 
+    useDispatch, styled, keyframes, nanoid, html2canvas, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, 
+    WindowToolBar, ThispcToolbar,handleWindowMousemove, QuickAccessBar, WindowFooter,removeAppfromTaskbar, 
     focusTaskbarApp, minimizedTaskbarApp, setAppWindow, minimizeAppWindowDirect
 
 } from './index.js';
 
  
-function Window({ 
-    windowsName, windowIcon, windowNameBar, showFaqBar, windowToolbar, thispcToolbar, 
-    windowSearchBar, MainContent, quickAccessConfig , footerConfig, AppWindow
-}) {
+function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, windowSearchBar, MainContent, quickAccessConfig , footerConfig, AppWindow}){
 
     const dispatch = useDispatch()
     const windowsRef = useRef();
     let numberOfWindow = AppWindow.count;
+    let windowIcon = AppWindow.image;
+    let windowsName = AppWindow.name;
 
     //left, top
     const positionArray = useRef([ ["200px", "100px"] ]);
@@ -38,7 +36,7 @@ function Window({
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
                             onClick={(e) => handleWindowClick({
-                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName,
+                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName, html2canvas,
                                 removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect
                             })}
                             style={{ 
@@ -55,7 +53,6 @@ function Window({
 
                             <ActionBarContainer>
                                 { windowNameBar }
-                                {i}
                                 <ActionBar ref={refContainer} showFaqBar={showFaqBar} />
                             </ActionBarContainer>
 

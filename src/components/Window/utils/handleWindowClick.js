@@ -1,7 +1,7 @@
 import '../utils/WindowsAnimation.css';
 
 export default function handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName,
-    removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect }) {
+    removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect, html2canvas }) {
 
     let window = e.currentTarget;
     windowsRef.current = e.currentTarget.id;
@@ -9,10 +9,10 @@ export default function handleWindowClick({ e, windowsRef, positionArray, window
     var r = getComputedStyle(root);
     var topWindowIndex = parseInt(r.getPropertyValue("--topWindowIndex"));
     let zindex = parseInt(e.currentTarget.style.zIndex);
-    
-    if(zindex < topWindowIndex){
+
+    if (zindex < topWindowIndex) {
         e.currentTarget.style.zIndex = topWindowIndex;
-        root.style.setProperty('--topWindowIndex', topWindowIndex+1);
+        root.style.setProperty('--topWindowIndex', topWindowIndex + 1);
     }
     else {
         root.style.setProperty('--topWindowIndex', zindex);
@@ -21,33 +21,41 @@ export default function handleWindowClick({ e, windowsRef, positionArray, window
     dispatch(focusTaskbarApp(windowsName));
 
     let i = parseInt(e.currentTarget.id.slice(-1));
-    if(window.querySelector(".closeButton").contains(e.target)){
+    if (window.querySelector(".closeButton").contains(e.target)) {
         positionArray.current.splice(i, 1);
         windowSizeArray.current.splice(i, 1);
-        dispatch(setAppWindow({ windowName: windowsName, windowCount: -1, windowIndex:i }));
+        dispatch(setAppWindow({ windowName: windowsName, windowCount: -1, windowIndex: i }));
         dispatch(removeAppfromTaskbar(windowsName))
         root.style.setProperty('--topWindowIndex', 1);
     }
 
-    if(window.querySelector(".minimize").contains(e.target)){
-        dispatch(minimizeAppWindowDirect({windowsName, windowIndex:i }));
-        dispatch(minimizedTaskbarApp(windowsName));
+    if (window.querySelector(".minimize").contains(e.target)) {
+
+        // let Snapshot = null;
+        // const takeSnapshot = async () => {
+        //     const canvas = await html2canvas(window, { logging: false });
+        //     Snapshot = canvas.toDataURL("image/png", 0.5);
+            dispatch(minimizedTaskbarApp({ windowsName }));
+        // };
+        // takeSnapshot();
+
+        dispatch(minimizeAppWindowDirect({ windowsName, windowIndex: i }));
     }
 
     let maximize = window.querySelector(".maximize");
-    if(maximize.contains(e.target)){
+    if (maximize.contains(e.target)) {
         window.classList.remove('minimizeAnimation');
-        
-        if(window.style.height === "100vh" && window.style.width === "100vw"){
-            maximize.querySelector("img").src= "Images/maximize.png";
+
+        if (window.style.height === "100vh" && window.style.width === "100vw") {
+            maximize.querySelector("img").src = "Images/maximize.png";
             window.style.width = "70vw";
             window.style.height = "70vh";
             window.style.left = "200px";
             window.style.top = "100px";
-            return;  
+            return;
         }
-        
-        maximize.querySelector("img").src= "Images/restore.png";  
+
+        maximize.querySelector("img").src = "Images/restore.png";
         window.style.width = "100vw";
         window.style.height = "100vh";
         window.style.left = "0px";

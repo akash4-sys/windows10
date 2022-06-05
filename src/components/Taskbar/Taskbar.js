@@ -6,8 +6,9 @@ import SearchBar from './utils/SearchBarStyle';
 import Battery from './utils/Battery';
 import { Showtime, Showdate } from './utils/Showtime';
 import OutsideClickAlert from './utils/OutsideClickAlert';
-import { addAppsInTaskbar, clickTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
+import { addAppsInTaskbar, clickTaskbarApp, setShowHoverWindow } from '../../Features/TaskbarSlice/TaskbarSlice';
 import { setAppWindow, minimizeAppWindow } from '../../Features/AppWindowSlice/AppWindowSlice';
+import HoverWindow from './TaskbarComponents/HoverWindow';
 
 function Taskbar() {
 
@@ -33,12 +34,12 @@ function Taskbar() {
     }, []);
 
     function TaskbarButtonClick(windowName, windowCount) {
-        if(!windowCount){
-            dispatch(setAppWindow({ windowName, windowCount:1 }));
+        if (!windowCount) {
+            dispatch(setAppWindow({ windowName, windowCount: 1 }));
             dispatch(addAppsInTaskbar(windowName));
             return;
         }
-        dispatch(minimizeAppWindow({windowName, TaskbarApps}));
+        dispatch(minimizeAppWindow({ windowName, TaskbarApps }));
         dispatch(clickTaskbarApp(windowName));
     }
 
@@ -60,15 +61,20 @@ function Taskbar() {
                     TaskbarApps.map((app, i) => (
                         <TaskbarButton key={i}
                             onClick={() => TaskbarButtonClick(app.name, app.windowCount)}
-                            style={ 
-                                app.open ? 
-                                (   app.selected ?
-                                    ( app.windowCount > 1 ) ? {background:"var(--multitaskbarAppSelected)"} : {background:"var(--taskbarAppSelected)"}
-                                    : {background:"var(--taskbarAppOpened)"}
+                            style={
+                                app.open ?
+                                (app.selected ?
+                                    (app.windowCount > 1) ? { background: "var(--multitaskbarAppSelected)" } : { background: "var(--taskbarAppSelected)" }
+                                    : { background: "var(--taskbarAppOpened)" }
                                 )
                                 : null
                             }
+                            onMouseEnter={() => { if(app.open) dispatch(setShowHoverWindow(i)) }}
+                            onMouseLeave={() => { if(app.open) setTimeout(() => { dispatch(setShowHoverWindow(i)) }, 500) }}
                         >
+                            <HoverWindow showHoverWindow={app.windowSnapshots.hovering}
+                                SnapshotArray={app.windowSnapshots.array} windowImg={app.image} windowName={app.name} />
+
                             <img src={app.image} alt="app" />
                         </TaskbarButton>
                     ))

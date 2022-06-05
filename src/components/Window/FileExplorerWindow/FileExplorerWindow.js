@@ -7,16 +7,13 @@ function FileExplorerWindow() {
 
     const FileExplorer = useSelector((state) => state.appwindow.FileExplorer);
     let windowBarOptions = ["Home", "Share", "View"];
-    let windowIcon="Images/fileexplorer.png";
 
     return (
         <>
             <Window
                 AppWindow={FileExplorer}
-                windowsName={"File Explorer"}
-                windowIcon={windowIcon}
                 showFaqBar={true}
-                windowNameBar={ <WindowNameBar windowsName="File Explorer" windowIcon={windowIcon} windowBarOptions={windowBarOptions} />}
+                windowNameBar={ <WindowNameBar windowsName="File Explorer" windowIcon={FileExplorer.image} windowBarOptions={windowBarOptions} />}
                 thispcToolbar={{ show:false, height:"0" }}
                 windowToolbar={{ show:true, height:"var(--windowToolbarHeight)" }}
                 windowSearchBar={{ show: true, height:"var(--windowSearchbarHeight)" }}

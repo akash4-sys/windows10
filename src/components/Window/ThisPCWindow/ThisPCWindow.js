@@ -7,18 +7,14 @@ import MainContent from './components/MainContent';
 function ThisPCWindow() {
 
     const ThisPC = useSelector((state) => state.appwindow.ThisPC);
-
     let windowBarOptions = ["Computer", "View"];
-    let windowIcon="Images/thispc.ico";
 
     return (
         <>
             <Window 
                 AppWindow={ThisPC}
-                windowsName={"This PC"}
-                windowIcon={windowIcon}
                 showFaqBar={true}
-                windowNameBar={ <WindowNameBar windowsName="This PC" windowIcon={windowIcon} windowBarOptions={windowBarOptions} />}
+                windowNameBar={ <WindowNameBar windowsName={ThisPC.name} windowIcon={ThisPC.image} windowBarOptions={windowBarOptions} />}
                 thispcToolbar={{ show:true, height:"var(--windowToolbarHeight)" }}
                 windowToolbar={{ show:false, height:"var(--windowToolbarHeight)" }}
                 windowSearchBar={{ show: true, height:"var(--windowSearchbarHeight)" }}

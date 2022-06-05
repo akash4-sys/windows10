@@ -1,10 +1,12 @@
 // module exports
-export { default as styled, keyframes} from 'styled-components';
+export { useDispatch } from 'react-redux';
+export { default as styled, keyframes } from 'styled-components';
 export { nanoid } from 'nanoid';
+export { default as html2canvas } from 'html2canvas';
 
 // app exports
-export { removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
 export { setAppWindow, minimizeAppWindowDirect } from '../../Features/AppWindowSlice/AppWindowSlice';
+export { removeAppfromTaskbar, focusTaskbarApp, minimizedTaskbarApp } from '../../Features/TaskbarSlice/TaskbarSlice';
 
 // WindowComponents exports
 export { default as ActionBar } from './WindowComponents/ActionBar';

@@ -8,17 +8,13 @@ function ChromeWindow() {
 
     const Chrome = useSelector((state) => state.appwindow.Chrome);
     let EmptyRef = useRef();
-    let windowIcon = "Images/chrome.png";
     let SRC = "https://www.google.com/webhp?igu=1";
-    let windowsName = "Chrome";
 
     return (
         <Window
             AppWindow={Chrome}
-            windowsName={windowsName}
-            windowIcon={windowIcon}
             showFaqBar={false}
-            windowNameBar={<NameBar windowsName={windowsName} showExpand={false} ref={EmptyRef} windowIcon={windowIcon}/>}
+            windowNameBar={<NameBar windowsName={Chrome.name} showExpand={false} ref={EmptyRef} windowIcon={Chrome.image}/>}
             thispcToolbar={{ show: false, height: "0px" }}
             windowToolbar={{ show: false, height: "-0.4rem" }}
             windowSearchBar={{ show: false, height: "0px" }}

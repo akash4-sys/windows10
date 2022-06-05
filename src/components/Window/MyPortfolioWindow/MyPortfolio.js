@@ -9,17 +9,13 @@ function MyPortfolio() {
     const MyPortfolio = useSelector((state) => state.appwindow.MyPortfolio);
 
     const WindowRef = useRef();
-    let windowIcon = "Images/myportfolio.png";
     let SRC = "https://akash4.netlify.app/";
-    let windowsName = "My Portfolio";
 
     return (
         <Window
             AppWindow={MyPortfolio}
-            windowsName={windowsName}
-            windowIcon={windowIcon}
             showFaqBar={false}
-            windowNameBar={ <NameBar windowsName={windowsName} showExpand={true} ref={WindowRef} windowIcon={windowIcon}/>}
+            windowNameBar={ <NameBar windowsName={MyPortfolio.name} showExpand={true} ref={WindowRef} windowIcon={MyPortfolio.image}/> }
             thispcToolbar={{ show: false, height: "0px" }}
             windowToolbar={{ show: false, height: "-0.4rem" }}
             windowSearchBar={{ show: false, height: "0px" }}
