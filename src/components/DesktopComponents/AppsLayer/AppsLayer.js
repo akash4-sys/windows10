@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Grid } from '../../Data/DesktopApps';
 import OutsideClickAlert from './utils/OutsideClickHandler';
 import RightClickMenu from './utils/RightClickMenu';
 import { appClickHelper } from './utils/AppClickHelper';
 import { defaultMenu } from '../../Data/RightClickMenuData';
 import SelectionLayer from './SelectionLayer';
 import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
-import { addAppsInTaskbar } from '../../../Features/TaskbarSlice/TaskbarSlice';
+import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
 import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
 
 function AppsLayer() {
 
     const dispatch = useDispatch();
+    const Grid = useSelector((state) => state.appwindow)
 
     const [gridMap, setGridMap] = useState([0, 0]);
     const [updateGridMap, setUpdateGridMap] = useState([0, 0]);
@@ -42,9 +42,7 @@ function AppsLayer() {
         let rows = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
         let columns = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
         let arr = new Array(rows * columns).fill([0, 0]);
-        Grid.map((a, i) => (
-            arr[i] = a
-        ))
+        Object.keys(Grid).map((key, i) => arr[i] = [ Grid[key].name, Grid[key].image ] )
         setGridMap(arr);
         setWrapper(document.getElementById('grid'));
     }, []);
@@ -124,7 +122,7 @@ function AppsLayer() {
             const name = inputRef.current.name;
             dispatch(setAppWindow({ windowName: name, windowCount: 1 }));
             setTimeout(() => { normalAppDisplay() }, 10);
-            dispatch(addAppsInTaskbar(name));
+            dispatch(setWindowSnapshots(name));
         }
     }
 
@@ -139,7 +137,7 @@ function AppsLayer() {
             onMouseUp={(e) => handleMouseUp(e, setShowSelect, setSize)}
         >
             {
-                gridMap.map((box, boxIndex) => (
+                 gridMap.map((box, boxIndex) => (
                     <App key={boxIndex}
                         onDragEnter={(e) => { handleDragEnter(e, boxIndex) }}
                     >

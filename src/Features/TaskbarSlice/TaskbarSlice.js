@@ -1,131 +1,83 @@
 import { createSlice } from '@reduxjs/toolkit';
 import TaskbarApps from './TaskbarApps';
-import TaskbarImageData from '../../components/Data/WindowTaskbarImage';
+import appData from '../AppWindowSlice/AppWindowData';
 
 const initialState = {
     taskbarApps: TaskbarApps
 };
 
-// TODO: USE TASKBARIMAGEDATA TO SAVE SCREENSHOT OF EACH WINDOW AND USE IT FOR IN ADDAPPSINTASKBAR
-
-function findInTaskbarImgData(appName) {
-    for (let image in TaskbarImageData) {
-        for (let i = 0; i < TaskbarImageData[image].length; i++) {
-            if (TaskbarImageData[image][i] === appName) {
-                return image;
-            }
-        }
-    }
-}
-
 export const TaskbarSlice = createSlice({
     name: "taskbar",
     initialState,
     reducers: {
-
-        addAppsInTaskbar: (state, action) => {
-
-            let appImage = findInTaskbarImgData(action.payload);
-            let TaskBarApp = state.taskbarApps;
-            let isDefaultApp = false;
-
-            TaskBarApp.forEach(app => {
-                app.selected = false;
-                if (app.image === appImage) {
-                    isDefaultApp = true;
-                    app.open = true;
-                    app.selected = true;
-                    app.windowCount += 1;
-                    app.windowSnapshots.array.push([action.payload,"Images/sample.png"]);
-                    return;
-                }
-            });
-
-            if (isDefaultApp) {
-                state.taskbarApps = [...state.taskbarApps];
+        setWindowSnapshots: (state, action) => {
+            for (let name in state.taskbarApps) { state.taskbarApps[name].selected = false; }
+            let key = Object.keys(appData).find(key => appData[key].name === action.payload);
+            if (appData[key].taskbar.subWindow) {
+                state.taskbarApps[appData[key].taskbar.mainWindowName].selected = true;
+                state.taskbarApps[appData[key].taskbar.mainWindowName].windowSnapshots.push([action.payload, appData[key].taskbar.defaultSnap]);
                 return;
             }
-
-            TaskBarApp.push({name: action.payload, image: appImage, default: false, open: true, selected: true,
-                windowCount: 1, alternateNames:false, windowSnapshots:{ hovering: false, array:[[action.payload,"Images/sample.png"]]} });
-            state.taskbarApps = [...state.taskbarApps];
-        },
-
-        removeAppfromTaskbar: (state, action) => {
-            let TaskBarApp = state.taskbarApps;
-            let index, windowCount;
-            let appImage = findInTaskbarImgData(action.payload);
-
-            TaskBarApp.forEach((app, i) => {
-                if (app.image === appImage ) {
-                    app.windowCount -= 1;
-                    app.windowSnapshots.array.splice(i, 1);
-                    if (app.default) {
-                        if (!app.windowCount) { app.open = false; } return;
-                    }
-                    else { index = i; }
-                    windowCount = app.windowCount;
-                }
-            });
-
-            if (index && windowCount === 0) { TaskBarApp.splice(index, 1); }
-            state.taskbarApps = TaskBarApp;
+            state.taskbarApps[action.payload].windowSnapshots.push([action.payload, appData[key].taskbar.defaultSnap]);
+            state.taskbarApps[action.payload].selected = true;
         },
 
         focusTaskbarApp: (state, action) => {
-            let TaskBarApp = state.taskbarApps;
-            let appImage = findInTaskbarImgData(action.payload);
-
-            TaskBarApp.forEach(app => {
-                app.selected = false;
-                if (app.image === appImage && app.open) { app.selected = true; }
-            });
-            state.taskbarApps = TaskBarApp;
+            for (let name in state.taskbarApps) { state.taskbarApps[name].selected = false; }
+            let key = Object.keys(appData).find(key => appData[key].name === action.payload);
+            if (appData[key].taskbar.subWindow) {
+                state.taskbarApps[appData[key].taskbar.mainWindowName].selected = true;
+                return;
+            }
+            state.taskbarApps[action.payload].selected = true;
         },
 
         minimizedTaskbarApp: (state, action) => {
-            let TaskBarApp = state.taskbarApps;
-            let windowName = action.payload.windowsName;
-            // let windowSnapshot = action.payload.Snapshot;
-            let appImage = findInTaskbarImgData(windowName);
+            let key = Object.keys(appData).find(key => appData[key].name === action.payload.windowsName);
+            let taskBarKey = appData[key].taskbar.subWindow ? appData[key].taskbar.mainWindowName : action.payload.windowsName;
+            state.taskbarApps[taskBarKey].windowSnapshots[action.payload.windowIndex][1] = action.payload.latestSnap;
 
-            TaskBarApp.forEach(app => {
-                if (app.image === appImage && app.open) { 
-                    app.selected = false; 
-                    // let snapshotArray = [...app.windowSnapshots.array];
-                    // snapshotArray.push([windowName, windowSnapshot]);
-                    // app.windowSnapshots.array = [...snapshotArray];
-                }
-            });
-            state.taskbarApps = TaskBarApp;
+            if(action.payload.minimizedData.windowCount > 1){
+                let numOfMini = action.payload.minimizedData.minimizedArr.filter(x => x === true).length + 1;
+                if(action.payload.minimizedData.windowCount !== numOfMini) return;
+            }
+            state.taskbarApps[taskBarKey].selected = false;
         },
 
         clickTaskbarApp: (state, action) => {
-            let TaskBarApp = state.taskbarApps;
-            let appImage = findInTaskbarImgData(action.payload);
+            let Apps = action.payload.Apps;
+            if(action.payload.windowCount !== 1) return;
+            let key = Object.keys(Apps).find(key => Apps[key].name === action.payload.windowName);
+            if(Apps[key].windowCount !== 1) key = Object.keys(Apps).find(ele => Apps[ele].name === Apps[key].taskbar.hasSubWindow);
+            if (Apps[key].minimized[0]) state.taskbarApps[action.payload.windowName].selected = true;
+            else state.taskbarApps[action.payload.windowName].selected = false;
+        },
 
-            TaskBarApp.forEach(app => {
-                if (app.image === appImage && app.open && app.windowCount === 1) {
-                    app.selected ? app.selected = false : app.selected = true
-                }
-            });
-            state.taskbarApps = TaskBarApp;
+        deSelectTaskbarApp: ( state, action ) => {
+            let key = Object.keys(appData).find(key => appData[key].name === action.payload.windowName);
+            if (appData[key].taskbar.subWindow) {
+                state.taskbarApps[appData[key].taskbar.mainWindowName].selected = false;
+                state.taskbarApps[appData[key].taskbar.mainWindowName].windowSnapshots.splice(action.payload.windowIndex, 1);
+                return;
+            }
+            state.taskbarApps[action.payload.windowName].windowSnapshots.splice(action.payload.windowIndex, 1);
+            state.taskbarApps[action.payload.windowName].selected = false;
         },
 
         setShowHoverWindow: (state, action) => {
-            if(state.taskbarApps[action.payload].windowSnapshots.hovering) state.taskbarApps[action.payload].windowSnapshots.hovering = false
-            else state.taskbarApps[action.payload].windowSnapshots.hovering = true;
-        }
+            if (state.taskbarApps[action.payload].hovering) state.taskbarApps[action.payload].hovering = false
+            else state.taskbarApps[action.payload].hovering = true;
+        },
     }
 });
 
-export const { 
-    addAppsInTaskbar,
-    removeAppfromTaskbar,
+export const {
+    setWindowSnapshots,
     focusTaskbarApp,
     minimizedTaskbarApp,
     clickTaskbarApp,
-    setShowHoverWindow 
+    setShowHoverWindow,
+    deSelectTaskbarApp
 } = TaskbarSlice.actions;
 
 export default TaskbarSlice.reducer;

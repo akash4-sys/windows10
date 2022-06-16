@@ -1,7 +1,7 @@
+import { focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect, html2canvas, deSelectTaskbarApp, setAppWindow } from '../index';
 import '../utils/WindowsAnimation.css';
 
-export default function handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName,
-    removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect, html2canvas }) {
+export default function handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, windowsName, dispatch, minimizedData }) {
 
     let window = e.currentTarget;
     windowsRef.current = e.currentTarget.id;
@@ -25,20 +25,19 @@ export default function handleWindowClick({ e, windowsRef, positionArray, window
         positionArray.current.splice(i, 1);
         windowSizeArray.current.splice(i, 1);
         dispatch(setAppWindow({ windowName: windowsName, windowCount: -1, windowIndex: i }));
-        dispatch(removeAppfromTaskbar(windowsName))
+        dispatch(deSelectTaskbarApp({ windowName: windowsName, windowIndex: i }));
         root.style.setProperty('--topWindowIndex', 1);
     }
 
     if (window.querySelector(".minimize").contains(e.target)) {
 
-        // let Snapshot = null;
-        // const takeSnapshot = async () => {
-        //     const canvas = await html2canvas(window, { logging: false });
-        //     Snapshot = canvas.toDataURL("image/png", 0.5);
-            dispatch(minimizedTaskbarApp({ windowsName }));
-        // };
-        // takeSnapshot();
+        const takeSnapshot = async () => {
+            const canvas = await html2canvas(window, { logging: false });
+            let Snapshot = canvas.toDataURL("image/png", 0.1);
+            dispatch(minimizedTaskbarApp({ windowsName, minimizedData, latestSnap: Snapshot, windowIndex: i }));
+        };
 
+        takeSnapshot();
         dispatch(minimizeAppWindowDirect({ windowsName, windowIndex: i }));
     }
 

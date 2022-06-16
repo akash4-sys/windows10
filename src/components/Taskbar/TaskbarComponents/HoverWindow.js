@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { nanoid } from 'nanoid';
 
-function HoverWindow({ showHoverWindow, SnapshotArray, windowImg, windowName }) {
+function HoverWindow({ showHoverWindow, SnapshotArray, windowImg }) {
 
     const ArrayContainerRef = useRef(null);
 
@@ -31,7 +31,7 @@ function HoverWindow({ showHoverWindow, SnapshotArray, windowImg, windowName }) 
                                 </CloseButton>
                             </Header>
                             <Snapshot>
-                                <img src={item[1]} alt="imh" />
+                                <img src={item[1]} alt="img" />
                             </Snapshot>
                         </Container>
                     ))

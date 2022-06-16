@@ -1,58 +1,54 @@
-import TaskbarImageData from '../../components/Data/WindowTaskbarImage';
-
-const TaskbarApps = [
-    {
-        name: "File Explorer",
-        image: "Images/fileexplorer.png",
-        default: true,
-        open: false,
+const TaskbarApps= {
+    "File Explorer":{
+        hovering: false,
         selected: false,
-        windowCount: 0,
-        alternateNames: TaskbarImageData["Images/fileexplorer.png"],
-        windowSnapshots: {
-            hovering: false,
-            array: []
-        }
+        windowSnapshots:[]
     },
-    {
-        name: "Mail",
-        image: "Images/mail.png",
-        default: true,
-        open: false,
+    "This PC":{
+        hovering: false,
         selected: false,
-        windowCount: 0,
-        alternateNames: false,
-        windowSnapshots: {
-            hovering: false,
-            array: []
-        }
+        windowSnapshots:[]
     },
-    {
-        name: "Chrome",
-        image: "Images/chrome.png",
-        default: true,
-        open: false,
+    "Chrome":{
+        hovering: false,
         selected: false,
-        windowCount: 0,
-        alternateNames: false,
-        windowSnapshots: {
-            hovering: false,
-            array: []
-        }
+        windowSnapshots:[]
     },
-    {
-        name: "vscode",
-        image: "Images/vscode.png",
-        default: true,
-        open: false,
+    "My Portfolio":{
+        hovering: false,
         selected: false,
-        windowCount: 0,
-        alternateNames: false,
-        windowSnapshots: {
-            hovering: false,
-            array: []
-        }
+        windowSnapshots:[]
     },
-];
+    "Notepad":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
+    "VSCode":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
+    "Mail":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
+    "Pictures":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
+    "Doucments":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
+    "Video":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    }
+}
 
 export default TaskbarApps;

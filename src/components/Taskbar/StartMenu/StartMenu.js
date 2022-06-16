@@ -4,15 +4,15 @@ import SideNavbar from './SideNavbar';
 import AppList from './AppList';
 import AppsGrid from './AppsGrid';
 
-export default function StartMenu(props) {
-    
-    if(props.displayStartMenu){
+export default function StartMenu({ setDisplayStartMenu, displayStartMenu }) {
+
+    if(displayStartMenu){
         return (
             <Container id="startmenu">
                <SideNavbar/>
                <FlexBox>
-                    <AppList/>
-                    <AppsGrid/>
+                    <AppList setDisplayStartMenu={setDisplayStartMenu} />
+                    <AppsGrid setDisplayStartMenu={setDisplayStartMenu} />
                </FlexBox>
             </Container>
         )

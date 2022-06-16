@@ -1,18 +1,51 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
-import Apps from '../../Data/AppData';
+import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
+import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
+import RecentlyAddedList from '../../Data/RecentlyAddedApps';
 
-function AppList() {
+function AppList({ setDisplayStartMenu }) {
+
+    const dispatch = useDispatch();
+    const AppData = useSelector((state) => state.appwindow);
+
+    let AppListData = [], AlphabetArray = [];
+    Object.keys(AppData).map((key, i) => AppListData.push([AppData[key].image, AppData[key].name]) );
+    [...Array(26)].map((_, i) => AlphabetArray.push(["", String.fromCharCode(i + 65)]) );
+    AppListData = [...AppListData, ...AlphabetArray];
+    AppListData.sort((a, b) => a[1].localeCompare(b[1]));
+
+    function handleClick(name) {
+		dispatch(setAppWindow({ windowName: name, windowCount: 1 }));
+		dispatch(setWindowSnapshots(name));
+        setDisplayStartMenu(false)
+	}
+
     return (
         <Container>
             <List>
                 {
-                    Apps.map((app, i) => (
-                        <App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
-                            { app[0] && <img src={app[0]}  alt="app"/> }
+                    RecentlyAddedList.map((app, i) => (
+                        <App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}
+                            onClick={() => handleClick(app[1])}
+                        >
+                            {app[0] && <img src={app[0]} alt="app" />}
                             <div>{app[1]}</div>
                         </App>
+                    ))
+                }
+                {
+                    AppListData.map((app, i) => (
+
+                        <App key={i} onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}
+                            onClick={() => handleClick(app[1])}
+                        >
+                            {app[0] && <img src={app[0]} alt="app" />}
+                            <div>{app[1]}</div>
+                        </App>
+
                     ))
                 }
             </List>

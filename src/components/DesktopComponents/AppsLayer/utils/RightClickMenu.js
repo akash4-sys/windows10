@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import { defaultMenu } from '../../../Data/RightClickMenuData';
 import { setAppWindow } from '../../../../Features/AppWindowSlice/AppWindowSlice';
-import { addAppsInTaskbar } from '../../../../Features/TaskbarSlice/TaskbarSlice';
-
+import { setWindowSnapshots } from '../../../../Features/TaskbarSlice/TaskbarSlice';
 
 function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
 
@@ -38,7 +37,7 @@ function RightClickMenu({ Wrapper, CntMenu, setCntMenu }) {
     function OptionClick(name){
         if( name && typeof name === "string"){
             dispatch(setAppWindow({ windowName: name, windowCount : 1 }));
-            dispatch(addAppsInTaskbar(name));
+            dispatch(setWindowSnapshots(name)); 
         } else {
             name();
         }
@@ -97,6 +96,7 @@ const Menu = styled.ul`
     font-size: calc(var(--windowsFontSize) + 1px);
     opacity:1;
     animation: ${appear} 100ms linear;
+    z-index:9999;
 
     hr{
         margin: 4px 10px;

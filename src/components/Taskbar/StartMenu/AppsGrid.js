@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { nanoid } from 'nanoid';
 import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
-import { Grid1, Grid2 } from '../../Data/StartMenuApps';
+import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
+import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
 
-function AppsGrid() {
+function AppsGrid({ setDisplayStartMenu }) {
+
+	const dispatch = useDispatch();
+    const AppData = useSelector((state) => state.appwindow)
 
 	let gridAppBGC = "rgba(255,255,255,0.3)";
 	const [gridNames, setGridNames] = useState({
 		Grid1: "Productivity",
 		Grid2: "Explore",
-		Grid3: "Support",
-		Grid4: "Games",
+		Grid3: "Support"
 	});
 
 	function handleRename(e) {
@@ -19,67 +24,52 @@ function AppsGrid() {
 
 	function HeaderClickHandler(e) {
 		e.currentTarget.querySelector('input').focus();
-		e.currentTarget.querySelector('img').src="Images/gripLinesW.png";
+		e.currentTarget.querySelector('img').src = "Images/gripLinesW.png";
 	}
 
 	function handleKey(e) {
 		if (e.key === 'Enter') { e.target.blur(); }
 	}
 
+	function handleClick(name) {
+		dispatch(setAppWindow({ windowName: name, windowCount: 1 }));
+		dispatch(setWindowSnapshots(name));
+		setDisplayStartMenu(false);
+	}
+
 	return (
 		<Box>
 			<Container>
-				<Header onClick={HeaderClickHandler} draggable="true">
-					<input type="text" value={gridNames.Grid1} onChange={handleRename} name="Grid1" onKeyPress={handleKey} />
-					<i className="fa-solid fa-xmark"></i>
-					<GripLines>
-						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
-					</GripLines>
-				</Header>
-				<GridContainer>
-					{
-						Grid1.map((app, i) => (
-							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
-								<img src={app[1]} alt={app[0]} />
-								<AppName>{app[0]}</AppName>
-							</App>
-						))
-					}
-				</GridContainer>
-				<Header onClick={HeaderClickHandler} draggable="true">
-					<input type="text" value={gridNames.Grid2} onChange={handleRename} name="Grid2" />
-					<i className="fa-solid fa-xmark"></i>
-					<GripLines>
-						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
-					</GripLines>
-				</Header>
-				<GridContainer>
-					{
-						Grid2.map((app, i) => (
-							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
-								<img src={app[1]} alt={app[0]} />
-								<AppName>{app[0]}</AppName>
-							</App>
-						))
-					}
-				</GridContainer>
-				<Header onClick={HeaderClickHandler} draggable="true">
-					<input type="text" value={gridNames.Grid3} onChange={handleRename} name="Grid3" />
-					<i className="fa-solid fa-xmark"></i>
-					<GripLines>
-						<img src="Images/gripLines.png" alt="grip" id="gripImg" />
-					</GripLines>
-				</Header>
-				<GridContainer>
-					{
-						Grid1.map((app, i) => (
-							<App key={i} draggable="true" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}>
-								<img src={app[1]} alt={app[0]} />
-								<AppName>{app[0]}</AppName>
-							</App>
-						))
-					}
-				</GridContainer>
+				{
+					Object.keys(gridNames).map((key, index) => (
+						<div key={nanoid()}>
+							<Header onClick={HeaderClickHandler} draggable="true">
+								<input type="text" value={gridNames[key]} onChange={handleRename} name="startmenuapps" onKeyPress={handleKey} />
+								<i className="fa-solid fa-xmark"></i>
+								<GripLines>
+									<img src="Images/gripLines.png" alt="grip" id="gripImg" />
+								</GripLines>
+							</Header>
+							<GridContainer>
+								{
+									Object.keys(AppData).map((app, _) => (
+
+										(AppData[app].startmenu.show && AppData[app].startmenu.gridID === index) ?
+										<App key={nanoid()} draggable="true" onMouseMove={hoverEffect} 
+											onMouseLeave={(e) => cancelHoverEffect(e, gridAppBGC)}
+											onClick={() => handleClick(AppData[app].name)}
+										>
+											<img src={AppData[app].image} alt={AppData[app].name} />
+											<AppName>{AppData[app].name}</AppName>
+										</App>
+										: null
+										
+									))
+								}
+							</GridContainer>
+						</div>
+					))
+				}
 			</Container>
 		</Box>
 	)
@@ -180,7 +170,8 @@ const GripLines = styled.div`
 const GridContainer = styled.div`
 	display: grid;
 	width: 100%;
-	height: 200px;
+	// height: 200px;
+	height: fit-content;
 	grid-template-columns: repeat(3,1fr);
 	gap: 3px;
 `

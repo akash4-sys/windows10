@@ -1,60 +1,190 @@
-const initialState = {
+const appData = {
     ThisPC: {
         name: "This PC",
-        show: false,
-        count: 0,
-        image:"Images/thispc.ico",
+        showWindow: false,
+        windowCount: 0,
+        image: "Images/thispc.ico",
         minimized: [false],
-    },
-    ThisPCProperties: {
-        name: "ThisPCProperties",
-        show: false,
-        count: 0,
-        image:"",
-        minimized: [false]
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName: "File Explorer",
+            subWindow:true,
+            defaultSnap:"Images/Snapshots/thispcsnap.png"
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        },
     },
     Chrome: {
         name: "Chrome",
-        show: false,
-        count: 0,
-        image:"Images/chrome.png",
-        minimized: [false]
-    },
-    ChromeProperties: {
-        name: "ChromeProperties",
-        show: false,
-        count: 0,
-        image:"",
-        minimized: [false]
+        showWindow: false,
+        windowCount: 0,
+        image: "Images/chrome.png",
+        minimized: [false],
+        showInDekstopWindow: true,
+        showInAppListWindow:true,
+        taskbar: {
+            mainWindowName:null,
+            default: true,
+            open: false,
+            defaultSnap:"Images/Snapshots/chromesnap.png"
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        },
     },
     FileExplorer: {
         name: "File Explorer",
-        show: false,
-        count: 0,
+        showWindow: false,
+        windowCount: 0,
         image:"Images/fileexplorer.png",
-        minimized: [false]
-    },
-    FileExplorerProperties: {
-        name: "FileExplorerProperties",
-        show: false,
-        count: 0,
-        image:"",
-        minimized: [false]
+        minimized: [false],
+        showInDekstopWindow: true,
+        showInAppListWindow:true,
+        taskbar: {
+            mainWindowName:null,
+            hasSubWindow:"This PC",
+            subWindowCount:0,
+            default: true,
+            open: false,
+            defaultSnap:"Images/Snapshots/explorersnap.png"
+        },
+        startmenu:{
+            show:false,
+            gridID:0
+        },
     },
     MyPortfolio: {
         name: "My Portfolio",
-        show: false,
-        count: 0,
+        showWindow: false,
+        windowCount: 0,
         image:"Images/myportfolio.png",
-        minimized: [false]
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+            defaultSnap:"Images/Snapshots/portfoliosnap.png"
+        },
+        startmenu:{
+            show:true,
+            gridID:2
+        }
     },
     Notepad: {
         name: "Notepad",
-        show: false,
-        count: 0,
+        showWindow: false,
+        windowCount: 0,
         image:"Images/notepad.ico",
-        minimized: [false]
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+            defaultSnap:"Images/Snapshots/notepadsnap.png"
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        }
     },
-}
+    VSCode: {
+        name: "VSCode",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/vscode.png",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: true,
+            open: false,
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        }
+    },
+    Mail: {
+        name: "Mail",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/mail.png",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: true,
+            open: false,
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        }
+    },
+    Pictures: {
+        name: "Pictures",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/imgFolder.ico",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+        },
+        startmenu:{
+            show:true,
+            gridID:1
+        }
+    },
+    Documents: {
+        name: "Doucments",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/docFolder.ico",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+        },
+        startmenu:{
+            show:true,
+            gridID:1
+        }
+    },
+    Video: {
+        name: "Video",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/vidFolder.ico",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+        },
+        startmenu:{
+            show:true,
+            gridID:1
+        }
+    },
+};
 
-export default initialState;
+export default appData;

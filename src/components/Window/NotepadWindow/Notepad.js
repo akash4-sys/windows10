@@ -14,7 +14,7 @@ function Notepad() {
     const iterator = useRef(0);
     const refsArray = useRef({ nameBarRefs, mainContentRefs, autoSave, iterator });
 
-    let numberOfWindow = Notepad.count;
+    let numberOfWindow = Notepad.windowCount;
 
     useEffect(() => {
         mainContentRefs.current = mainContentRefs.current.slice(numberOfWindow-1, mainContentRefs.current.length);

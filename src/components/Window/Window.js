@@ -1,20 +1,18 @@
 import React, { useRef } from 'react';
 import {
-
-    useDispatch, styled, keyframes, nanoid, html2canvas, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, 
-    WindowToolBar, ThispcToolbar,handleWindowMousemove, QuickAccessBar, WindowFooter,removeAppfromTaskbar, 
-    focusTaskbarApp, minimizedTaskbarApp, setAppWindow, minimizeAppWindowDirect
-
+    useDispatch, styled, keyframes, nanoid, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
+    ThispcToolbar, handleWindowMousemove, QuickAccessBar, WindowFooter
 } from './index.js';
 
- 
+
 function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, windowSearchBar, MainContent, quickAccessConfig , footerConfig, AppWindow}){
 
     const dispatch = useDispatch()
     const windowsRef = useRef();
-    let numberOfWindow = AppWindow.count;
+    let numberOfWindow = AppWindow.windowCount;
     let windowIcon = AppWindow.image;
     let windowsName = AppWindow.name;
+    let minimizedData = { windowCount: numberOfWindow, minimizedArr: AppWindow.minimized };
 
     //left, top
     const positionArray = useRef([ ["200px", "100px"] ]);
@@ -29,16 +27,13 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
         return id;
     }
 
-    if (AppWindow.show) {
+    if (AppWindow.showWindow) {
         return (
             <>
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
-                            onClick={(e) => handleWindowClick({
-                                e, windowsRef, positionArray, windowSizeArray, setAppWindow, windowsName, html2canvas,
-                                removeAppfromTaskbar, dispatch, focusTaskbarApp, minimizedTaskbarApp, minimizeAppWindowDirect
-                            })}
+                            onClick={(e) => handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, windowsName, dispatch, minimizedData, })}
                             style={{ 
                                 zIndex:0,
                                 left: positionArray.current[i][0],
