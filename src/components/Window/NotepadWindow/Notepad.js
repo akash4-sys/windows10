@@ -6,7 +6,7 @@ import MainContent from './MainContent';
 
 function Notepad() {
 
-    const Notepad = useSelector((state) => state.appwindow.Notepad);
+    const Notepad = useSelector((state) => state.appwindow["Notepad"]);
 
     const mainContentRefs = useRef([]);
     const nameBarRefs = useRef([]);

@@ -10,82 +10,65 @@ export const AppWindowSlice = createSlice({
             let windowName = action.payload.windowName;
             let windowCount = action.payload.windowCount;
 
-            for (let window in state) {
-                if (state[window].name === windowName) {
+            let minimizedShallowCopy = [...state[windowName].minimized];
+            let newMinimizedArray = new Array(state[windowName].windowCount + windowCount).fill(false);
+            if (windowCount < 0) minimizedShallowCopy.splice(action.payload.windowIndex, 1);
 
-                    let minimizedShallowCopy = [...state[window].minimized];
-                    let newMinimizedArray = new Array(state[window].windowCount + windowCount).fill(false);
-                    if (windowCount < 0) minimizedShallowCopy.splice(action.payload.windowIndex, 1);
-                    
-                    for (let i = 0; i < minimizedShallowCopy.length; i++) {
-                        newMinimizedArray[i] = minimizedShallowCopy[i];
-                    }
+            for (let i = 0; i < minimizedShallowCopy.length; i++) {
+                newMinimizedArray[i] = minimizedShallowCopy[i];
+            }
 
-                    let mainWindowKey = null;
-                    if (state[window].taskbar.subWindow) {
-                        for (let key in state) {
-                            if (state[key].name === state[window].taskbar.mainWindowName) mainWindowKey = key;
-                        }
-                    }
+            let mainWindowName = state[windowName].taskbar.mainWindowName;
 
-                    if (mainWindowKey) state[mainWindowKey].taskbar.subWindowCount += windowCount;
-                    if (state[window].taskbar.hasSubWindow) state[window].taskbar.subWindowCount += windowCount;
+            if (mainWindowName) state[mainWindowName].taskbar.subWindowCount += windowCount;
+            else if (state[windowName].taskbar.hasSubWindow) state[windowName].taskbar.subWindowCount += windowCount;
 
-                    let currentKey = mainWindowKey ? mainWindowKey : window;
-                    state[currentKey].taskbar.open = true;
+            let currentKey = mainWindowName ? mainWindowName : windowName;
+            state[currentKey].taskbar.open = true;
 
-                    state[window] = {
-                        ...state[window],
-                        showWindow: true,
-                        windowCount: state[window].windowCount + windowCount,
-                        minimized: [...newMinimizedArray],
-                    };
+            state[windowName] = {
+                ...state[windowName],
+                showWindow: true,
+                windowCount: state[windowName].windowCount + windowCount,
+                minimized: [...newMinimizedArray],
+            };
 
-                    if (!state[window].windowCount) {
-                        state[window] = { ...state[window], showWindow: false, windowCount: 0, minimized: [false] };
-                        
-                        if(!mainWindowKey && !state[window].taskbar.hasSubWindow) state[window].taskbar.open = false;
-                        else if(state[mainWindowKey]?.taskbar?.subWindowCount <= 0) state[mainWindowKey].taskbar.open = false;
-                        else if (state[window].taskbar.subWindowCount <= 0) state[window].taskbar.open = false;
+            if (!state[windowName].windowCount) {
+                state[windowName] = { ...state[windowName], showWindow: false, windowCount: 0, minimized: [false] };
 
-                        break;
-                    }
-                    break;
-                }
+                if (!mainWindowName && !state[windowName].taskbar.hasSubWindow) state[windowName].taskbar.open = false;
+                else if (state[mainWindowName]?.taskbar?.subWindowCount <= 0) state[mainWindowName].taskbar.open = false;
+                else if (state[windowName].taskbar.subWindowCount <= 0) state[windowName].taskbar.open = false;
             }
         },
 
         minimizeAppWindowDirect: (state, action) => {
-            for (let window in state) {
-                if (state[window].name === action.payload.windowsName) {
-                    state[window].minimized[action.payload.windowIndex] = true;
-                    return;
-                }
-            }
+            state[action.payload.windowsName].minimized[action.payload.windowIndex] = true;
         },
 
         minimizeAppWindow: (state, action) => {
-            for (let window in state) {
-                if (state[window].name === action.payload) {
-                    if (state[window].showWindow && state[window].windowCount === 1 && !state[window].taskbar.hasSubWindow) {
-                        state[window].minimized[0] ? state[window].minimized[0] = false : state[window].minimized[0] = true;
-                        return;
-                    }
-                    else if (state[window].taskbar.hasSubWindow && state[window].taskbar.subWindowCount === 1) {
-                        let key = Object.keys(state).find(key => state[key].name === state[window].taskbar.hasSubWindow);
-                        if (state[key].windowCount === 1) {
-                            state[key].minimized[0] ? state[key].minimized[0] = false : state[key].minimized[0] = true;
-                            return;
-                        }
-                        state[window].minimized[0] ? state[window].minimized[0] = false : state[window].minimized[0] = true;
-                        return;
-                    }
+            if (state[action.payload].showWindow && state[action.payload].windowCount === 1 && !state[action.payload].taskbar.hasSubWindow) {
+                state[action.payload].minimized[0] ? state[action.payload].minimized[0] = false : state[action.payload].minimized[0] = true;
+                return;
+            }
+            else if (state[action.payload].taskbar.hasSubWindow && state[action.payload].taskbar.subWindowCount === 1) {
+                let key = state[state[action.payload].taskbar.hasSubWindow].name;
+                if (state[key].windowCount === 1) {
+                    state[key].minimized[0] ? state[key].minimized[0] = false : state[key].minimized[0] = true;
                     return;
                 }
+                state[action.payload].minimized[0] ? state[action.payload].minimized[0] = false : state[action.payload].minimized[0] = true;
+                return;
             }
+        },
+
+        miniWindowClick: (state, action) => {
+            let windowName = action.payload.windowName;
+            let index = action.payload.windowIndex;
+            state[windowName].minimized[index] = false;
         }
     }
 });
 
-export const { setAppWindow, minimizeAppWindow, minimizeAppWindowDirect } = AppWindowSlice.actions;
+export const { setAppWindow, minimizeAppWindow, minimizeAppWindowDirect, miniWindowClick } = AppWindowSlice.actions;
 export default AppWindowSlice.reducer;

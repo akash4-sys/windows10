@@ -2,13 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import OutsideClickAlert from './utils/OutsideClickHandler';
-import RightClickMenu from './utils/RightClickMenu';
-import { appClickHelper } from './utils/AppClickHelper';
-import { defaultMenu } from '../../Data/RightClickMenuData';
 import SelectionLayer from './SelectionLayer';
 import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
 import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
 import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
+import { showCxtMenu } from '../../../Features/CxtMenuSlice/CxtMenuSlice';
 
 function AppsLayer() {
 
@@ -21,17 +19,13 @@ function AppsLayer() {
     const dragTargetIndex = useRef(null);
     const inputRef = useRef();
 
-    // cxt menu
-    const [Wrapper, setWrapper] = useState(null);
-    const [cntMenu, setCntMenu] = useState(defaultMenu);
-
     //select layer
     const [showSelect, setShowSelect] = useState(false);
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
     const [Size, setSize] = useState({ height: 0, width: 0 });
 
     const appRef = useRef(null);
-    OutsideClickAlert(appRef, inputRef, setWrapper);
+    OutsideClickAlert(appRef, inputRef);
 
     useEffect(() => {
         setGridMap(updateGridMap);
@@ -42,9 +36,8 @@ function AppsLayer() {
         let rows = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
         let columns = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
         let arr = new Array(rows * columns).fill([0, 0]);
-        Object.keys(Grid).map((key, i) => arr[i] = [ Grid[key].name, Grid[key].image ] )
+        Object.keys(Grid).map((key, i) => arr[i] = [Grid[key].name, Grid[key].image])
         setGridMap(arr);
-        setWrapper(document.getElementById('grid'));
     }, []);
 
     const handleDragStart = (e, boxIndex) => {
@@ -128,7 +121,12 @@ function AppsLayer() {
 
     function rightClickHandler(e) {
         changeDisplay(e);
-        appClickHelper(setWrapper, setCntMenu, appRef.current, inputRef.current.name);
+        dispatch(showCxtMenu({ show: true, cxtMenu: "desktopAppsMenu", type: "window", windowName: inputRef.current.name, anchor:{x:e.pageX, y:e.pageY}}));
+    }
+
+    function rightClickOnEmptyBox(e){
+        if(!e.currentTarget.querySelector('.appHover'))
+            dispatch(showCxtMenu({show: true, cxtMenu: "defaultMenu", type: "window", anchor:{x:e.pageX, y:e.pageY}}));
     }
 
     return (
@@ -137,9 +135,10 @@ function AppsLayer() {
             onMouseUp={(e) => handleMouseUp(e, setShowSelect, setSize)}
         >
             {
-                 gridMap.map((box, boxIndex) => (
+                gridMap.map((box, boxIndex) => (
                     <App key={boxIndex}
                         onDragEnter={(e) => { handleDragEnter(e, boxIndex) }}
+                        onContextMenu={(e) => rightClickOnEmptyBox(e)}
                     >
                         {(box[0] && box[1]) ?
 
@@ -164,9 +163,6 @@ function AppsLayer() {
                         }
                     </App>
                 ))
-            }
-            {
-                (Wrapper) ? <RightClickMenu Wrapper={Wrapper} CntMenu={cntMenu} setCntMenu={setCntMenu} /> : null
             }
             <SelectionLayer show={showSelect} anchorPoint={anchorPoint} Size={Size} setSize={setSize} />
         </Container>

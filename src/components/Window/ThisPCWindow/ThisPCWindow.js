@@ -6,7 +6,7 @@ import MainContent from './components/MainContent';
 
 function ThisPCWindow() {
 
-    const ThisPC = useSelector((state) => state.appwindow.ThisPC);
+    const ThisPC = useSelector((state) => state.appwindow["This PC"]);
     let windowBarOptions = ["Computer", "View"];
 
     return (

@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import { nanoid } from 'nanoid';
+import { focusTaskbarApp, setShowHoverWindow, deSelectTaskbarApp } from '../../../Features/TaskbarSlice/TaskbarSlice';
+import { setAppWindow, miniWindowClick } from '../../../Features/AppWindowSlice/AppWindowSlice';
 
 function HoverWindow({ showHoverWindow, SnapshotArray, windowImg }) {
 
+    const dispatch = useDispatch();
     const ArrayContainerRef = useRef(null);
 
     useEffect(() => {
@@ -13,6 +17,19 @@ function HoverWindow({ showHoverWindow, SnapshotArray, windowImg }) {
         ArrayContainerRef.current.style.left = -((width / 2) - 24) + "px";
     }, [showHoverWindow])
 
+    function focusApp(e, i, windowName){
+        e.stopPropagation();
+        dispatch(focusTaskbarApp(windowName));
+        dispatch(miniWindowClick({ windowName, windowIndex: i }));
+    }
+
+    function closeWindow(e, i, windowName) {
+        e.stopPropagation();
+        dispatch(setAppWindow({ windowName, windowCount: -1, windowIndex: i }));
+        dispatch(deSelectTaskbarApp({ windowName, windowIndex: i }));
+        dispatch(setShowHoverWindow(windowName));
+    }
+
     if (showHoverWindow) {
         return (
             <ArrayContainer ref={ArrayContainerRef}>
@@ -20,13 +37,14 @@ function HoverWindow({ showHoverWindow, SnapshotArray, windowImg }) {
                     SnapshotArray.map((item, i) => (
                         <Container key={nanoid()} 
                             onMouseEnter={(e) => e.currentTarget.querySelector("#onlyShowOnHover").style.display = "flex"} 
-                            onMouseLeave={(e) => e.currentTarget.querySelector("#onlyShowOnHover").style.display = "none"}>
+                            onMouseLeave={(e) => e.currentTarget.querySelector("#onlyShowOnHover").style.display = "none"}
+                            onClick={(e) => focusApp(e, i, item[0])}>
                             <Header>
                                 <Title>
                                     <img src={windowImg} alt="img" />
                                     <div>{item[0]}</div>
                                 </Title>
-                                <CloseButton id="onlyShowOnHover">
+                                <CloseButton id="onlyShowOnHover" onClick={(e) => closeWindow(e, i, item[0])}>
                                     <img src="Images/close.svg" alt="close" />
                                 </CloseButton>
                             </Header>
@@ -67,7 +85,7 @@ const ArrayContainer = styled.div`
 const Container = styled.div`
     height:9.5rem;
     width:13rem;   
-    animation: ${AppearAnimation} 100ms linear 1s forwards;
+    animation: ${AppearAnimation} 100ms linear 500ms forwards;
     opacity:0;
     font-size:var(--windowsFontSize);
     color:white;

@@ -9,6 +9,7 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
 
     const dispatch = useDispatch()
     const windowsRef = useRef();
+
     let numberOfWindow = AppWindow.windowCount;
     let windowIcon = AppWindow.image;
     let windowsName = AppWindow.name;
@@ -33,7 +34,7 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
-                            onClick={(e) => handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, windowsName, dispatch, minimizedData, })}
+                            onClick={(e) => handleWindowClick({ e, windowsRef, positionArray, windowSizeArray, windowsName, dispatch, minimizedData })}
                             style={{ 
                                 zIndex:0,
                                 left: positionArray.current[i][0],
@@ -71,7 +72,6 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
                                     </LowerContent> 
                                 }
                             </ContentContainer>
-
                         </Container>
                     ))
                 }

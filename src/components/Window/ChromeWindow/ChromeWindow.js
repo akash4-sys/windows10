@@ -6,7 +6,7 @@ import MainContent from '../WindowComponents/ITagContent/MainContent';
 
 function ChromeWindow() {
 
-    const Chrome = useSelector((state) => state.appwindow.Chrome);
+    const Chrome = useSelector((state) => state.appwindow["Chrome"]);
     let EmptyRef = useRef();
     let SRC = "https://www.google.com/webhp?igu=1";
 

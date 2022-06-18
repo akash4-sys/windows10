@@ -8,6 +8,7 @@ import { Showtime, Showdate } from './utils/Showtime';
 import OutsideClickAlert from './utils/OutsideClickAlert';
 import { setWindowSnapshots, clickTaskbarApp, setShowHoverWindow } from '../../Features/TaskbarSlice/TaskbarSlice';
 import { setAppWindow, minimizeAppWindow } from '../../Features/AppWindowSlice/AppWindowSlice';
+import { showCxtMenu } from '../../Features/CxtMenuSlice/CxtMenuSlice';
 import HoverWindow from './TaskbarComponents/HoverWindow';
 import { TaskbarBtnStyle, TaskbarBtnMouseEnter, TaskbarBtnMouseLeave} from './utils/TaskbarBtnHelper';
 
@@ -31,11 +32,8 @@ function Taskbar() {
     let TaskbarApps = TaskbarAppsRef.current;
 
     function startMenu() {
-        if (displayStartMenu) {
-            setTimeout(() => { setDisplayStartMenu(false); }, 10);
-        } else {
-            setDisplayStartMenu(true);
-        }
+        if (displayStartMenu) setTimeout(() => { setDisplayStartMenu(false); }, 10);
+        else setDisplayStartMenu(true);
     }
 
     useEffect(() => {
@@ -55,7 +53,8 @@ function Taskbar() {
     }
 
     return (
-        <Container ref={wrapperRef} id="taskbar">
+        <Container ref={wrapperRef} id="taskbar" 
+            onContextMenu={(e) => dispatch(showCxtMenu({ show: true, cxtMenu: "taskbarMenu", type: "taskbar", anchor:{x:e.pageX, y:e.pageY} }))}>
             <LeftSection>
                 <StartMenu displayStartMenu={displayStartMenu} setDisplayStartMenu={setDisplayStartMenu}/>
                 <WindowsButton onClick={startMenu} id="windowsButton">
@@ -75,7 +74,7 @@ function Taskbar() {
                         <TaskbarButton key={i}
                             onClick={ () => TaskbarButtonClick(App.name, (App.taskbar.hasSubWindow ? App.taskbar.subWindowCount : App.windowCount)) }
                             style={TaskbarBtnStyle(App, TaskbarApps, TaskbarState)}
-                            onMouseEnter={() => TaskbarBtnMouseEnter(App, TaskbarApps, dispatch, setShowHoverWindow)}
+                            onMouseEnter={() => { setTimeout(() => TaskbarBtnMouseEnter(App, TaskbarApps, dispatch, setShowHoverWindow), 500)}}
                             onMouseLeave={() => { setTimeout(() => TaskbarBtnMouseLeave(App, TaskbarApps, dispatch, setShowHoverWindow), 500) }}
                         >
                             <HoverWindow 

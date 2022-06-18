@@ -19,6 +19,9 @@ export function TaskbarBtnStyle(App, TaskbarApps, TaskbarState) {
             if (windowCnt > 1) return { background: "var(--multitaskbarAppSelected)" };
             else return { background: "var(--taskbarAppSelected)" };
         }
+        else if (TaskbarState[Window.name].hovering){
+            return { background: "var(--taskbarAppOpenHovering)"}
+        }
         return { background: "var(--taskbarAppOpened)" };
     }
     else return null;

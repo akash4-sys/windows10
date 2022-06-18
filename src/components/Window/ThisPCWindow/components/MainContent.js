@@ -1,9 +1,13 @@
 import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { nanoid } from 'nanoid';
 import { FoldersList } from './Folderslist';
+import { showCxtMenu } from '../../../../Features/CxtMenuSlice/CxtMenuSlice';
 
 function MainContent({ Width }) {
+
+    const dispatch = useDispatch();
 
     const ItemRef = useRef();
     const ContainerRef = useRef();
@@ -34,6 +38,11 @@ function MainContent({ Width }) {
         window.addEventListener('click', clickOutsideFolder);
     }
 
+    function rightClickHandler(e, windowName) {
+        dispatch(showCxtMenu({ show: true, cxtMenu: "windowFoldersMenu", type: "window", windowName, anchor:{x:e.pageX, y:e.pageY} }));
+        handleClick(e);
+    }
+
     function handleHeaderClick(e, Class) {
         handleClick(e);
         targetClass = Class;
@@ -53,7 +62,9 @@ function MainContent({ Width }) {
             <Folders>
                 {
                     FoldersList.map((item, i) => (
-                        <Folder key={nanoid()} className="thisPCFolders" onClick={handleClick}>
+                        <Folder key={nanoid()} className="thisPCFolders" onClick={handleClick}
+                            onContextMenu={(e) => rightClickHandler(e, item[1])}
+                        >
                             <img src={item[0]} alt="" />
                             <FolderName>{item[1]}</FolderName>
                         </Folder>
@@ -66,7 +77,7 @@ function MainContent({ Width }) {
                 <hr />
             </Header>
             <Folders>
-                <Folder className="thispcdrives" onClick={handleClick}>
+                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Windows (C:)")}>
                     <img src="Images/thispc/windowdrive.ico" alt="" />
                     <Drive>
                         <span>Windows (C:)</span>
@@ -76,7 +87,7 @@ function MainContent({ Width }) {
                         <DriveStatus>115 GB free of 273 GB</DriveStatus>
                     </Drive>
                 </Folder>
-                <Folder className="thispcdrives" onClick={handleClick}>
+                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Drive (D:)")}>
                     <img src="Images/thispc/commondrive.ico" alt="" />
                     <Drive>
                         <span>Drive (D:)</span>

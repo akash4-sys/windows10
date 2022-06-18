@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 
-export default function OutsideClickAlert(ref, inputRef, setWrapper) {
+export default function OutsideClickAlert(ref, inputRef) {
     useEffect(() => {
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
                 ref.current.style.backgroundColor = "";
                 ref.current.style.border = "";
-                setWrapper(document.getElementById('grid'));
             }
             
             if(inputRef.current && !inputRef.current.contains(event.target)) {

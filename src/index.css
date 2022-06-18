@@ -25,6 +25,7 @@
   --taskbarAppSelected:linear-gradient(0deg, rgba(137,188,240,1) 10%, rgba(158,158,158,1) 10%);
   --taskbarAppOpened:linear-gradient(0deg, rgba(137,188,240,1) 10%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 100%);
   --multitaskbarAppSelected: linear-gradient(90deg, rgba(0,0,0,0) 92%, rgb(75 75 75) 92%, #989797 94%), var(--taskbarAppSelected);
+  --taskbarAppOpenHovering:linear-gradient(0deg, rgba(137,188,240,1) 10%, rgb(145 145 145) 10%);
 }
 
 body {

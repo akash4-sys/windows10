@@ -1,5 +1,5 @@
 const appData = {
-    ThisPC: {
+    "This PC": {
         name: "This PC",
         showWindow: false,
         windowCount: 0,
@@ -17,7 +17,7 @@ const appData = {
             gridID:0
         },
     },
-    Chrome: {
+    "Chrome": {
         name: "Chrome",
         showWindow: false,
         windowCount: 0,
@@ -36,7 +36,7 @@ const appData = {
             gridID:0
         },
     },
-    FileExplorer: {
+    "File Explorer": {
         name: "File Explorer",
         showWindow: false,
         windowCount: 0,
@@ -57,7 +57,7 @@ const appData = {
             gridID:0
         },
     },
-    MyPortfolio: {
+    "My Portfolio": {
         name: "My Portfolio",
         showWindow: false,
         windowCount: 0,
@@ -76,7 +76,7 @@ const appData = {
             gridID:2
         }
     },
-    Notepad: {
+    "Notepad": {
         name: "Notepad",
         showWindow: false,
         windowCount: 0,
@@ -95,7 +95,7 @@ const appData = {
             gridID:0
         }
     },
-    VSCode: {
+    "VSCode": {
         name: "VSCode",
         showWindow: false,
         windowCount: 0,
@@ -113,7 +113,7 @@ const appData = {
             gridID:0
         }
     },
-    Mail: {
+    "Mail": {
         name: "Mail",
         showWindow: false,
         windowCount: 0,
@@ -131,7 +131,7 @@ const appData = {
             gridID:0
         }
     },
-    Pictures: {
+    "Pictures": {
         name: "Pictures",
         showWindow: false,
         windowCount: 0,
@@ -149,7 +149,7 @@ const appData = {
             gridID:1
         }
     },
-    Documents: {
+    "Documents": {
         name: "Doucments",
         showWindow: false,
         windowCount: 0,
@@ -167,7 +167,7 @@ const appData = {
             gridID:1
         }
     },
-    Video: {
+    "Video": {
         name: "Video",
         showWindow: false,
         windowCount: 0,

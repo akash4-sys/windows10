@@ -6,7 +6,7 @@ import MainContent from '../WindowComponents/ITagContent/MainContent';
 
 function MyPortfolio() {
 
-    const MyPortfolio = useSelector((state) => state.appwindow.MyPortfolio);
+    const MyPortfolio = useSelector((state) => state.appwindow["My Portfolio"]);
 
     const WindowRef = useRef();
     let SRC = "https://akash4.netlify.app/";

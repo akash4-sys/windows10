@@ -5,7 +5,7 @@ import WindowNameBar from '../WindowComponents/WindowNameBar';
 
 function FileExplorerWindow() {
 
-    const FileExplorer = useSelector((state) => state.appwindow.FileExplorer);
+    const FileExplorer = useSelector((state) => state.appwindow["File Explorer"]);
     let windowBarOptions = ["Home", "Share", "View"];
 
     return (
