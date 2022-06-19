@@ -30,9 +30,7 @@ function DefaultCxtMenu() {
     };
 
     function handleClick() {
-        dispatch(showCxtMenu({ show: false, cxtMenu: [], type:"", background:"" }));
-        window.removeEventListener("contextmenu", handleContextMenu);
-        window.removeEventListener("click", handleClick);
+        dispatch(showCxtMenu({ show: false, cxtMenu: [], type:"", windowName:"", anchor:{x:0, y:0} }));
     }
 
     useEffect(() => {

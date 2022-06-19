@@ -7,6 +7,7 @@ import ChromeWindow from '../Window/ChromeWindow/ChromeWindow';
 import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow';
 import MyPortfolio from '../Window/MyPortfolioWindow/MyPortfolio';
 import Notepad from '../Window/NotepadWindow/Notepad';
+import PokemonGameWindow from '../Window/PokemonGameWindow/PokemonGameWindow';
 
 function Desktop() {
 
@@ -32,6 +33,7 @@ function Desktop() {
                 <FileExplorerWindow />
                 <MyPortfolio />
                 <Notepad />
+                <PokemonGameWindow />
 
             </BackGroundImageContainer>
         </DesktopPage>

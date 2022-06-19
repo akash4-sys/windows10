@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import OutsideClickAlert from './utils/OutsideClickHandler';
 import SelectionLayer from './SelectionLayer';
-import { handleMouseDown, handleMouseUp } from './utils/SelectionLayerHelper';
 import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
 import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
 import { showCxtMenu } from '../../../Features/CxtMenuSlice/CxtMenuSlice';
@@ -19,10 +18,7 @@ function AppsLayer() {
     const dragTargetIndex = useRef(null);
     const inputRef = useRef();
 
-    //select layer
-    const [showSelect, setShowSelect] = useState(false);
-    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
-    const [Size, setSize] = useState({ height: 0, width: 0 });
+    const [selectConfig, setSelectConfig] = useState({ show: false, anchorPoint: { x: 0, y: 0 } });
 
     const appRef = useRef(null);
     OutsideClickAlert(appRef, inputRef);
@@ -121,24 +117,27 @@ function AppsLayer() {
 
     function rightClickHandler(e) {
         changeDisplay(e);
-        dispatch(showCxtMenu({ show: true, cxtMenu: "desktopAppsMenu", type: "window", windowName: inputRef.current.name, anchor:{x:e.pageX, y:e.pageY}}));
+        dispatch(showCxtMenu({ show: true, cxtMenu: "desktopAppsMenu", type: "window", windowName: inputRef.current.name, anchor: { x: e.pageX, y: e.pageY } }));
     }
 
-    function rightClickOnEmptyBox(e){
-        if(!e.currentTarget.querySelector('.appHover'))
-            dispatch(showCxtMenu({show: true, cxtMenu: "defaultMenu", type: "window", anchor:{x:e.pageX, y:e.pageY}}));
+    function rightClickOnEmptyBox(e, name, appImg) {
+        if (!name && !appImg)
+            dispatch(showCxtMenu({ show: true, cxtMenu: "defaultMenu", type: "window", anchor: { x: e.pageX, y: e.pageY } }));
+    }
+
+    function handleMouseDown(e, name, appImg) {
+        dispatch(showCxtMenu({ show: false, cxtMenu: [], type:"", windowName:"", anchor:{x:0, y:0} }));
+        if (!name && !appImg && e.buttons === 1) setSelectConfig({ show: true, anchorPoint: { x: e.pageX, y: e.pageY } });
     }
 
     return (
-        <Container id="grid"
-            onMouseDown={(e) => handleMouseDown(e, setShowSelect, setAnchorPoint)}
-            onMouseUp={(e) => handleMouseUp(e, setShowSelect, setSize)}
-        >
+        <Container id="grid">
             {
                 gridMap.map((box, boxIndex) => (
                     <App key={boxIndex}
                         onDragEnter={(e) => { handleDragEnter(e, boxIndex) }}
-                        onContextMenu={(e) => rightClickOnEmptyBox(e)}
+                        onContextMenu={(e) => rightClickOnEmptyBox(e, box[0], box[1])}
+                        onMouseDown={(e) => handleMouseDown(e, box[0], box[1])}
                     >
                         {(box[0] && box[1]) ?
 
@@ -164,7 +163,7 @@ function AppsLayer() {
                     </App>
                 ))
             }
-            <SelectionLayer show={showSelect} anchorPoint={anchorPoint} Size={Size} setSize={setSize} />
+            {selectConfig.show && <SelectionLayer selectConfig={selectConfig} setSelectConfig={setSelectConfig} />}
         </Container>
     )
 }

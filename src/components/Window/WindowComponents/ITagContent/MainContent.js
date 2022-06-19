@@ -21,4 +21,5 @@ const Container = styled.div`
         height: 100%;
         width: 100%;
     }
+    background:url(Images/loading.gif) no-repeat center;
 `

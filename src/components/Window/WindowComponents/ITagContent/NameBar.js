@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 const NameBar = forwardRef(({ windowsName, showExpand, windowIcon }, WindowRef) => {
 
-    let portfolioRef = useRef();
+    let parentRef = useRef();
 
     useEffect(() => {
-        portfolioRef.current = WindowRef.current;
+        parentRef.current = WindowRef.current;
     }, [])
 
     function fullScreen() {
-        portfolioRef.current.requestFullscreen();
+        parentRef.current.requestFullscreen();
     }
 
     return (

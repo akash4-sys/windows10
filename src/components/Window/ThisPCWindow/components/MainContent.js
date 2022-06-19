@@ -63,7 +63,7 @@ function MainContent({ Width }) {
                 {
                     FoldersList.map((item, i) => (
                         <Folder key={nanoid()} className="thisPCFolders" onClick={handleClick}
-                            onContextMenu={(e) => rightClickHandler(e, item[1])}
+                            onContextMenu={(e) => rightClickHandler(e, item[1])} draggable="true"
                         >
                             <img src={item[0]} alt="" />
                             <FolderName>{item[1]}</FolderName>
@@ -77,7 +77,7 @@ function MainContent({ Width }) {
                 <hr />
             </Header>
             <Folders>
-                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Windows (C:)")}>
+                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Windows (C:)")} draggable="true">
                     <img src="Images/thispc/windowdrive.ico" alt="" />
                     <Drive>
                         <span>Windows (C:)</span>
@@ -87,7 +87,7 @@ function MainContent({ Width }) {
                         <DriveStatus>115 GB free of 273 GB</DriveStatus>
                     </Drive>
                 </Folder>
-                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Drive (D:)")}>
+                <Folder className="thispcdrives" onClick={handleClick} onContextMenu={(e) => rightClickHandler(e, "Drive (D:)")} draggable="true">
                     <img src="Images/thispc/commondrive.ico" alt="" />
                     <Drive>
                         <span>Drive (D:)</span>

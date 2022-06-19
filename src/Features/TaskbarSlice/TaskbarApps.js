@@ -48,6 +48,11 @@ const TaskbarApps= {
         hovering: false,
         selected: false,
         windowSnapshots:[]
+    },
+    "Pokemon Adventures":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
     }
 }
 

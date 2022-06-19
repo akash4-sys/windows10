@@ -107,6 +107,7 @@ const appData = {
             mainWindowName:null,
             default: true,
             open: false,
+            defaultSnap:""
         },
         startmenu:{
             show:true,
@@ -125,6 +126,7 @@ const appData = {
             mainWindowName:null,
             default: true,
             open: false,
+            defaultSnap:""
         },
         startmenu:{
             show:true,
@@ -143,6 +145,7 @@ const appData = {
             mainWindowName:null,
             default: false,
             open: false,
+            defaultSnap:""
         },
         startmenu:{
             show:true,
@@ -161,6 +164,7 @@ const appData = {
             mainWindowName:null,
             default: false,
             open: false,
+            defaultSnap:""
         },
         startmenu:{
             show:true,
@@ -179,6 +183,26 @@ const appData = {
             mainWindowName:null,
             default: false,
             open: false,
+            defaultSnap:""
+        },
+        startmenu:{
+            show:true,
+            gridID:1
+        }
+    },
+    "Pokemon Adventures": {
+        name: "Pokemon Adventures",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/pokemonadventures.png",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+            defaultSnap:"Images/Snapshots/pokemonadventures.png"
         },
         startmenu:{
             show:true,
