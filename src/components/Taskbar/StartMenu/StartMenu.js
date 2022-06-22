@@ -33,7 +33,7 @@ const Container = styled.div`
     left:0%;
     bottom:2.5rem;
     height:90vh;
-    width:91%;
+    width:42rem;
     background-color:var(--startbg);
     opacity:0.98;
     animation:${menuAppearAnimation} 30ms ease-in;

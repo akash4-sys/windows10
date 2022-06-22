@@ -8,6 +8,7 @@ import FileExplorerWindow from '../Window/FileExplorerWindow/FileExplorerWindow'
 import MyPortfolio from '../Window/MyPortfolioWindow/MyPortfolio';
 import Notepad from '../Window/NotepadWindow/Notepad';
 import PokemonGameWindow from '../Window/PokemonGameWindow/PokemonGameWindow';
+import Whiteboard from '../Window/WhiteboardWindow/Whiteboard';
 
 function Desktop() {
 
@@ -34,6 +35,7 @@ function Desktop() {
                 <MyPortfolio />
                 <Notepad />
                 <PokemonGameWindow />
+                <Whiteboard />
 
             </BackGroundImageContainer>
         </DesktopPage>

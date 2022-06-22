@@ -5,11 +5,12 @@ import { nanoid } from 'nanoid';
 import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
 import { setAppWindow } from '../../../Features/AppWindowSlice/AppWindowSlice';
 import { setWindowSnapshots } from '../../../Features/TaskbarSlice/TaskbarSlice';
+import GridName from './utils/GridName';
 
 function AppsGrid({ setDisplayStartMenu }) {
 
 	const dispatch = useDispatch();
-    const AppData = useSelector((state) => state.appwindow)
+    const AppData = useSelector((state) => state.appwindow);
 
 	let gridAppBGC = "rgba(255,255,255,0.3)";
 	const [gridNames, setGridNames] = useState({
@@ -18,17 +19,17 @@ function AppsGrid({ setDisplayStartMenu }) {
 		Grid3: "Support"
 	});
 
-	function handleRename(e) {
-		setGridNames({ ...gridNames, [e.target.name]: e.target.value });
-	}
+	// function handleClickOutsideHeader(e){
+	// 	if(headerRef?.current?.contains(e.target)) return;
+	// 	setGridNames({ ...gridNames, [headerRef.current.querySelector('input').name]: headerRef.current.querySelector('input').value });
+	// 	document.removeEventListener('click', handleClickOutsideHeader);
+	// }
 
 	function HeaderClickHandler(e) {
 		e.currentTarget.querySelector('input').focus();
 		e.currentTarget.querySelector('img').src = "Images/gripLinesW.png";
-	}
-
-	function handleKey(e) {
-		if (e.key === 'Enter') { e.target.blur(); }
+		// document.addEventListener('click', handleClickOutsideHeader);
+		// headerRef.current = e.currentTarget;
 	}
 
 	function handleClick(name) {
@@ -44,8 +45,7 @@ function AppsGrid({ setDisplayStartMenu }) {
 					Object.keys(gridNames).map((key, index) => (
 						<div key={nanoid()}>
 							<Header onClick={HeaderClickHandler} draggable="true">
-								<input type="text" value={gridNames[key]} onChange={handleRename} name="startmenuapps" onKeyPress={handleKey} />
-								<i className="fa-solid fa-xmark"></i>
+								<GridName value={gridNames[key]} currKey={key} />
 								<GripLines>
 									<img src="Images/gripLines.png" alt="grip" id="gripImg" />
 								</GripLines>
@@ -141,7 +141,7 @@ const Header = styled.div`
 		padding-left:5px;
 	}
 
-	&:focus-within{
+	&:focus-within, &:active{
 		background-color: white;
 		outline:2px solid var(--windowsBlue);
 		#gripImg, i{
@@ -151,6 +151,8 @@ const Header = styled.div`
 			background-color: var(--windowsBlue);
 		}
 	}
+
+	&:active{ input{ padding-left:5px; } };
 `
 
 const GripLines = styled.div`

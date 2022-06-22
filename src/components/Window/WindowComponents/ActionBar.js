@@ -134,7 +134,8 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
                     <div className="maximize">
                         <img src="Images/maximize.png" alt="max" />
                     </div>
-                    <div className="closeButton">
+                    <div className="closeButton" onMouseEnter={(e) => e.currentTarget.children[0].src = "Images/wclose.png"}
+                        onMouseLeave={(e) => e.currentTarget.children[0].src = "Images/close.png"}>
                         <img src="Images/close.png" alt="close" />
                     </div>
                 </UpperHalf>

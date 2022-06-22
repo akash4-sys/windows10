@@ -160,6 +160,7 @@ const RightSection = styled.div`
 
 const Visible = keyframes`
     to{
+        visibility:visible;
         opacity:1;
     }
 `
@@ -252,6 +253,7 @@ const Tooltip = styled.span`
     bottom: 100%;
     left: 50%;
     margin-left: -20px;
+    visibility:hidden;
 `
 
 const DateAndTime = styled.div`

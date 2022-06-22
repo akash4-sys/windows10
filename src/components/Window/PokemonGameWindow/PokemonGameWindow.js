@@ -4,18 +4,18 @@ import Window from '../Window';
 import NameBar from '../WindowComponents/ITagContent/NameBar';
 import MainContent from '../WindowComponents/ITagContent/MainContent';
 
-function MyPortfolio() {
+function PokemonAdventures() {
 
-    const MyPortfolio = useSelector((state) => state.appwindow["Pokemon Adventures"]);
+    const PokemonAdventures = useSelector((state) => state.appwindow["Pokemon Adventures"]);
     const WindowRef = useRef();
 
     let SRC = "https://pokemonadventure.netlify.app/";
 
     return (
         <Window
-            AppWindow={MyPortfolio}
+            AppWindow={PokemonAdventures}
             showFaqBar={false}
-            windowNameBar={<NameBar windowsName={MyPortfolio.name} showExpand={true} ref={WindowRef} windowIcon={MyPortfolio.image} />}
+            windowNameBar={<NameBar windowsName={PokemonAdventures.name} showExpand={true} ref={WindowRef} windowIcon={PokemonAdventures.image} />}
             thispcToolbar={{ show: false, height: "0px" }}
             windowToolbar={{ show: false, height: "-0.4rem" }}
             windowSearchBar={{ show: false, height: "0px" }}
@@ -27,4 +27,4 @@ function MyPortfolio() {
     )
 }
 
-export default MyPortfolio;
+export default PokemonAdventures;

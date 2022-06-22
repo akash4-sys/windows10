@@ -209,6 +209,25 @@ const appData = {
             gridID:1
         }
     },
+    "Microsoft Whiteboard": {
+        name: "Microsoft Whiteboard",
+        showWindow: false,
+        windowCount: 0,
+        image:"Images/whiteboard.png",
+        minimized: [false],
+        showInDekstop: true,
+        showInAppList:true,
+        taskbar: {
+            mainWindowName:null,
+            default: false,
+            open: false,
+            defaultSnap:"Images/Snapshots/whiteboardSnap.png"
+        },
+        startmenu:{
+            show:true,
+            gridID:0
+        }
+    },
 };
 
 export default appData;

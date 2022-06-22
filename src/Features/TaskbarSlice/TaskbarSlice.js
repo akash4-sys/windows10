@@ -44,10 +44,10 @@ export const TaskbarSlice = createSlice({
         },
 
         clickTaskbarApp: (state, action) => {
-            for (let name in state.taskbarApps) { state.taskbarApps[name].selected = false; }
             let Apps = action.payload.Apps;
             let windowName = action.payload.windowName;
             if(action.payload.windowCount !== 1) return;
+            for (let name in state.taskbarApps) { state.taskbarApps[name].selected = false; }
             if(Apps[windowName].windowCount !== 1) windowName = Apps[windowName].taskbar.hasSubWindow;
             if (Apps[windowName].minimized[0]) state.taskbarApps[action.payload.windowName].selected = true;
             else state.taskbarApps[action.payload.windowName].selected = false;

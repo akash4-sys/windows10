@@ -53,7 +53,12 @@ const TaskbarApps= {
         hovering: false,
         selected: false,
         windowSnapshots:[]
-    }
+    },
+    "Microsoft Whiteboard":{
+        hovering: false,
+        selected: false,
+        windowSnapshots:[]
+    },
 }
 
 export default TaskbarApps;
