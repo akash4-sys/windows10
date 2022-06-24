@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCtn } from './MainContentStyle';
 
-const AdditionalSettings = forwardRef(({ setNewBoard }, CanvasTitleRef) => {
+const AdditionalSettings = forwardRef(({ setNewBoard, newBoard }, CanvasTitleRef) => {
 
-    const [renameBox, setRenameBox] = useState({show: false, title:"Untitled Whiteboard"});
-    const [newTitle, setNewTitle] = useState("Untitled Whiteboard");
+    let oldtitle = newBoard.title ? newBoard.title : "Untitled Whiteboard";
+
+    const [renameBox, setRenameBox] = useState({show: false, title:oldtitle});
+    const [newTitle, setNewTitle] = useState(oldtitle);
     const renameBoxRef = useRef();
     const renameBtnRef = useRef();
     const titleRef = useRef();
@@ -31,7 +33,7 @@ const AdditionalSettings = forwardRef(({ setNewBoard }, CanvasTitleRef) => {
     }
 
     function clickedHome(){
-        setNewBoard(false); 
+        setNewBoard({...newBoard, show:false});
         CanvasTitleRef.current = renameBox.title;
     }
     

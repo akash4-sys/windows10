@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Board } from './MainContentStyle';
 
-function UserBoard({ userCanvas, canvasTitle, setRenameBox, index }) {
-    
+function UserBoard({ userCanvas, canvasTitle, setRenameBox, index, setNewBoard }) {
+
     const [showMore, setShowMore] = useState(false);
     const moreOptRef = useRef();
     const showMoreBtn = useRef();
@@ -11,7 +11,7 @@ function UserBoard({ userCanvas, canvasTitle, setRenameBox, index }) {
     useEffect(() => {
         if (!showMore) return
         function handleClickOutside(event) {
-            if (!moreOptRef?.current?.contains(event.target) && !showMoreBtn?.current?.contains(event.target)) 
+            if (!moreOptRef?.current?.contains(event.target) && !showMoreBtn?.current?.contains(event.target))
                 setTimeout(() => { setShowMore(false); }, 10);
         }
         document.addEventListener("click", handleClickOutside);
@@ -20,14 +20,20 @@ function UserBoard({ userCanvas, canvasTitle, setRenameBox, index }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showMore]);
 
+    function onClickBoard(e) {
+        if(showMoreBtn.current && showMoreBtn.current.contains(e.target)) return;
+        if(moreOptRef.current && moreOptRef.current.contains(e.target)) return;
+        setNewBoard({ show: true, edit: true, index, title: canvasTitle })
+    }
+
     return (
-        <Board>
+        <Board onClick={onClickBoard}>
             <BoardImg src={userCanvas} />
             <DetailsBar>
                 <BoardDetail>
                     {canvasTitle} <div>Edited: 11:47 PM</div>
                 </BoardDetail>
-                {   showMore && 
+                {showMore &&
                     <MoreOptions ref={moreOptRef}>
                         <Option>
                             <img src="Images/trash.png" alt="D" />
@@ -43,7 +49,7 @@ function UserBoard({ userCanvas, canvasTitle, setRenameBox, index }) {
                         </Option>
                     </MoreOptions>
                 }
-                <ShowMore ref={showMoreBtn} className="fa-solid fa-ellipsis" onClick={() => showMore ? setShowMore(false) : setShowMore(true) }/>
+                <ShowMore ref={showMoreBtn} className="fa-solid fa-ellipsis" onClick={() => showMore ? setShowMore(false) : setShowMore(true)} />
             </DetailsBar>
         </Board>
     )
@@ -110,7 +116,7 @@ const MoreOptions = styled.div`
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     animation: ${settingOptions} 50ms ease-in;
 `
-    
+
 const Option = styled.div`
     width:100%;
     height:33.33%;

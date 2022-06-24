@@ -14,7 +14,7 @@ import { ReactComponent as Close } from '../../../close.svg';
 function MainContent() {
 
     const dispatch = useDispatch();
-    const [newBoard, setNewBoard] = useState(false);
+    const [newBoard, setNewBoard] = useState({show:false, edit:false});
     const [boardArr, setBoardArr] = useState([]);
     const [renameBox, setRenameBox] = useState({ show: false, index: null });
     const CanvasTitleRef = useRef("Untitled");
@@ -23,12 +23,18 @@ function MainContent() {
     let canvas, ctx, fillStyle = "", drawing = false;
 
     useEffect(() => {
-        if (newBoard) {
+        if (newBoard.show) {
             canvas = CanvasRef.current;
             ctx = canvas.getContext('2d');
             let whiteBoard = whiteBoardRef.current;
             canvas.width = whiteBoard.getBoundingClientRect().width;
             canvas.height = whiteBoard.getBoundingClientRect().height;
+
+            if(newBoard.edit){
+                var image = new Image();
+                image.src = boardArr[newBoard.index][0];
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            }
 
             canvas.addEventListener('mousemove', drawOnCanvas);
             return () => {
@@ -37,10 +43,16 @@ function MainContent() {
                 drawing = false;
                 dispatch(setWhiteboardPointer({ x: 0, y: 0, color: "" }));
                 const userDrawnImg = canvas.toDataURL('image/png', 1);
+                if(newBoard.edit) {
+                    boardArr[newBoard.index][0] = userDrawnImg;
+                    boardArr[newBoard.index][1] = CanvasTitleRef.current;
+                    setBoardArr([...boardArr]);
+                    return;
+                }
                 setBoardArr([...boardArr, [userDrawnImg, CanvasTitleRef.current]]);
             }
         }
-    }, [newBoard]);
+    }, [newBoard.show]);
 
     function drawOnCanvas(e) {
         if (!fillStyle) return;
@@ -76,11 +88,11 @@ function MainContent() {
 
     return (
         <Container>
-            <SettingsBar style={newBoard ? { justifyContent: "space-between" } : { justifyContent: "flex-end" }}>
+            <SettingsBar style={newBoard.show ? { justifyContent: "space-between" } : { justifyContent: "flex-end" }}>
 
-                {newBoard && <AdditionalSettings setNewBoard={setNewBoard} ref={CanvasTitleRef} />}
+                {newBoard.show && <AdditionalSettings setNewBoard={setNewBoard} newBoard={newBoard} ref={CanvasTitleRef} />}
 
-                {!newBoard && <User>Am</User>}
+                {!newBoard.show && <User>Am</User>}
                 <Button onMouseEnter={(e) => e.currentTarget.children[0].src = "Images/settingsFill.png"}
                     onMouseLeave={(e) => e.currentTarget.children[0].src = "Images/settingsb.png"}>
                     <img src="Images/settingsb.png" alt="set" />
@@ -88,7 +100,7 @@ function MainContent() {
 
             </SettingsBar>
             {
-                newBoard ?
+                newBoard.show ?
                     <WhiteBoard ref={whiteBoardRef}>
                         <canvas ref={CanvasRef} onMouseDown={handleMouseDownCanvas} onMouseUp={handleMouseUpCanvas}></canvas>
                         <Pointer />
@@ -104,13 +116,14 @@ function MainContent() {
                     :
                     <Content>
                         <WhiteboardList>
-                            <NewBoard onClick={() => setNewBoard(true)}>
+                            <NewBoard onClick={() => setNewBoard({show:true, edit:false})}>
                                 <AddNew>+</AddNew>
                                 <New>New Whiteboard</New>
                             </NewBoard>
                             {
                                 boardArr.map((item, i) => (
-                                    <Board userCanvas={item[0]} key={i} index={i} canvasTitle={item[1]} setRenameBox={setRenameBox} />
+                                    <Board userCanvas={item[0]} key={i} index={i} canvasTitle={item[1]} setRenameBox={setRenameBox}
+                                    setNewBoard={setNewBoard} />
                                 ))
                             }
                         </WhiteboardList>
