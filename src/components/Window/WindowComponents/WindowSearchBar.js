@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ReactComponent as Close } from '../../../svg/close.svg';
 
 function WindowSearchBar({ windowIcon, windowName, Height }) {
 
@@ -51,7 +52,7 @@ function WindowSearchBar({ windowIcon, windowName, Height }) {
                 {
                     inputConfig.show &&
                     <>
-                        <Cross onClick={() => setInputConfig(false)} ><img src="Images/close.png" alt="Close" /></Cross>
+                        <Cross onClick={() => setInputConfig(false)} ><Close fill="black" style={{ height: "13px", width: "13px" }} /></Cross>
                         <Forward className="fa-solid fa-arrow-right-long" />
                     </>
                 }
@@ -186,10 +187,6 @@ const Cross = styled.div`
     width: 1.8rem;
     transition: background-color 500ms;
     &:hover{ background-color: var(--folderSelect); }
-    img{
-        height: 13px;
-        width: 13px;
-    }
 `
 const Forward = styled.i`
     background-color: var(--windowsBlue);

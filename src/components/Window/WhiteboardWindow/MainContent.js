@@ -9,7 +9,7 @@ import Board from './utils/Board';
 import Pointer from './utils/Pointer';
 import AdditionalSettings from './utils/AdditionalSettings';
 import RenameDialogBox from './utils/RenameDialogBox';
-import { ReactComponent as Close } from '../../../close.svg';
+import { ReactComponent as Close } from '../../../svg/close.svg';
 
 function MainContent() {
 

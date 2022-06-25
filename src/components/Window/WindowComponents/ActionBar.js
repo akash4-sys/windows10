@@ -1,5 +1,6 @@
 import React, { useRef, forwardRef } from 'react';
 import styled from 'styled-components';
+import { ReactComponent as Close } from '../../../svg/close.svg';
 import '../utils/WindowsAnimation.css'
 
 const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
@@ -134,9 +135,9 @@ const ActionBar = forwardRef(({ showFaqBar }, refContainer) => {
                     <div className="maximize">
                         <img src="Images/maximize.png" alt="max" />
                     </div>
-                    <div className="closeButton" onMouseEnter={(e) => e.currentTarget.children[0].src = "Images/wclose.png"}
-                        onMouseLeave={(e) => e.currentTarget.children[0].src = "Images/close.png"}>
-                        <img src="Images/close.png" alt="close" />
+                    <div className="closeButton" onMouseEnter={e => e.currentTarget.querySelector('svg').style.fill = "white"}
+                        onMouseLeave={e => e.currentTarget.querySelector('svg').style.fill = "black"}>
+                        <Close fill="black" style={{ height: "12px", width: "12px" }} />
                     </div>
                 </UpperHalf>
 
