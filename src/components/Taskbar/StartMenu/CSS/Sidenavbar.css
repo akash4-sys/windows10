@@ -1,7 +1,7 @@
 @keyframes FullNavbar {
     to{
         width:17rem;
-        box-shadow: rgb(0 0 0 / 19%) 0px 10px 20px, rgb(0 0 0 / 23%) 3px -1px 20px 0px;
+        box-shadow: rgb(0 0 0 / 19%) 5px 0px 10px;
     }
 }
 

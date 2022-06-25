@@ -9,6 +9,7 @@ import MyPortfolio from '../Window/MyPortfolioWindow/MyPortfolio';
 import Notepad from '../Window/NotepadWindow/Notepad';
 import PokemonGameWindow from '../Window/PokemonGameWindow/PokemonGameWindow';
 import Whiteboard from '../Window/WhiteboardWindow/Whiteboard';
+import ErrorBoundary from '../Boot/ErrorBoundary';
 
 function Desktop() {
 
@@ -28,14 +29,15 @@ function Desktop() {
                 <WindowCollision id="windowCollisionBox" />
                 <CursorAnimationCircle id="CursorAnimationCircle" />
 
-                <AppsLayer />
-                <ThisPCWindow />
-                <ChromeWindow />
-                <FileExplorerWindow />
-                <MyPortfolio />
-                <Notepad />
-                <PokemonGameWindow />
-                <Whiteboard />
+                <ErrorBoundary> <AppsLayer /> </ErrorBoundary>
+
+                <ErrorBoundary> <ThisPCWindow /> </ErrorBoundary>
+                <ErrorBoundary> <ChromeWindow /> </ErrorBoundary>
+                <ErrorBoundary> <FileExplorerWindow /> </ErrorBoundary>
+                <ErrorBoundary> <MyPortfolio /> </ErrorBoundary>
+                <ErrorBoundary> <Notepad /> </ErrorBoundary>
+                <ErrorBoundary> <PokemonGameWindow /> </ErrorBoundary>
+                <ErrorBoundary> <Whiteboard /> </ErrorBoundary>
 
             </BackGroundImageContainer>
         </DesktopPage>

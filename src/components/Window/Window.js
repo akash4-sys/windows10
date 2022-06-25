@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import {
     useDispatch, styled, keyframes, nanoid, ActionBar, WindowSearchBar, handleWindowClick, handleWindowResizing, WindowToolBar, 
-    ThispcToolbar, handleWindowMousemove, QuickAccessBar, WindowFooter
+    ThispcToolbar, handleWindowMousemove, QuickAccessBar, WindowFooter, ErrorBoundary
 } from './index.js';
 
 
@@ -30,7 +30,7 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
 
     if (AppWindow.showWindow) {
         return (
-            <>
+            <ErrorBoundary>
                 {
                     [...Array(numberOfWindow)].map((e,i) => (
                         <Container key={nanoid()} id={generateId(i)} 
@@ -75,7 +75,7 @@ function Window({windowNameBar, showFaqBar, windowToolbar, thispcToolbar, window
                         </Container>
                     ))
                 }
-            </>
+            </ErrorBoundary>
         )
     }
 }
