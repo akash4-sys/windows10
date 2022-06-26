@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCtn } from './MainContentStyle';
+import InputComp from './InputComp';
 
 const AdditionalSettings = forwardRef(({ setNewBoard, newBoard }, CanvasTitleRef) => {
 
     let oldtitle = newBoard.title ? newBoard.title : "Untitled Whiteboard";
 
     const [renameBox, setRenameBox] = useState({show: false, title:oldtitle});
-    const [newTitle, setNewTitle] = useState(oldtitle);
     const renameBoxRef = useRef();
     const renameBtnRef = useRef();
     const titleRef = useRef();
@@ -26,11 +26,6 @@ const AdditionalSettings = forwardRef(({ setNewBoard, newBoard }, CanvasTitleRef
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [renameBox.show]);
-
-    function handleInputChange(e){
-        titleRef.current = e.target.value;
-        setNewTitle(e.target.value);
-    }
 
     function clickedHome(){
         setNewBoard({...newBoard, show:false});
@@ -64,8 +59,7 @@ const AdditionalSettings = forwardRef(({ setNewBoard, newBoard }, CanvasTitleRef
                 <RenameBox ref={renameBoxRef}>
                     <RenameTitle>Board Name</RenameTitle>
                     <Input>
-                        <input type="text" name="newWhiteboard" placeholder="Untitled"
-                            autoComplete="off" maxLength="35" onChange={handleInputChange} value={newTitle}/>
+                        <InputComp oldtitle={oldtitle} ref={titleRef}/>
                         <img src="Images/edit.png" alt="" />
                     </Input>
                 </RenameBox>

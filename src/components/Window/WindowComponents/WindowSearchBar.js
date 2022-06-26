@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Close } from '../../../svg/close.svg';
+import AddressbarInput from './utils/AddressbarInput';
+import SearchwindowInput from './utils/SearchwindowInput';
 
 function WindowSearchBar({ windowIcon, windowName, Height }) {
 
-    const [ inputConfig, setInputConfig ] = useState({show: false, value:"" });
-    const [ addressBarInput, setAddressBarInput ] = useState(windowName);
     let target;
 
     function outSideClick(e) {
@@ -36,7 +35,7 @@ function WindowSearchBar({ windowIcon, windowName, Height }) {
                 <Status>
                     <img src={windowIcon} alt="win" />
                     <FileArrow><i className="fa-solid fa-chevron-right"></i></FileArrow>
-                    <Input type="text" value={addressBarInput} onChange={(e) => setAddressBarInput(e.currentTarget.value)}/>
+                    <AddressbarInput windowName={windowName} Input={Input} />
                 </Status>
                 <Buttons>
                     <Button className="WindowSearchBarDownArrow"><i className="fa-solid fa-chevron-down"></i></Button>
@@ -47,15 +46,7 @@ function WindowSearchBar({ windowIcon, windowName, Height }) {
             </AddressBar>
             <SearchBar>
                 <SearchIcon><i className="fa-solid fa-magnifying-glass"></i></SearchIcon>
-                <Input type="text" placeholder={`Search ${windowName}`} 
-                    onChange={(e) => setInputConfig({show: true, value: e.target.value })} value={ inputConfig.show ? inputConfig.value : ""}/>
-                {
-                    inputConfig.show &&
-                    <>
-                        <Cross onClick={() => setInputConfig(false)} ><Close fill="black" style={{ height: "13px", width: "13px" }} /></Cross>
-                        <Forward className="fa-solid fa-arrow-right-long" />
-                    </>
-                }
+                <SearchwindowInput windowName={windowName} Input={Input} />
             </SearchBar>
         </Container>
     )
@@ -177,21 +168,6 @@ const SearchIcon = styled(Button)`
         background-color:transparent;
         outline: 0px;
     }
-`
-
-const Cross = styled.div`
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    height: 86%;
-    width: 1.8rem;
-    transition: background-color 500ms;
-    &:hover{ background-color: var(--folderSelect); }
-`
-const Forward = styled.i`
-    background-color: var(--windowsBlue);
-    color: white !important;
-    padding: 9px;
 `
 
 const Input = styled.input`
