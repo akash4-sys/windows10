@@ -1,25 +1,24 @@
 {
-    "short_name": "React App",
-    "name": "Create React App Sample",
-    "icons": [
-      {
-
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/x-icon"
-      },
-      {
-
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
-  }
+	"name": "Windows 10 Chrome",
+	"description": "Chrome based windows application for testing and development purpose",
+	"icons": [
+		{
+			"src": "./Images/windows10.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose":"any maskable"
+		},
+		{
+			"src": "./Images/windows10.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+	"short_name": "Windows10C",
+	"display": "fullscreen",
+	"theme_color": "grey",
+	"background_color": "black",
+	"id": "/",
+	"orientation":"landscape"
+}
