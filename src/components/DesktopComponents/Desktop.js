@@ -30,7 +30,7 @@ function Desktop() {
             <DesktopPage tabIndex="0" onKeyDown={handleKey}>
                 <BackGroundImageContainer>
 
-                    <Notifications />
+                    <Notifications icon={"Images/wifioff.png"}/>
 
                     <WindowCollision id="windowCollisionBox" />
                     <CursorAnimationCircle id="CursorAnimationCircle" />

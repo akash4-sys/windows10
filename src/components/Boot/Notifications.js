@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as Close } from '../../svg/close.svg';
 
-function Notifications() {
+function Notifications({ icon }) {
 
     let [online, isOnline] = useState(navigator.onLine);
 
@@ -34,7 +34,7 @@ function Notifications() {
     if (!online) {
         return (
             <Notification>
-                <img src="Images/wifioff.png" alt="wifi_off" />
+                <img src={icon} alt="wifi_off" />
                 <Details>
                     <h4>No Internet</h4>
                     <div>You are not connected to the internet. Some features may not work as intended.</div>

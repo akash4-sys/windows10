@@ -1,8 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Input from './utils/Input'
 
 function CreateAccount({ setLogin }) {
+
+    const [authorized, setAuthorized] = useState({ 
+        username: { valid:false, val: "", alert: "", color: "" }, 
+        create_email: { valid:false, val: "", alert: "", color: "" }, 
+        create_pass: { valid:false, val: "", alert: "", color: "" }, 
+        r_password: { valid:false, val: "", alert: "", color: "" }, 
+        hint: { valid:false, val: "", alert: "", color: "" } 
+    });
 
     const cntRef = useRef();
     useEffect(() => {
@@ -11,31 +19,38 @@ function CreateAccount({ setLogin }) {
         input.click();
     }, []);
 
-    function Back(){
+    function Back() {
         setLogin(true);
+    }
+
+    function sendToServer(){
+        let key = Object.keys(authorized).find(key => authorized[key].valid === false);
+        if(key) {
+            setAuthorized({ ...authorized, [key]:{ ...authorized[key], color:"yellow" } });
+            setTimeout(() => { setAuthorized({ ...authorized, [key]:{ ...authorized[key], color:"" } }) }, 3000);
+            return;
+        }
     }
 
     return (
         <Container ref={cntRef}>
             <h1>Create an account for this PC</h1>
-            <p style={{margin:"1.5rem 0"}}>If you want to use a password, choose something that will be easy for you to remember but hard for
-                <br/> others to guess.
-            </p>
             <p>Who's going to use this PC?</p>
-            <Input placeholder="Username" type="text"/>
-            <p>Your Microsoft account opens a world of benefits. Sign in for your personalized experience.
-                <span> Learn <br /> more.</span>
+            <Input authorized={authorized} setAuthorized={setAuthorized} name="username" placeholder="Username" type="text" />
+            <p>Your Microsoft account opens a world of benefits. Use Microsoft account for your personalized
+                <br /> experience.
             </p>
-            <Input placeholder="Email or phone" type="email" />
-            <p>Make it secure</p>
-            <Input placeholder="Enter Password" type="text"/>
-            <Input placeholder="Re-enter Password" type="text"/>
-            <Input placeholder="Password hint" type="text"/>
+            <Input authorized={authorized} setAuthorized={setAuthorized} name="create_email" placeholder="Email or phone" type="email" />
+            <p>If you want to use a password, choose something that will be easy for you to remember but hard for
+                <br /> others to guess. Make it secure.
+            </p>
+            <Input authorized={authorized} setAuthorized={setAuthorized} name="create_pass" placeholder="Enter Password" type="text" />
+            <Input authorized={authorized} setAuthorized={setAuthorized} name="r_password" placeholder="Re-enter Password" type="text" />
+            <Input authorized={authorized} setAuthorized={setAuthorized} name="hint" placeholder="Password hint" type="text" />
             <Footer>
-                <i className="fa-solid fa-clock-rotate-left"></i>
                 <Buttons>
-                    <button onClick={Back}>Back</button>
-                    <button>Next</button>
+                    <button type="button" onClick={Back}>Back</button>
+                    <button type="button" onClick={sendToServer}>Next</button>
                 </Buttons>
             </Footer>
         </Container>
@@ -55,17 +70,18 @@ const Container = styled.div`
         font-weight:200;
         margin-top:2rem;   
     }
+
+    input{ width:18rem; }
+    p{ margin: 1rem 0 0.3rem; }
 `
 
 const Footer = styled.div`
     width: 100%;
     height: 2.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 4rem;
-
-    i{ font-size:2rem; }
 `
 
 const Buttons = styled.div`
