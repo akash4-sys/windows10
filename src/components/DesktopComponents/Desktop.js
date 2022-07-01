@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import styled from 'styled-components';
 import handleKey from './utils/KeyHandler';
 import AppsLayer from './AppsLayer/AppsLayer';
@@ -10,37 +10,47 @@ import Notepad from '../Window/NotepadWindow/Notepad';
 import PokemonGameWindow from '../Window/PokemonGameWindow/PokemonGameWindow';
 import Whiteboard from '../Window/WhiteboardWindow/Whiteboard';
 import ErrorBoundary from '../Boot/ErrorBoundary';
+import Notifications from '../Boot/Notifications';
+
+const Taskbar = lazy(() => import('../Taskbar/Taskbar'));
 
 function Desktop() {
 
-    function fullScreen() {
-        document.getElementById('root').requestFullscreen();
-        document.getElementById('root').removeEventListener('click',fullScreen); 
-    }
+    // function fullScreen() {
+    //     document.getElementById('root').requestFullscreen();
+    //     document.getElementById('root').removeEventListener('click',fullScreen); 
+    // }
 
-    useEffect(() => {
-        document.getElementById('root').addEventListener('click', fullScreen);
-    }, [])
+    // useEffect(() => {
+    //     document.getElementById('root').addEventListener('click', fullScreen);
+    // }, [])
 
     return (
-        <DesktopPage tabIndex="0" onKeyDown={handleKey}>
-            <BackGroundImageContainer>
+        <>
+            <DesktopPage tabIndex="0" onKeyDown={handleKey}>
+                <BackGroundImageContainer>
 
-                <WindowCollision id="windowCollisionBox" />
-                <CursorAnimationCircle id="CursorAnimationCircle" />
+                    <Notifications />
 
-                <ErrorBoundary> <AppsLayer /> </ErrorBoundary>
+                    <WindowCollision id="windowCollisionBox" />
+                    <CursorAnimationCircle id="CursorAnimationCircle" />
 
-                <ErrorBoundary> <ThisPCWindow /> </ErrorBoundary>
-                <ErrorBoundary> <ChromeWindow /> </ErrorBoundary>
-                <ErrorBoundary> <FileExplorerWindow /> </ErrorBoundary>
-                <ErrorBoundary> <MyPortfolio /> </ErrorBoundary>
-                <ErrorBoundary> <Notepad /> </ErrorBoundary>
-                <ErrorBoundary> <PokemonGameWindow /> </ErrorBoundary>
-                <ErrorBoundary> <Whiteboard /> </ErrorBoundary>
+                    <ErrorBoundary> <AppsLayer /> </ErrorBoundary>
 
-            </BackGroundImageContainer>
-        </DesktopPage>
+                    <ErrorBoundary> <ThisPCWindow /> </ErrorBoundary>
+                    <ErrorBoundary> <ChromeWindow /> </ErrorBoundary>
+                    <ErrorBoundary> <FileExplorerWindow /> </ErrorBoundary>
+                    <ErrorBoundary> <MyPortfolio /> </ErrorBoundary>
+                    <ErrorBoundary> <Notepad /> </ErrorBoundary>
+                    <ErrorBoundary> <PokemonGameWindow /> </ErrorBoundary>
+                    <ErrorBoundary> <Whiteboard /> </ErrorBoundary>
+
+                </BackGroundImageContainer>
+            </DesktopPage>
+            <ErrorBoundary>
+                <Taskbar />
+            </ErrorBoundary>
+        </>
     )
 }
 

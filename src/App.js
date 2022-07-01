@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import DefaultCxtMenu from './components/ContextMenu/DefaultCxtMenu';
 import InitialBoot from './components/Boot/InitialBoot';
-import ErrorBoundary from './components/Boot/ErrorBoundary';
 
+const Authenticate = lazy(() => import('./components/Authenticate/Authenticate'))
 const Desktop = lazy(() => import('./components/DesktopComponents/Desktop'));
-const Taskbar = lazy(() => import('./components/Taskbar/Taskbar'));
 const NotFound = lazy(() => import('./components/NotFound/NotFound'));
 
 function App() {
@@ -15,12 +14,10 @@ function App() {
 		<Screen>
 			<Router>
 				<Suspense fallback={<InitialBoot />}>
-					<ErrorBoundary>
-						<Taskbar />
-					</ErrorBoundary>
 					<DefaultCxtMenu />
 					<Routes>
 						<Route path="/" element={<Desktop />} />
+						<Route path="/authenticate" element={<Authenticate />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</Suspense>

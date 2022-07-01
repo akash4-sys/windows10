@@ -6,7 +6,7 @@
 	<link rel="icon" href="./Images/windows10.svg" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="theme-color" content="grey" />
-	<meta name="description" content="Windows 10 in your Wb browser" />
+	<meta name="description" content="Windows 10 in your Web browser" />
 	<link rel="apple-touch-icon" href="%PUBLIC_URL%/windows10.svg" />
 
 	<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
@@ -19,15 +19,5 @@
 </body>
 <script src="https://kit.fontawesome.com/626ebb653d.js" crossorigin="anonymous"></script>
 <script async src="https://cse.google.com/cse.js?cx=fe959ec7c1306b366"></script>
-<script>
-	if ('serviceWorker' in navigator) {
-		window.addEventListener('load', () => {
-			navigator.serviceWorker
-				.register('./serviceWorker.js')
-				.then((reg) => console.log('Success: ', reg.scope))
-				.catch((err) => console.log('Failure: ', err));
-		});
-	}
-</script>
 
 </html>
