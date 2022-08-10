@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { hoverEffect, cancelHoverEffect } from '../utils/WindowsHoverEffect';
+import Logout from '../../Authenticate/Logout';
 import './CSS/Sidenavbar.css'
 
 function SideNavbar() {
@@ -35,11 +36,11 @@ function SideNavbar() {
 
     function PowerButtonhandler() {
         let Navbar = document.getElementById('navbar');
-        
+
         if (displayOptions) {
-            
+
             Navbar.classList.add('navbar');
-            Navbar.classList.remove('fixedNavbar');            
+            Navbar.classList.remove('fixedNavbar');
             document.getElementById('powerlist').style.opacity = 0;
             setTimeout(() => { setDisplayOptions(false); }, 10);
 
@@ -48,7 +49,7 @@ function SideNavbar() {
             let width = getComputedStyle(Navbar).width;
             Navbar.classList.remove('navbar');
             setDisplayOptions(true);
-            if(width === "272px" ){
+            if (width === "272px") {
                 Navbar.classList.add('fixedNavbar');
             }
         }
@@ -78,7 +79,8 @@ function SideNavbar() {
                         <img src="Images/settingsb.png" alt="settings" />
                         <span>Settings</span>
                     </div>
-                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} id="powerbtn" ref={powerBtnRef} onClick={PowerButtonhandler}>
+                    <div className="tools" onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} id="powerbtn" 
+                        ref={powerBtnRef} onClick={PowerButtonhandler}>
                         <img src="Images/shutdownb.png" alt="shutdown" />
                         <span>Power</span>
                     </div>
@@ -87,15 +89,15 @@ function SideNavbar() {
             {
                 displayOptions &&
                 <Power id="powerlist" ref={wrapperRef}>
-                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} onClick={() => document.fullscreenElement ? document.exitFullscreen(): null }>
-                        <img src="Images/sleepb.png" alt="sleep"/>
-                        <div>Sleep</div>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} onClick={Logout}>
+                        <img src="Images/sleepb.png" alt="Logout" />
+                        <div>Logout</div>
                     </li>
                     <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
                         <img src="Images/shutdownb.png" alt="shutdown" />
                         <div>Shut down</div>
                     </li>
-                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")}>
+                    <li onMouseMove={hoverEffect} onMouseLeave={(e) => cancelHoverEffect(e, "transparent")} onClick={() => window.location.reload()}>
                         <img src="Images/restartb.png" alt="restart" />
                         <div>Restart</div>
                     </li>
