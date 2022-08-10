@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CreateAccount from './CreateAccount';
+import VerifyOTP from './VerifyOTP';
 import Login from './Login';
+import NewPassword from './NewPassword';
+import ErrorBoundary from '../Boot/ErrorBoundary';
 
 function Authenticate() {
 
-    const [ login, setLogin ] = useState(true)
+    const [authMode, setAuthMode] = useState("login");
+
+    function AuthModeHelper() {
+        switch (authMode) {
+            case 'login': return (<Login setAuthMode={setAuthMode} />)
+            case 'createAccount': return (<CreateAccount setAuthMode={setAuthMode} />)
+            case 'verifyOTP': return (<VerifyOTP setAuthMode={setAuthMode} />)
+            case 'NewPassword': return (<NewPassword setAuthMode={setAuthMode} />)
+            default: return (<h1>Something went wrong!!!</h1>)
+        }
+    }
 
     return (
-        <Screen>
-            <Container>
-                {
-                    login ? <Login setLogin={setLogin}/> : <CreateAccount setLogin={setLogin}/>
-                }
-            </Container>
-        </Screen>
+        <ErrorBoundary>
+            <Screen>
+                <Container>
+                    {AuthModeHelper()}
+                </Container>
+            </Screen>
+        </ErrorBoundary>
     )
 }
 

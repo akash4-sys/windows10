@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 function NotFound() {
-
-    useEffect(() => {
-        document.getElementById("taskbar").style.display = "none";
-    }, [])
-
     return (
         <Container>
             <div>NotFound</div>

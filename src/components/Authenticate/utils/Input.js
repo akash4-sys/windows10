@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import validator from 'validator';
-import InputTag from './InputTag';
+import { InputTag } from './LoginStyle';
 
-function Input({ placeholder, type, setAuthorized, name, authorized }) {
+function Input({ placeholder, type, setAuthorized, name, authorized, restructure }) {
 
     function defaultCase(e) {
         setAuthorized({ ...authorized, [name]:{ valid:true, val: e.target.value, alert: "" } });
@@ -39,7 +39,8 @@ function Input({ placeholder, type, setAuthorized, name, authorized }) {
                 failedCase(input, "Please enter a valid email or phone number.");
                 break;
             case "Re-enter Password":
-                if (document.querySelectorAll("input")[2].value === input) {
+                let index = restructure ? 0 : 2;
+                if (document.querySelectorAll("input")[index].value === input) {
                     defaultCase(e);
                     break;
                 }
@@ -51,7 +52,7 @@ function Input({ placeholder, type, setAuthorized, name, authorized }) {
     }
 
     return (
-        <Container>
+        <Container style={restructure ? {flexDirection:"column-reverse", justifyContent:"center"} : null}>
             <InputTag type={type} name={name} placeholder={placeholder}
                 value={authorized[name].val} onChange={handleChange} autoComplete="off" required
                 style={{

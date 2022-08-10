@@ -1,24 +1,65 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import InputTag from './utils/InputTag';
+import axios from 'axios';
+import Cookies from "universal-cookie";
+import { InputTag, Container, Footer, Buttons, FlexBox, AvatarCtn, Alert, Tagbox, TagboxOpt } from './utils/LoginStyle';
+import { setUserIdentifier } from '../../Features/UtilitySlice';
 
-function Login({ setLogin }) {
+const cookies = new Cookies();
 
-    const [input, setInput] = useState({ isEmail: true, login_email: "", login_pass: "", alert: "", color: "", valid_email: false, valid_pass: false });
+function Login({ setAuthMode }) {
 
-    function createAcc() { setLogin(false); }
+    const dispatch = useDispatch();
+    const savedData = useSelector((state) => state.utility.userIdentifier);
 
-    function nextBtnHandler() {
-        if (input.isEmail && input.valid_email) {
-            setInput({ ...input, isEmail: false, alert: "" });
-            return;
+    const [input, setInput] = useState({ 
+        isEmail: true, login_email: savedData.data, login_pass: "", alert: "", color: "", valid_email: false, valid_pass: false 
+    });
+    const [loginMode, setLoginMode] = useState(true);
+    const navigate = useNavigate();
+
+    function createAcc() { setAuthMode("createAccount"); }
+    function forgotPass() {
+        setLoginMode(false);
+    }
+
+    async function nextBtnHandler() {
+        if (loginMode) {
+            if (input.isEmail && input.valid_email) {
+                setInput({ ...input, isEmail: false, alert: "" });
+                return;
+            }
+            if (!input.valid_pass || !input.valid_email) return;
+
+            const userCredentials = { email: input.login_email, password: input.login_pass };
+
+            try {
+                let response = await axios.post('https://windows10chrome.herokuapp.com/auth/login', userCredentials);
+                cookies.set("WAC10", response.data.access_Token, { path: "/" });
+                cookies.set("WACR10", response.data.refresh_Token, { path: "/" });
+                console.log(response.data.userData.username, response.data.userData.email)
+                if (response.data.successful) navigate('/');
+            } catch (err) {
+                console.log(err);
+            }
         }
-        if(!input.valid_pass) return;
-        console.log(input.login_pass, input.login_email)
+        else {
+            if (!input.valid_email) return;
+            setInput({ ...input, alert: "" });
+            try {
+                let response = await axios.post('https://windows10chrome.herokuapp.com/auth/resetpassword', { email: input.login_email });
+                dispatch(setUserIdentifier({ data: input.login_email, resetPassword: true }));
+                if (response.data.successful) setAuthMode("verifyOTP");
+            } catch (err) {
+                console.log(err);
+            }
+        }
     }
 
     function backBtnHandler() {
+        setLoginMode(true);
         setInput({ ...input, isEmail: true });
     }
 
@@ -44,10 +85,20 @@ function Login({ setLogin }) {
     return (
         <Container>
             <FlexBox>
-                <h1>Let's add your account</h1>
-                <p>Access your apps, files, and services across your devices with your Microsoft account.</p>
+                {
+                    loginMode ?
+                        <>
+                            <h1 style={{textAlign:"center"}}>Let's add your account</h1>
+                            <p data-ptype="center">Access your apps, files, and services across your devices with your Microsoft account.</p>
+                        </>
+                        :
+                        <>
+                            <h1 style={{textAlign:"center"}}>Reset your password</h1>
+                            <p data-ptype="center">Enter your registered email or phone number to reset your password.</p>
+                        </>
+                }
                 <AvatarCtn>
-                    <img src="Images/avatar.svg" alt="avatar" />
+                    <img src={loginMode ? "Images/avatar.svg" : "Images/ResetPass.ico"} alt="avatar" />
                 </AvatarCtn>
                 <Alert>{input.alert}</Alert>
                 {
@@ -63,7 +114,10 @@ function Login({ setLogin }) {
                         />
                 }
                 <Tagbox>
-                    <p onClick={createAcc}><span>Create account</span></p>
+                    <TagboxOpt>
+                        <p onClick={createAcc}><span>Create account</span></p>
+                        <p onClick={forgotPass}><span>Forgot Password?</span></p>
+                    </TagboxOpt>
                     <p><span>Sign in with a security key</span></p>
                 </Tagbox>
             </FlexBox>
@@ -75,7 +129,7 @@ function Login({ setLogin }) {
                     <span>Terms of use</span>
                 </div>
                 <Buttons>
-                    {!input.isEmail && <button onClick={backBtnHandler}>Back</button>}
+                    {(!input.isEmail || !loginMode) && <button onClick={backBtnHandler}>Back</button>}
                     <button onClick={nextBtnHandler}>Next</button>
                 </Buttons>
             </Footer>
@@ -84,98 +138,3 @@ function Login({ setLogin }) {
 }
 
 export default Login;
-
-const Container = styled.div`
-    height:100%;
-    width:100%;
-    color:white;
-    box-sizing: border-box;
-    padding: 4rem;
-
-    h1{
-        font-size: 2.8rem;
-        font-weight: 200;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    p{margin:0px;}
-`
-
-const FlexBox = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-wrap:wrap;
-    input{ 
-        width:60%;
-        height:2.4rem;
-    }
-`
-
-const AvatarCtn = styled.div`
-    height: 16rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    box-sizing: border-box;
-    padding: 2rem 2rem 0.5rem;
-
-    img{
-        height: 10rem;
-        width: 10rem;
-    }
-`
-
-const Tagbox = styled.div`
-    width:60%;
-    color:lightblue;
-    p{
-        margin-bottom:0px;
-        margin-top:7px;
-        transition:color 250ms;
-        font-weight:600;
-    }
-    span:hover{ color: mediumblue };
-`
-
-const Footer = styled.div`
-    width: 100%;
-    height: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 6rem;
-    color:lightblue;
-    transition:color 250ms;
-    span:hover{ color: mediumblue };
-`
-
-const Alert = styled.div`
-    height: 1rem;
-    line-height: 2rem;
-    color: yellow;
-    width: 100%;
-    text-align: center;
-`
-
-const Buttons = styled.div`
-    display: flex;
-    height:75%;
-    gap:7px;
-    
-    button{
-        width:7rem; 
-        color:white;
-        border: none;
-        transition:filter 50ms;
-    }
-
-    button:nth-child(1){ background:#3179b5; }
-    button:nth-child(2){ background:var(--windowsBlue); }
-
-    button:hover{
-        cursor:pointer;
-        filter:brightness(0.95);
-    }
-`

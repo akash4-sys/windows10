@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Input from './utils/Input'
+import axios from 'axios';
+import Input from './utils/Input';
+import { setUserIdentifier } from '../../Features/UtilitySlice';
 
-function CreateAccount({ setLogin }) {
+function CreateAccount({ setAuthMode }) {
 
-    const [authorized, setAuthorized] = useState({ 
-        username: { valid:false, val: "", alert: "", color: "" }, 
-        create_email: { valid:false, val: "", alert: "", color: "" }, 
-        create_pass: { valid:false, val: "", alert: "", color: "" }, 
-        r_password: { valid:false, val: "", alert: "", color: "" }, 
-        hint: { valid:false, val: "", alert: "", color: "" } 
+    const dispatch = useDispatch();
+
+    const [authorized, setAuthorized] = useState({
+        username: { valid: false, val: "", alert: "", color: "" },
+        create_email: { valid: false, val: "", alert: "", color: "" },
+        create_pass: { valid: false, val: "", alert: "", color: "" },
+        r_password: { valid: false, val: "", alert: "", color: "" },
+        hint: { valid: false, val: "", alert: "", color: "" }
     });
 
     const cntRef = useRef();
@@ -20,15 +25,31 @@ function CreateAccount({ setLogin }) {
     }, []);
 
     function Back() {
-        setLogin(true);
+        setAuthMode("login");
     }
 
-    function sendToServer(){
+    async function sendToServer() {
         let key = Object.keys(authorized).find(key => authorized[key].valid === false);
-        if(key) {
-            setAuthorized({ ...authorized, [key]:{ ...authorized[key], color:"yellow" } });
-            setTimeout(() => { setAuthorized({ ...authorized, [key]:{ ...authorized[key], color:"" } }) }, 3000);
+        if (key) {
+            setAuthorized({ ...authorized, [key]: { ...authorized[key], color: "yellow" } });
+            setTimeout(() => { setAuthorized({ ...authorized, [key]: { ...authorized[key], color: "" } }) }, 3000);
             return;
+        }
+
+        const userCredentials = {
+            username: authorized.username.val,
+            email: authorized.create_email.val,
+            password: authorized.create_pass.val,
+            hint: authorized.hint.val
+        };
+
+        try {
+            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/create_account', userCredentials);
+            dispatch(setUserIdentifier({ data: authorized.create_email.val, resetPassword: false }));
+            setAuthMode("verifyOTP");
+            console.log(response)
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -102,5 +123,9 @@ const Buttons = styled.div`
     button:hover{
         cursor:pointer;
         filter:brightness(0.95);
+    }
+
+    button:focus-visible{
+        outline:none;
     }
 `

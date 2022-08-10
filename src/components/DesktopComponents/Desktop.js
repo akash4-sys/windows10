@@ -11,26 +11,19 @@ import PokemonGameWindow from '../Window/PokemonGameWindow/PokemonGameWindow';
 import Whiteboard from '../Window/WhiteboardWindow/Whiteboard';
 import ErrorBoundary from '../Boot/ErrorBoundary';
 import Notifications from '../Boot/Notifications';
+import useSessionValidation from '../Authenticate/useSessionValidation';
 
 const Taskbar = lazy(() => import('../Taskbar/Taskbar'));
 
 function Desktop() {
-
-    // function fullScreen() {
-    //     document.getElementById('root').requestFullscreen();
-    //     document.getElementById('root').removeEventListener('click',fullScreen); 
-    // }
-
-    // useEffect(() => {
-    //     document.getElementById('root').addEventListener('click', fullScreen);
-    // }, [])
+    useSessionValidation();
 
     return (
         <>
             <DesktopPage tabIndex="0" onKeyDown={handleKey}>
                 <BackGroundImageContainer>
 
-                    <Notifications icon={"Images/wifioff.png"}/>
+                    <Notifications icon={"Images/wifioff.png"} />
 
                     <WindowCollision id="windowCollisionBox" />
                     <CursorAnimationCircle id="CursorAnimationCircle" />
