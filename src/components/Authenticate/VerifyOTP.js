@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Cookies from "universal-cookie";
+import Loader from './utils/Loader';
 import { Container, Footer, Buttons } from './utils/LoginStyle';
 
 const cookies = new Cookies();
@@ -13,6 +14,7 @@ function VerifyOTP({ setAuthMode }) {
     const headers = useSelector((state) => state.utility.userIdentifier);
     const navigate = useNavigate();
     const [inputArr, setInputArr] = useState({ "I0": "", "I1": "", "I2": "", "I3": "", "I4": "", "I5": "" });
+    const [states, setStates] = useState({ loading: false, alert:"", alert_color:"yellow" });
     const inputCtnRef = useRef();
 
     function focusInputTag(index) {
@@ -23,7 +25,7 @@ function VerifyOTP({ setAuthMode }) {
     }
 
     useEffect(() => {
-        focusInputTag(0);
+        if(!states.loading) focusInputTag(0);
     }, [])
 
     function handleChange(e) {
@@ -57,7 +59,10 @@ function VerifyOTP({ setAuthMode }) {
         if (cookies.get('WACR10')) cookies.remove("WACR10", { path: "/" });
 
         try {
-            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/verify_otp', { email: headers.data, otp, resetPassword: headers.resetPassword });
+            setStates({ loading: true, alert:"" });
+            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/verify_otp', { 
+                email: headers.data, otp, resetPassword: headers.resetPassword 
+            });
             if(headers.resetPassword){
                 setAuthMode("NewPassword");
                 return;
@@ -67,28 +72,31 @@ function VerifyOTP({ setAuthMode }) {
             cookies.set("WACR10", response.data.refresh_Token, { path: "/" });
 
             if (response.data.successful) navigate('/');
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            let alert = err.response?.data?.message || err.message;
+            setStates({ loading: false, alert, alert_color:"red" });
         }
     }
 
     async function resendOTP() {
         if (cookies.get('WAC10')) cookies.remove("WAC10", { path: "/" });
         if (cookies.get('WACR10')) cookies.remove("WACR10", { path: "/" });
-
-        console.log("resendOTP = ", headers.data)
+        
         try {
+            setStates({ loading: true, alert:"" });
             let response = await axios.post('https://windows10chrome.herokuapp.com/auth/resendOtp', { email: headers.data });
-            if (response.data.successful) console.log(response);
-        } catch (error) {
-            console.log(error);
+            if (response.data.successful) setStates({ loading: false, alert:response.data.message });
+        } catch (err) {
+            let alert = err.response?.data?.message || err.message;
+            setStates({ loading: false, alert, alert_color:"red" });
         }
     }
 
-    return (
+    return !states.loading ? (
         <IContainer>
             <h1>Verification Code</h1>
             <p>Please confirm your {headers.type} by entering the OTP sent to {headers.payload}</p>
+            <p style={{color:states.alert_color}}>{states.alert}</p>
             <IFlexBox>
                 <small>6 Digit Code</small>
                 <FlexBox>
@@ -113,6 +121,8 @@ function VerifyOTP({ setAuthMode }) {
             </Footer>
         </IContainer>
     )
+    :
+    <Loader />
 }
 
 export default VerifyOTP;

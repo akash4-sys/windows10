@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import axios from 'axios';
 import Input from './utils/Input';
+import Loader from './utils/Loader';
 import { setUserIdentifier } from '../../Features/UtilitySlice';
 
 function CreateAccount({ setAuthMode }) {
@@ -14,7 +15,8 @@ function CreateAccount({ setAuthMode }) {
         create_email: { valid: false, val: "", alert: "", color: "" },
         create_pass: { valid: false, val: "", alert: "", color: "" },
         r_password: { valid: false, val: "", alert: "", color: "" },
-        hint: { valid: false, val: "", alert: "", color: "" }
+        hint: { valid: false, val: "", alert: "", color: "" },
+        loading: false
     });
 
     const cntRef = useRef();
@@ -44,38 +46,42 @@ function CreateAccount({ setAuthMode }) {
         };
 
         try {
-            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/create_account', userCredentials);
+            setAuthorized({ ...authorized, loading: true });
+            await axios.post('https://windows10chrome.herokuapp.com/auth/create_account', userCredentials);
             dispatch(setUserIdentifier({ data: authorized.create_email.val, resetPassword: false }));
             setAuthMode("verifyOTP");
-            console.log(response)
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            let msg = err.response?.data?.message || err.message;
+            setAuthorized({ ...authorized, loading: false, username: { ...authorized.username, alert: msg } });
         }
     }
 
-    return (
-        <Container ref={cntRef}>
-            <h1>Create an account for this PC</h1>
-            <p>Who's going to use this PC?</p>
-            <Input authorized={authorized} setAuthorized={setAuthorized} name="username" placeholder="Username" type="text" />
-            <p>Your Microsoft account opens a world of benefits. Use Microsoft account for your personalized
-                <br /> experience.
-            </p>
-            <Input authorized={authorized} setAuthorized={setAuthorized} name="create_email" placeholder="Email or phone" type="email" />
-            <p>If you want to use a password, choose something that will be easy for you to remember but hard for
-                <br /> others to guess. Make it secure.
-            </p>
-            <Input authorized={authorized} setAuthorized={setAuthorized} name="create_pass" placeholder="Enter Password" type="text" />
-            <Input authorized={authorized} setAuthorized={setAuthorized} name="r_password" placeholder="Re-enter Password" type="text" />
-            <Input authorized={authorized} setAuthorized={setAuthorized} name="hint" placeholder="Password hint" type="text" />
-            <Footer>
-                <Buttons>
-                    <button type="button" onClick={Back}>Back</button>
-                    <button type="button" onClick={sendToServer}>Next</button>
-                </Buttons>
-            </Footer>
-        </Container>
-    )
+    return !authorized.loading ?
+        (
+            <Container ref={cntRef}>
+                <h1>Create an account for this PC</h1>
+                <p>Who's going to use this PC?</p>
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="username" placeholder="Username" type="text" />
+                <p>Your Microsoft account opens a world of benefits. Use Microsoft account for your personalized
+                    <br /> experience.
+                </p>
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="create_email" placeholder="Email or phone" type="email" />
+                <p>If you want to use a password, choose something that will be easy for you to remember but hard for
+                    <br /> others to guess. Make it secure.
+                </p>
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="create_pass" placeholder="Enter Password" type="text" />
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="r_password" placeholder="Re-enter Password" type="text" />
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="hint" placeholder="Password hint" type="text" />
+                <Footer>
+                    <Buttons>
+                        <button type="button" onClick={Back}>Back</button>
+                        <button type="button" onClick={sendToServer}>Next</button>
+                    </Buttons>
+                </Footer>
+            </Container>
+        )
+        :
+        <Loader />
 }
 
 export default CreateAccount;
