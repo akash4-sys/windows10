@@ -6,11 +6,11 @@ import { InputTag } from './LoginStyle';
 function Input({ placeholder, type, setAuthorized, name, authorized, restructure }) {
 
     function defaultCase(e) {
-        setAuthorized({ ...authorized, [name]:{ valid:true, val: e.target.value, alert: "" } });
+        setAuthorized({ ...authorized, [name]: { valid: true, val: e.target.value, alert: "" } });
     }
 
     function failedCase(val, alert) {
-        setAuthorized({ ...authorized, [name]:{ valid:false, val, alert } });
+        setAuthorized({ ...authorized, [name]: { valid: false, val, alert } });
     }
 
     function handleChange(e) {
@@ -29,7 +29,7 @@ function Input({ placeholder, type, setAuthorized, name, authorized, restructure
                     defaultCase(e);
                     break;
                 }
-                failedCase(input, "Password should contain symbols, digits, and atleast 5 characters." );
+                failedCase(input, "Password should with of length 5 with digits, symbols, lowercase and uppercase characters.");
                 break;
             case "Email or phone":
                 if (validator.isEmail(input) || validator.isMobilePhone(input)) {
@@ -52,7 +52,7 @@ function Input({ placeholder, type, setAuthorized, name, authorized, restructure
     }
 
     return (
-        <Container style={restructure ? {flexDirection:"column-reverse", justifyContent:"center"} : null}>
+        <Container style={restructure ? { flexDirection: "column-reverse", justifyContent: "center" } : null}>
             <InputTag type={type} name={name} placeholder={placeholder}
                 value={authorized[name].val} onChange={handleChange} autoComplete="off" required
                 style={{

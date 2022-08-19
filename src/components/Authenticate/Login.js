@@ -7,6 +7,7 @@ import Cookies from "universal-cookie";
 import { InputTag, Container, Footer, Buttons, FlexBox, AvatarCtn, Alert, Tagbox, TagboxOpt } from './utils/LoginStyle';
 import { setUserIdentifier } from '../../Features/UtilitySlice';
 import Loader from './utils/Loader';
+import URL from './utils/Urls';
 
 const cookies = new Cookies();
 
@@ -36,7 +37,7 @@ function Login({ setAuthMode }) {
 
             try {
                 setInput({ ...input, load: true, alert: "" });
-                let response = await axios.post('https://windows10chrome.herokuapp.com/auth/login', userCredentials);
+                let response = await axios.post(URL.LOGIN_ACCOUNT, userCredentials);
                 cookies.set("WAC10", response.data.access_Token, { path: "/" });
                 cookies.set("WACR10", response.data.refresh_Token, { path: "/" });
                 if (response.data.successful) {
@@ -44,7 +45,8 @@ function Login({ setAuthMode }) {
                     navigate('/')
                 };
             } catch (err) {
-                setInput({ ...input, load: false, alert: err.response.data.message });
+                let msg = err.response?.data?.message || err.message;
+                setInput({ ...input, load: false, alert: msg });
             }
         }
         else {
@@ -52,7 +54,7 @@ function Login({ setAuthMode }) {
             setInput({ ...input, alert: "" });
             try {
                 setInput({ ...input, load: true, alert: "" });
-                let response = await axios.post('https://windows10chrome.herokuapp.com/auth/resetpassword', { email: input.login_email });
+                let response = await axios.post(URL.RESET_PASSWORD, { email: input.login_email });
                 dispatch(setUserIdentifier({ data: input.login_email, resetPassword: true }));
                 if (response.data.successful) setAuthMode("verifyOTP");
                 setInput({ ...input, load: false, alert: response.data.message });

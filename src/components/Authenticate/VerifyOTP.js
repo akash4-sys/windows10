@@ -6,6 +6,7 @@ import axios from 'axios';
 import Cookies from "universal-cookie";
 import Loader from './utils/Loader';
 import { Container, Footer, Buttons } from './utils/LoginStyle';
+import URL from './utils/Urls';
 
 const cookies = new Cookies();
 
@@ -60,7 +61,7 @@ function VerifyOTP({ setAuthMode }) {
 
         try {
             setStates({ loading: true, alert:"" });
-            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/verify_otp', { 
+            let response = await axios.post(URL.VERIFY_OTP, { 
                 email: headers.data, otp, resetPassword: headers.resetPassword 
             });
             if(headers.resetPassword){
@@ -84,7 +85,7 @@ function VerifyOTP({ setAuthMode }) {
         
         try {
             setStates({ loading: true, alert:"" });
-            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/resendOtp', { email: headers.data });
+            let response = await axios.post(URL.RESEND_VERIFY_OTP, { email: headers.data });
             if (response.data.successful) setStates({ loading: false, alert:response.data.message });
         } catch (err) {
             let alert = err.response?.data?.message || err.message;

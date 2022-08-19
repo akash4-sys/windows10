@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from "universal-cookie";
+import URL from './utils/Urls';
 
 function useSessionValidation() {
 
@@ -17,7 +18,7 @@ function useSessionValidation() {
 
         const configuration = {
             method: "get",
-            url: "https://windows10chrome.herokuapp.com/token/session",
+            url: URL.REFRESH_TOKEN,
             headers: {
                 Authorization: `Bearer ${refresh_Token}`,
             },
@@ -39,7 +40,7 @@ function useSessionValidation() {
         const access_Token = cookies.get('WAC10');
         const configuration = {
             method: "get",
-            url: "https://windows10chrome.herokuapp.com/token/secureRoute",
+            url: URL.AUTHORIZED_USER,
             headers: {
                 Authorization: `Bearer ${access_Token}`,
             },

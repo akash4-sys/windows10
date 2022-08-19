@@ -5,6 +5,7 @@ import axios from 'axios';
 import Input from './utils/Input';
 import Loader from './utils/Loader';
 import { setUserIdentifier } from '../../Features/UtilitySlice';
+import URL from './utils/Urls';
 
 function CreateAccount({ setAuthMode }) {
 
@@ -47,7 +48,7 @@ function CreateAccount({ setAuthMode }) {
 
         try {
             setAuthorized({ ...authorized, loading: true });
-            await axios.post('https://windows10chrome.herokuapp.com/auth/create_account', userCredentials);
+            await axios.post(URL.CREATE_ACCOUNT, userCredentials);
             dispatch(setUserIdentifier({ data: authorized.create_email.val, resetPassword: false }));
             setAuthMode("verifyOTP");
         } catch (err) {

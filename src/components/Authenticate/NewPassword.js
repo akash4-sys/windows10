@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Container, Footer, Buttons, AvatarCtn, FlexBox } from './utils/LoginStyle';
 import Input from './utils/Input';
 import Loader from './utils/Loader';
+import URL from './utils/Urls';
 
 function NewPassword({ setAuthMode }) {
 
@@ -20,7 +21,7 @@ function NewPassword({ setAuthMode }) {
         const userCredentials = { email: savedData.data, newpassword: authorized.create_pass.val };
         try {
             setAuthorized({ ...authorized, loading: true });
-            let response = await axios.post('https://windows10chrome.herokuapp.com/auth/updatepassword', userCredentials);
+            let response = await axios.post(URL.UPDATE_PASSWORD, userCredentials);
             if (response.data.successful) {
                 setAuthMode("login");
             }
