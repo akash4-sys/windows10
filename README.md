@@ -11,29 +11,13 @@
 </p>
 
 <br/>
-<h2 style="display: flex; justify-content: center; align-items:center;">
-  <a href="https://windows10chrome.netlify.app/" 
-    style="text-decoration: none;
-      color:#2486e9; 
-      padding:5px; 
-      border:1px solid #2486e9; 
-      border-radius: 5px; 
-      display: flex; 
-      justify-content: center; 
-      align-items:center; 
-      width:fit-content;
-      gap:5px;
-      font-weight:bold;
-      font-style:italic;"
-      >
-        <img src="https://res.cloudinary.com/windows10/image/upload/v1658058233/microsoft_aytwab.svg" alt="windows" width="30px"/>
-        ONLINE
-  </a>
-</h2>
+<h1 align="center">
+
+  [![Online](https://img.shields.io/badge/ONLINE-2486e9?style=for-the-badge&logo=microsoft&logoColor=white)](https://windows10chrome.netlify.app/)
+
+</h1>
 
 ## Table of Contents
-
----
 
 - [Introduction](#introduction)
 - [Technologies](#technologies)
@@ -45,7 +29,6 @@
 
 ## Introduction
 
----
 
 [![Live](https://img.shields.io/badge/Live-Online-blue)](https://windows10chrome.netlify.app/)
 ![PRs](https://img.shields.io/badge/PRs-Welcome-brightgreen)
@@ -57,7 +40,6 @@ A react app that can give you windows 10 experience on browser. You can download
 
 ## Technologies
 
----
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
@@ -69,7 +51,6 @@ A react app that can give you windows 10 experience on browser. You can download
 
 ## Features
 
----
 
 A List of available features
 
@@ -82,7 +63,6 @@ A List of available features
 
 ## Setup
 
----
 
 Clone this repository to your desktop and install all the dependencies. Then simply run ``` npm start ``` to start the application.
 
@@ -95,7 +75,6 @@ Note - *You will need config.env file to run the backend on you local machine. I
 
 ## Project Status
 
----
 
 Windows 10 Chrome is currently a experimental project that is hosted on netlify and heroku.
 Entire authentication system is custom and needs automated testing.
@@ -112,7 +91,6 @@ i plan to design schemas such that possibly infinite amount of data can be store
 
 ## Project Goals
 
----
 
 Some of the future goals of this project are to:
 
@@ -124,7 +102,6 @@ Some of the future goals of this project are to:
 
 ## Contact
 
----
 
 Connect to me on [LinkedIn](https://www.linkedin.com/in/akash-m-44724b1b7/).
 
