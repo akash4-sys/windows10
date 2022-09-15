@@ -70,8 +70,8 @@ function CreateAccount({ setAuthMode }) {
                 <p>If you want to use a password, choose something that will be easy for you to remember but hard for
                     <br /> others to guess. Make it secure.
                 </p>
-                <Input authorized={authorized} setAuthorized={setAuthorized} name="create_pass" placeholder="Enter Password" type="text" />
-                <Input authorized={authorized} setAuthorized={setAuthorized} name="r_password" placeholder="Re-enter Password" type="text" />
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="create_pass" placeholder="Enter Password" type="password" />
+                <Input authorized={authorized} setAuthorized={setAuthorized} name="r_password" placeholder="Re-enter Password" type="password" />
                 <Input authorized={authorized} setAuthorized={setAuthorized} name="hint" placeholder="Password hint" type="text" />
                 <Footer>
                     <Buttons>
