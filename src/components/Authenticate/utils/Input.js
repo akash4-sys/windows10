@@ -29,7 +29,7 @@ function Input({ placeholder, type, setAuthorized, name, authorized, restructure
                     defaultCase(e);
                     break;
                 }
-                failedCase(input, "Password should with of length 5 with digits, symbols, lowercase and uppercase characters.");
+                failedCase(input, "Password should atleast be of 5 digits, symbols, lowercase and uppercase letters.");
                 break;
             case "Email or phone":
                 if (validator.isEmail(input) || validator.isMobilePhone(input)) {
