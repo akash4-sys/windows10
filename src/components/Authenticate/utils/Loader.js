@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Loader() {
     return (
         <Container>
-            <img src="Images/loginLoader.svg" alt="login" />
+            <img src="Images/loginLoader.svg" alt="authentication_loader_img" />
         </Container>
     )
 }

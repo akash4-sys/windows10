@@ -1,15 +1,14 @@
-import { screen } from "@testing-library/react";
-import { renderWithProviders } from '../../../test-utils/test-utils'
-import CreateAccount from '../CreateAccount';
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { renderWithProviders } from '../../../test-utils/test-utils';
+import CreateAccount from '../CreateAccount';
+import { CA_TestCases, CA_FailingTestCases } from './tests-utils/TestCases';
+import Authenticate from '../Authenticate';
 
 test('Create Account page rendering properly', () => {
-    // render(<Provider store={store}><CreateAccount authMode={'createAccount'} /></Provider>);
     renderWithProviders(<CreateAccount />)
     expect(screen.getByRole('heading', { name: 'Create an account for this PC' })).toBeInTheDocument();
     expect(screen.getByText('Create an account for this PC')).toBeInTheDocument();
-    expect(screen.getByText(/Your Microsoft account opens a world of benefits. Use Microsoft account for your personalized/i)).toBeInTheDocument();
-    expect(screen.getByText(/If you want to use a password, choose something that will be easy for you to remember but hard for/i)).toBeInTheDocument();
 
     const inputTagPlaceholders = ['Username', 'Password hint', 'Enter Password', 'Email or phone', 'Re-enter Password']
     inputTagPlaceholders.forEach(placeholder => expect(screen.getByPlaceholderText(placeholder)).toBeInTheDocument());
@@ -18,39 +17,52 @@ test('Create Account page rendering properly', () => {
     expect(screen.getByRole('button', { name: 'Back' })).toBeInTheDocument();
 });
 
-describe('Create Account page input elements are working properly', () => {
-    const TestCases = [
-        ['Username', 'NightWing', "Username should be more than 5 characters long and less than 17 characters."],
-        ['Email or phone', 'nightwing@gmail.com', "Please enter a valid email or phone number."],
-        ['Email or phone', '7846841345', "Please enter a valid email or phone number."],
-        ['Enter Password', 'P@ssW0rd', "Password should with of length 5 with digits, symbols, lowercase and uppercase characters."],
-        ['Password hint', 'Random pass', 'Random pass', "no warnings in this case"],
-    ];
-
-    test.each(TestCases)("%s input is working properly for correct data", async (element, userdata, warning) => {
-        renderWithProviders(<CreateAccount />)
+describe('Create Account page input elements are working properly and data is being submitted', () => {
+    test("input is working properly for correct data and submitting", async () => {
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText(element);
-        await user.clear(input);
-        await user.type(input, userdata);
-        expect(input.value).toBe(userdata);
-        expect(screen.queryByText(warning)).not.toBeInTheDocument();
+    
+        // * Go back to create account page
+        renderWithProviders(<Authenticate />)
+        user.click(screen.getByText("Create account"));
+        await waitFor(()=> {
+            expect(screen.queryByText("Let's add your account")).not.toBeInTheDocument();
+        });
+        
+        for (let i = 0; i < 5; i++) {
+            const input = screen.getByPlaceholderText(CA_TestCases[i][0]);
+            await user.clear(input);
+            await user.type(input, CA_TestCases[i][1]);
+            expect(input.value).toBe(CA_TestCases[i][1]);
+            expect(screen.queryByText(CA_TestCases[i][2])).not.toBeInTheDocument();
+        }
+        await user.click(screen.getByRole('button', { name: 'Next' }));
+
+        await waitFor(() => { expect(screen.getByAltText("authentication_loader_img")).toBeInTheDocument() });
+        await waitFor(() => { expect(screen.getByText('Verification Code')).toBeInTheDocument() });
     });
 
-    const FailingTestCases = [
-        ['Username', 'Sam', "Username should be more than 5 characters long and less than 17 characters."],
-        ['Email or phone', 'nightwing@.com', "Please enter a valid email or phone number."],
-        ['Email or phone', '784', "Please enter a valid email or phone number."],
-        ['Enter Password', 'PW0rd', "Password should with of length 5 with digits, symbols, lowercase and uppercase characters."],
-        ['Re-enter Password', 'PW0rd', "Please enter same password as above."]
-    ];
-
-    test.each(FailingTestCases)("%s input is working properly for wrong data", async (element, userdata, warning) => {
+    test("input is working properly for wrong data", async () => {
         renderWithProviders(<CreateAccount />)
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText(element);
-        await user.clear(input);
-        await user.type(input, userdata);
-        expect(screen.getByText(warning)).toBeInTheDocument();
+        for (let i = 0; i < 5; i++) {
+            const input = screen.getByPlaceholderText(CA_FailingTestCases[i][0]);
+            await user.clear(input);
+            await user.type(input, CA_FailingTestCases[i][1]);
+            expect(screen.getByText(CA_FailingTestCases[i][2])).toBeInTheDocument();
+        }
+    });
+
+    test("clicking on send button with invalid data turns first invalid input box yellow", async () => {
+        renderWithProviders(<CreateAccount />);
+        const user = userEvent.setup();
+        const submitBtn = screen.getByRole('button', { name: 'Next' });
+        await user.click(submitBtn);
+        const Username = screen.getByPlaceholderText('Username');
+        expect(Username).toHaveStyle({ borderColor: 'yellow' });
+
+        await user.clear(Username);
+        await user.type(Username, 'Alex');
+        await user.click(submitBtn);
+        expect(Username).toHaveStyle({ borderColor: 'yellow' });
     });
 });
