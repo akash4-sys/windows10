@@ -7,11 +7,11 @@ test("can render different authentication components", async () => {
     renderWithProviders(<Authenticate />);
     expect(screen.getByText("Let's add your account")).toBeInTheDocument();
     userEvent.click(screen.getByText("Create account"));
-    await waitFor(()=> {
-        expect(screen.queryByText("Let's add your account")).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(screen.queryByRole("heading", { name: "Let's add your account" })).not.toBeInTheDocument();
     });
     await userEvent.click(screen.getByRole('button', { name: 'Back' }));
     await waitFor(() => {
-        expect(screen.queryByText('Create an account for this PC')).not.toBeInTheDocument();
+        expect(screen.queryByRole("heading", {name : 'Create an account for this PC' })).not.toBeInTheDocument();
     });
 });

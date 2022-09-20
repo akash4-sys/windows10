@@ -20,14 +20,14 @@ test('Create Account page rendering properly', () => {
 describe('Create Account page input elements are working properly and data is being submitted', () => {
     test("input is working properly for correct data and submitting", async () => {
         const user = userEvent.setup();
-    
+
         // * Go back to create account page
         renderWithProviders(<Authenticate />)
         user.click(screen.getByText("Create account"));
-        await waitFor(()=> {
+        await waitFor(() => {
             expect(screen.queryByText("Let's add your account")).not.toBeInTheDocument();
         });
-        
+
         for (let i = 0; i < 5; i++) {
             const input = screen.getByPlaceholderText(CA_TestCases[i][0]);
             await user.clear(input);
@@ -38,7 +38,7 @@ describe('Create Account page input elements are working properly and data is be
         await user.click(screen.getByRole('button', { name: 'Next' }));
 
         await waitFor(() => { expect(screen.getByAltText("authentication_loader_img")).toBeInTheDocument() });
-        await waitFor(() => { expect(screen.getByText('Verification Code')).toBeInTheDocument() });
+        await waitFor(() => { expect(screen.getByRole('heading', { name: 'Verification Code' })).toBeInTheDocument() });
     });
 
     test("input is working properly for wrong data", async () => {
