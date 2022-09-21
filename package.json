@@ -2,6 +2,8 @@
   "name": "windows10",
   "version": "0.2.0",
   "private": true,
+  "author": "Codex",
+  "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/dom": "^8.17.1",

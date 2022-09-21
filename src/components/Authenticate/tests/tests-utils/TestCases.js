@@ -13,3 +13,13 @@ export const CA_FailingTestCases = [
     ['Enter Password', 'PW0rd', "Password should with of length 5 with digits, symbols, lowercase and uppercase characters."],
     ['Re-enter Password', 'PsdW0rd', "Please enter same password as above."]
 ];
+
+export const Login_RTestCases = [
+    ['Enter email or phone number', 'nightwing@gmail.com', 'Please enter a valid email or phone number.'],
+    ['Password', 'P@ssword', 'no warning']
+]
+
+export const Login_NRTestCases = [
+    ['Enter email or phone number', 'alpha@gmail.com', 'Please enter a valid email or phone number.'],
+    ['Password', 'P@ssword', 'no warning']
+]
