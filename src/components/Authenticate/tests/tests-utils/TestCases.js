@@ -18,8 +18,3 @@ export const Login_RTestCases = [
     ['Enter email or phone number', 'nightwing@gmail.com', 'Please enter a valid email or phone number.'],
     ['Password', 'P@ssword', 'no warning']
 ]
-
-export const Login_NRTestCases = [
-    ['Enter email or phone number', 'alpha@gmail.com', 'Please enter a valid email or phone number.'],
-    ['Password', 'P@ssword', 'no warning']
-]
