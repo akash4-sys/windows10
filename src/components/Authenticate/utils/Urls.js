@@ -10,14 +10,14 @@ const dev = {
 };
 
 const prod = {
-    LOGIN_ACCOUNT: 'https://windows10chrome.herokuapp.com/auth/login',
-    CREATE_ACCOUNT: 'http://localhost/auth/create_account',
-    RESET_PASSWORD: "https://windows10chrome.herokuapp.com/auth/resetpassword",
-    UPDATE_PASSWORD: "https://windows10chrome.herokuapp.com/auth/updatepassword",
-    VERIFY_OTP: 'https://windows10chrome.herokuapp.com/auth/verify_otp',
-    RESEND_VERIFY_OTP: 'https://windows10chrome.herokuapp.com/auth/verify_otp',
-    AUTHORIZED_USER: "https://windows10chrome.herokuapp.com/token/secureRoute",
-    REFRESH_TOKEN: "https://windows10chrome.herokuapp.com/token/session",
+    LOGIN_ACCOUNT: 'https://windows-10-chrome-server.onrender.com/auth/login',
+    CREATE_ACCOUNT: 'https://windows-10-chrome-server.onrender.com/auth/create_account',
+    RESET_PASSWORD: "https://windows-10-chrome-server.onrender.com/auth/resetpassword",
+    UPDATE_PASSWORD: "https://windows-10-chrome-server.onrender.com/auth/updatepassword",
+    VERIFY_OTP: 'https://windows-10-chrome-server.onrender.com/auth/verify_otp',
+    RESEND_VERIFY_OTP: 'https://windows-10-chrome-server.onrender.com/auth/verify_otp',
+    AUTHORIZED_USER: "https://windows-10-chrome-server.onrender.com/token/secureRoute",
+    REFRESH_TOKEN: "https://windows-10-chrome-server.onrender.com/token/session",
 };
 
 const URL = process.env.NODE_ENV !== 'production' ? dev : prod;
