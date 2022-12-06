@@ -11,7 +11,7 @@ const dev = {
 
 const prod = {
     LOGIN_ACCOUNT: 'https://windows-10-chrome-server.onrender.com/auth/login',
-    CREATE_ACCOUNT: 'http://windows-10-chrome-server.onrender.com/auth/create_account',
+    CREATE_ACCOUNT: 'https://windows-10-chrome-server.onrender.com/auth/create_account',
     RESET_PASSWORD: "https://windows-10-chrome-server.onrender.com/auth/resetpassword",
     UPDATE_PASSWORD: "https://windows-10-chrome-server.onrender.com/auth/updatepassword",
     VERIFY_OTP: 'https://windows-10-chrome-server.onrender.com/auth/verify_otp',
@@ -20,5 +20,5 @@ const prod = {
     REFRESH_TOKEN: "https://windows-10-chrome-server.onrender.com/token/session",
 };
 
-const URL = process.env.NODE_ENV !== 'production' ? dev : prod;
+const URL = process.env.NODE_ENV === 'production' ? prod : dev;
 export default URL;
